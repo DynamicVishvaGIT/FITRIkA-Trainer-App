@@ -1,0 +1,7 @@
+{
+  "name": "FITRIkA-Trainer-App",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
