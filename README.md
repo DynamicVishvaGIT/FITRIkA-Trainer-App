@@ -1,0 +1,1 @@
+# FITRIkA-Trainer-App
