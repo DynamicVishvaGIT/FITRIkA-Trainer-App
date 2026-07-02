@@ -1,0 +1,347 @@
+/*==================================================
+DASHBOARD GLOBAL VARIABLES & WRAPPER
+==================================================*/
+.dashboard-content {
+  --background: #FFFFFF;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+/*==================================================
+HEADER MODULE (FIGMA PIXEL DESIGN ATTACHMENTS)
+==================================================*/
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 52px; /* Derived from Figma specs top bounds */
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  color: #00DA8B;
+}
+
+.user-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting-text {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 0.005em;
+  color: #000000;
+}
+
+.action-headline {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  color: #000000;
+  margin: 5px 0 0 0;
+}
+
+.avatar-container {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #D9D9D9;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*==================================================
+MOTIVATIONAL GRADIENT BANNER
+==================================================*/
+.motivation-banner {
+  width: 100%;
+  height: 68px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #00BE79 0%, #00DA8B 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+}
+
+.banner-icon {
+  width: 26px;
+  height: 26px;
+  color: #FFFFFF;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.banner-text {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 19px;
+  margin: 0;
+}
+
+/*==================================================
+TODAY'S SCHEDULE COMPONENT CARD
+==================================================*/
+.schedule-card {
+  background: #FFFFFF;
+  border: 1px solid #F0F2F1;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+  margin-bottom: 20px;
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0;
+  }
+
+  .view-more {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #7E7E7E;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #F8FAF9;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.time-badge {
+  width: 82px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 14px;
+}
+
+.active-badge {
+  background: rgba(0, 218, 139, 0.15);
+  color: #00AF70;
+}
+
+.outline-badge {
+  border: 1px solid #00DA8B;
+  color: #00DA8B;
+  background: transparent;
+}
+
+.schedule-details {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.client-name {
+  font-weight: 700;
+  color: #2C2C2C;
+}
+
+.session-type {
+  font-weight: 400;
+  color: #7E7E7E;
+}
+
+/*==================================================
+METRICS SEGMENT FLEX GRID
+==================================================*/
+.metrics-container {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.metric-box {
+  flex: 1;
+  background: #FFFFFF;
+  border: 1px solid #F0F2F1;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.01);
+  text-align: center;
+}
+
+.metric-icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+
+  ion-icon {
+    font-size: 20px;
+    color: #FFFFFF;
+  }
+}
+
+.prospect-bg { background: #00DA8B; }
+.client-bg { background: #00BE79; }
+.revenue-bg { background: #00935D; }
+
+.metric-title {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.metric-value {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 4px 0 2px;
+}
+
+.green-text {
+  color: #00DA8B;
+}
+
+.metric-sub {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #9A9A9A;
+}
+
+/*==================================================
+QUICK ACTIONS ROW PANELS
+==================================================*/
+.quick-actions-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.action-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  span {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #333333;
+  }
+}
+
+.action-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid #EAEAEA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  transition: all 0.2s ease-in-out;
+
+  ion-icon {
+    font-size: 22px;
+    color: #00DA8B;
+  }
+
+  &:active {
+    background: #F4FFEB;
+    border-color: #00DA8B;
+  }
+}
+
+/*==================================================
+STICKY NAVIGATION TAB-BAR COMPONENT
+==================================================*/
+.dashboard-footer-bar {
+  background: #FFFFFF;
+  border-top: 1px solid #EAEAEA;
+}
+
+.tab-bar-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 65px;
+  padding-bottom: env(safe-area-inset-bottom); /* iOS native support */
+}
+
+.tab-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 24px;
+    color: #BCBCBC;
+  }
+}
+
+.active-tab {
+  ion-icon {
+    color: #00DA8B;
+  }
+}

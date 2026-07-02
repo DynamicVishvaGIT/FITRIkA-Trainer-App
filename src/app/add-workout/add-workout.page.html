@@ -1,0 +1,47 @@
+<div class="modal-wrapper">
+  
+  <div class="modal-header-container">
+    <h2 class="modal-heading">Add Workout</h2>
+    <ion-icon name="close-outline" class="modal-close-icon" (click)="dismiss()"></ion-icon>
+  </div>
+
+  <div class="modal-form-content">
+    
+    <label class="field-label">Workout Name</label>
+    <div class="input-box-wrapper">
+      <input type="text" [(ngModel)]="workoutName" placeholder="Enter Workout Name" class="custom-form-input">
+    </div>
+
+    <label class="field-label mt-18">Description</label>
+    <div class="input-box-wrapper textarea-box-wrapper">
+      <textarea [(ngModel)]="description" placeholder="Enter Description" class="custom-form-textarea"></textarea>
+    </div>
+
+    <label class="field-label mt-18">Select Tag</label>
+    <div class="input-box-wrapper select-box-wrapper">
+      <select (change)="addTag($event)" class="custom-form-select" id="tagSelector">
+        <option value="" disabled selected>Select Tag</option>
+        <option value="Fat loss">Fat loss</option>
+        <option value="Beginner">Beginner</option>
+        <option value="4 weeks">4 weeks</option>
+        <option value="push, pull, leg">push, pull, leg</option>
+        <option value="gym">gym</option>
+        <option value="Low">Low</option>
+      </select>
+      <ion-icon name="chevron-down-outline" class="select-dropdown-arrow"></ion-icon>
+    </div>
+
+    <div class="active-tags-matrix">
+      <div class="removable-pill" *ngFor="let tag of selectedTags">
+        <span>{{ tag }}</span>
+        <ion-icon name="close-outline" class="remove-tag-icon" (click)="removeTag(tag)"></ion-icon>
+      </div>
+    </div>
+
+    <ion-button expand="block" class="modal-action-next-btn" (click)="submitAndProceed()">
+      Next
+    </ion-button>
+
+  </div>
+
+</div>

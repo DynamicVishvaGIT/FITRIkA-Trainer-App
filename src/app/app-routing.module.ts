@@ -4,13 +4,10 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/inbox',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
+  
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
@@ -22,7 +19,30 @@ const routes: Routes = [
   {
     path: 'registration',
     loadChildren: () => import('./registration/registration.module').then( m => m.RegistrationPageModule)
-  }
+  },
+  {
+    path: 'signin',
+    loadChildren: () => import('./signin/signin.module').then( m => m.SigninPageModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'workout-plans',
+    loadChildren: () => import('./workout-plans/workout-plans.module').then( m => m.WorkoutPlansPageModule)
+  },
+
+  {
+    path: 'workout-details',
+    loadChildren: () => import('./workout-details/workout-details.module').then( m => m.WorkoutDetailsPageModule)
+  },
+  {
+    path: 'add-workout',
+    loadChildren: () => import('./add-workout/add-workout.module').then( m => m.AddWorkoutPageModule)
+  },
+  
+  
 ];
 
 @NgModule({

@@ -1,13 +1,167 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>otp-verification</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="otp-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">otp-verification</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container">
+
+    <!-- Heading -->
+
+    <h1 class="title">
+      OTP Verification
+    </h1>
+
+    <p class="subtitle">
+      Enter the verification code we just sent to your registered mobile number.
+    </p>
+
+    <!-- OTP Boxes -->
+
+    <div class="otp-container">
+
+      <ion-input
+        #otp1
+        maxlength="1"
+        type="tel"
+        class="otp-box"
+        [(ngModel)]="otp[0]"
+        (ionInput)="moveNext($event, otp2)">
+      </ion-input>
+
+      <ion-input
+        #otp2
+        maxlength="1"
+        type="tel"
+        class="otp-box"
+        [(ngModel)]="otp[1]"
+        (ionInput)="moveNext($event, otp3)">
+      </ion-input>
+
+      <ion-input
+        #otp3
+        maxlength="1"
+        type="tel"
+        class="otp-box"
+        [(ngModel)]="otp[2]"
+        (ionInput)="moveNext($event, otp4)">
+      </ion-input>
+
+      <ion-input
+        #otp4
+        maxlength="1"
+        type="tel"
+        class="otp-box"
+        [(ngModel)]="otp[3]">
+      </ion-input>
+
+    </div>
+
+    <!-- Verify Button -->
+
+    <ion-button
+      expand="block"
+      class="verify-btn"
+      (click)="verifyOtp()">
+
+      Verify
+
+    </ion-button>
+
+    <!-- Timer -->
+
+    <div class="timer">
+
+      <span class="normal">
+        Send code again
+      </span>
+
+      <span class="time">
+        {{timer}}
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- Numeric Keypad -->
+
+  <div class="keyboard">
+
+    <div class="key-row">
+
+      <div class="key" (click)="pressKey('1')">
+        <div class="number">1</div>
+        <div class="letters"></div>
+      </div>
+
+      <div class="key" (click)="pressKey('2')">
+        <div class="number">2</div>
+        <div class="letters">ABC</div>
+      </div>
+
+      <div class="key" (click)="pressKey('3')">
+        <div class="number">3</div>
+        <div class="letters">DEF</div>
+      </div>
+
+    </div>
+
+    <div class="key-row">
+
+      <div class="key" (click)="pressKey('4')">
+        <div class="number">4</div>
+        <div class="letters">GHI</div>
+      </div>
+
+      <div class="key" (click)="pressKey('5')">
+        <div class="number">5</div>
+        <div class="letters">JKL</div>
+      </div>
+
+      <div class="key" (click)="pressKey('6')">
+        <div class="number">6</div>
+        <div class="letters">MNO</div>
+      </div>
+
+    </div>
+
+    <div class="key-row">
+
+      <div class="key" (click)="pressKey('7')">
+        <div class="number">7</div>
+        <div class="letters">PQRS</div>
+      </div>
+
+      <div class="key" (click)="pressKey('8')">
+        <div class="number">8</div>
+        <div class="letters">TUV</div>
+      </div>
+
+      <div class="key" (click)="pressKey('9')">
+        <div class="number">9</div>
+        <div class="letters">WXYZ</div>
+      </div>
+
+    </div>
+
+    <div class="key-row">
+
+      <div class="blank-key">
+      </div>
+
+      <div class="key" (click)="pressKey('0')">
+        <div class="number">0</div>
+      </div>
+
+      <div
+        class="delete-key"
+        (click)="deleteKey()">
+
+        <ion-icon
+          name="backspace-outline">
+        </ion-icon>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </ion-content>

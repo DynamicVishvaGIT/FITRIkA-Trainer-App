@@ -1,0 +1,293 @@
+/*==================================================
+OTP PAGE
+==================================================*/
+
+.otp-content {
+
+  --background: #ffffff;
+
+}
+
+/*==================================================
+Container
+==================================================*/
+
+.container {
+
+  padding: 164px 18px 0;
+
+}
+
+/*==================================================
+Heading
+==================================================*/
+
+.title {
+
+  margin: 0;
+
+  font-family: "Manrope";
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 24px;
+
+  color: #000000;
+
+}
+
+.subtitle {
+
+  margin-top: 12px;
+
+  width: 210px;
+
+  font-family: "DM Sans";
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+
+  color: #5B5B5B;
+
+}
+
+/*==================================================
+OTP BOXES
+==================================================*/
+
+.otp-container {
+
+  margin-top: 42px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+}
+
+.otp-box {
+
+  width: 73px;
+
+  height: 73px;
+
+  --background: #ffffff;
+
+  border: 1px solid #C5C6CC;
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  font-size: 28px;
+
+  font-weight: 700;
+
+  color: #000;
+
+}
+
+/*==================================================
+Verify Button
+==================================================*/
+
+.verify-btn {
+
+  margin-top: 32px;
+
+  height: 56px;
+
+  --border-radius: 12px;
+
+  --background: linear-gradient(
+    90deg,
+    #00AF70 0%,
+    #00DA8B 100%
+  );
+
+  font-family: "Satoshi";
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  text-transform: none;
+
+  box-shadow: 0 10px 10px rgba(0,218,139,.14);
+
+}
+
+/*==================================================
+Timer
+==================================================*/
+
+.timer {
+
+  margin-top: 42px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 6px;
+
+}
+
+.normal {
+
+  font-family: "DM Sans";
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  color: #1E1E1E;
+
+}
+
+.time {
+
+  font-family: "DM Sans";
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  color: #00DA8B;
+
+}
+
+/*==================================================
+Keyboard
+==================================================*/
+
+.keyboard {
+
+  position: absolute;
+
+  bottom: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  background: #E9E9E9;
+
+  padding: 6px;
+
+}
+
+.key-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 7px;
+
+}
+
+.key,
+.blank-key,
+.delete-key {
+
+  width: 123px;
+
+  height: 46px;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  box-shadow: 0 1px 0 #898A8D;
+
+}
+
+.blank-key {
+
+  background: transparent;
+
+  box-shadow: none;
+
+}
+
+.number {
+
+  font-family: "SF Pro Display";
+
+  font-size: 25px;
+
+  font-weight: 400;
+
+  color: #1F2024;
+
+  line-height: 28px;
+
+}
+
+.letters {
+
+  margin-top: 2px;
+
+  font-family: "SF Pro Text";
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  color: #1F2024;
+
+}
+
+.delete-key ion-icon {
+
+  font-size: 28px;
+
+  color: #555555;
+
+}
+
+/*==================================================
+Focus
+==================================================*/
+
+.otp-box.item-has-focus {
+
+  border: 2px solid #00DA8B;
+
+}
+
+/*==================================================
+Responsive
+==================================================*/
+
+@media (max-width:380px){
+
+  .otp-box{
+
+      width:68px;
+
+      height:68px;
+
+  }
+
+  .key,
+  .blank-key,
+  .delete-key{
+
+      width:31%;
+
+  }
+
+}

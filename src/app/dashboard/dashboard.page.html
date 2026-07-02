@@ -1,0 +1,131 @@
+<ion-content [fullscreen]="true" class="dashboard-content">
+
+  <div class="dashboard-header">
+    <div class="header-left">
+      <ion-icon name="menu-outline" class="menu-icon"></ion-icon>
+      <div class="user-titles">
+        <span class="greeting-text">Good Morning, James!</span>
+        <h2 class="action-headline">Let's make today amazing</h2>
+      </div>
+    </div>
+    <div class="avatar-container">
+      <img src="assets/images/dp.png" class="user-avatar" alt="User Profile">
+    </div>
+  </div>
+
+  <div class="motivation-banner">
+    <ion-icon name="flash" class="banner-icon"></ion-icon>
+    <p class="banner-text">The only bad workout is the one that didn't happen.</p>
+  </div>
+
+  <div class="schedule-card">
+    <div class="schedule-header">
+      <h3>Today's Schedule</h3>
+      <span class="view-more" (click)="viewMoreSchedule()">View More</span>
+    </div>
+
+    <div class="schedule-list">
+      <div class="schedule-item item-active">
+        <div class="time-badge active-badge">4:30 PM</div>
+        <div class="schedule-details">
+          <span class="client-name">Nitesh Pate</span>
+          <span class="session-type">| DB(I) Upper B...</span>
+        </div>
+      </div>
+
+      <div class="schedule-item">
+        <div class="time-badge outline-badge">5:30 PM</div>
+        <div class="schedule-details">
+          <span class="client-name">Seema A</span>
+          <span class="session-type">| Video(I) Cardio</span>
+        </div>
+      </div>
+
+      <div class="schedule-item">
+        <div class="time-badge outline-badge">7:00 PM</div>
+        <div class="schedule-details">
+          <span class="client-name">Malcom D (p)</span>
+          <span class="session-type">| Call(I) Gym Visit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="metrics-container">
+    <div class="metric-box box-large">
+      <div class="metric-icon-wrapper prospect-bg">
+        <ion-icon name="search-outline"></ion-icon>
+      </div>
+      <span class="metric-title">Prospects</span>
+    </div>
+
+    <div class="metric-box box-large">
+      <div class="metric-icon-wrapper client-bg">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+      <span class="metric-title">Clients</span>
+      <span class="metric-value green-text">10</span>
+      <span class="metric-sub">Active : 4</span>
+    </div>
+
+    <div class="metric-box box-large">
+      <div class="metric-icon-wrapper revenue-bg">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+      <span class="metric-title">Revenue</span>
+      <span class="metric-value green-text">₹55,000</span>
+      <span class="metric-sub">Monthly : 12,000</span>
+    </div>
+  </div>
+
+  <div class="quick-actions-row">
+    <div class="action-tile" (click)="navigateTo('schedule')">
+      <div class="action-icon-circle">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </div>
+      <span>Schedule</span>
+    </div>
+
+    <div class="action-tile" (click)="navigateTo('workout')">
+      <div class="action-icon-circle">
+        <ion-icon name="dumbbell-outline"></ion-icon>
+      </div>
+      <span>Workout</span>
+    </div>
+
+    <div class="action-tile" (click)="navigateTo('diet')">
+      <div class="action-icon-circle">
+        <ion-icon name="restaurant-outline"></ion-icon>
+      </div>
+      <span>Diet</span>
+    </div>
+
+    <div class="action-tile" (click)="navigateTo('forms')">
+      <div class="action-icon-circle">
+        <ion-icon name="document-text-outline"></ion-icon>
+      </div>
+      <span>Forms</span>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border dashboard-footer-bar">
+  <div class="tab-bar-container">
+    <div class="tab-item active-tab">
+      <ion-icon name="home"></ion-icon>
+    </div>
+    <div class="tab-item">
+      <ion-icon name="calendar-clear-outline"></ion-icon>
+    </div>
+    <div class="tab-item">
+      <ion-icon name="dumbbell-outline"></ion-icon>
+    </div>
+    <div class="tab-item">
+      <ion-icon name="restaurant-outline"></ion-icon>
+    </div>
+    <div class="tab-item">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+  </div>
+</ion-footer>

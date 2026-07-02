@@ -1,0 +1,205 @@
+/*==================================================
+SIGN IN PAGE CONFIGURATION
+==================================================*/
+.signin-content {
+  --background: #FFFFFF;
+}
+
+/* Ensures the top dark container has zero gap margins, 
+  spanning cleanly across the device frame width.
+*/
+.top-dark-section {
+  background-color: #0B120C; /* Exact Figma Rich Dark Tone */
+  padding: 40px 24px 35px 24px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/*==================================================
+Header Navigation Component
+==================================================*/
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.back-icon {
+  font-size: 26px;
+  color: #00DA8B;
+  cursor: pointer;
+}
+
+/*==================================================
+Logo & Welcome Typography
+==================================================*/
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.logo {
+  width: 75px;
+  height: auto;
+  object-fit: contain;
+}
+
+.logo-section h1 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-family: "Satoshi", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #FFFFFF; /* High contrast clean white text */
+}
+
+.logo-section p {
+  max-width: 290px;
+  font-family: "Satoshi", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8C928E; /* Smooth legible grey tone on dark backgrounds */
+  line-height: 22px;
+  margin: 0 auto;
+}
+
+/*==================================================
+INPUT CONTEXTS & SECTIONS
+==================================================*/
+.form-section {
+  padding: 30px 24px 40px;
+  background: #FFFFFF;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "Satoshi", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2C2C2C;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.input-box {
+  height: 56px;
+  background: #F9F9F9;
+  border: 1px solid #EAEAEA;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.input-icon {
+  color: #00DA8B;
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+ion-input {
+  flex: 1;
+  font-family: "Satoshi", sans-serif;
+  font-size: 15px;
+  --placeholder-color: #AFAFAF;
+  color: #000000;
+}
+
+.eye-icon {
+  font-size: 22px;
+  color: #00DA8B;
+  cursor: pointer;
+}
+
+.input-box:focus-within {
+  border: 1.5px solid #00DA8B;
+}
+
+/*==================================================
+Actions & Controls Buttons
+==================================================*/
+.forgot-password {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forgot-password span {
+  font-family: "Satoshi", sans-serif;
+  font-size: 13px;
+  color: #00DA8B;
+  cursor: pointer;
+}
+
+.signin-btn {
+  margin-top: 25px;
+  height: 56px;
+  --border-radius: 14px;
+  --background: #00DA8B;
+  font-family: "Satoshi", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: none;
+  box-shadow: 0 8px 20px rgba(0, 218, 139, 0.2);
+}
+
+/*==================================================
+Interactivity & Footer Actions
+==================================================*/
+.terms-checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 8px;
+}
+
+.custom-checkbox {
+  --border-radius: 6px;
+  --border-color: #AFAFAF;
+  --checkbox-background-checked: #00DA8B;
+  --border-color-checked: #00DA8B;
+  width: 18px;
+  height: 18px;
+}
+
+.terms-text {
+  font-family: "Satoshi", sans-serif;
+  font-size: 14px;
+  color: #333333;
+}
+
+.terms-text .highlight {
+  color: #00DA8B;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.signup {
+  margin-top: 80px;
+  text-align: center;
+  font-family: "Satoshi", sans-serif;
+  font-size: 14px;
+  color: #333333;
+}
+
+.signup span {
+  font-weight: 600;
+  color: #00DA8B;
+  cursor: pointer;
+}
+
+@media (max-width: 380px) {
+  .signup {
+    margin-top: 50px;
+  }
+}

@@ -1,0 +1,226 @@
+/*==================================================
+Registration Page
+==================================================*/
+
+.registration-content {
+
+  --background: #FFFFFF;
+
+}
+
+/*==================================================
+Header
+==================================================*/
+
+.header {
+
+  padding: 65px 20px 0;
+
+}
+
+.back-icon {
+
+  font-size: 24px;
+
+  color: #00DA8B;
+  
+
+}
+
+/*==================================================
+Logo Section
+==================================================*/
+
+.logo-section {
+
+  margin-top: 10px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+  background-color: #1c1c1c;
+
+}
+
+.logo {
+
+  width: 83px;
+
+  height: 54px;
+
+  object-fit: contain;
+
+}
+
+.logo-section h1 {
+
+  margin-top: 25px;
+
+  margin-bottom: 10px;
+
+  font-family: "Satoshi";
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+  color: #ffffff;
+
+}
+
+.logo-section p {
+
+  width: 307px;
+
+  text-align: center;
+
+  font-family: "Satoshi";
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  color: #7E7E7E;
+
+  line-height: 22px;
+
+}
+
+/*==================================================
+Form
+==================================================*/
+
+.form-section {
+
+  padding: 30px 16px 40px;
+
+}
+
+label {
+
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-family: "Satoshi";
+
+  font-size: 12px;
+
+  font-weight: 400;
+
+  color: #000000;
+
+}
+
+.mt-20 {
+
+  margin-top: 20px;
+
+}
+
+.input-box {
+
+  height: 56px;
+
+  background: #Ffffff;
+  background-color: #FFFFFF;
+
+  border: 1px solid rgba(212, 212, 212, 0.5);
+
+  border-radius: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0 16px;
+
+}
+
+.input-icon {
+
+  font-size: 20px;
+
+  color: #00DA8B;
+
+}
+
+ion-input {
+
+  flex: 1;
+
+  font-family: "Satoshi";
+
+  font-size: 14px;
+
+  color: #000000;
+
+  --placeholder-color: #AFAFAF;
+
+}
+
+.eye-icon {
+
+  font-size: 22px;
+
+  color: #00DA8B;
+
+}
+
+/*==================================================
+Button
+==================================================*/
+
+.continue-btn {
+
+  margin-top: 180px;
+
+  height: 56px;
+
+  --border-radius: 12px;
+
+  --background: linear-gradient(
+      90deg,
+      #00AF70 0%,
+      #00DA8B 100%
+  );
+
+  font-family: "Satoshi";
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  text-transform: none;
+
+  box-shadow: 0 10px 10px rgba(0, 218, 139, .14);
+
+}
+
+/*==================================================
+Input Focus
+==================================================*/
+
+.input-box:focus-within {
+
+  border: 1.5px solid #00DA8B;
+
+}
+
+/*==================================================
+Responsive
+==================================================*/
+
+@media (max-width: 380px) {
+
+  .logo-section p {
+
+    width: 90%;
+
+  }
+
+}

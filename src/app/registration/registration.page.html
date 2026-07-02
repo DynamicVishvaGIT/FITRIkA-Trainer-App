@@ -1,13 +1,107 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registration</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="registration-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registration</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Header -->
+
+  <!-- <div class="header"> -->
+
+    <ion-icon
+      name="chevron-back"
+      class="back-icon"
+      (click)="back()">
+    </ion-icon>
+
+  <!-- </div> -->
+
+  <!-- Logo -->
+
+  <div class="logo-section">
+
+    <img
+      src="assets/images/hyyndlogo.png"
+      class="logo"
+      alt="Logo">
+
+    <h1>Welcome</h1>
+
+    <p>
+      Log in to your account and continue your
+      fitness journey.
+    </p>
+
+  </div>
+
+  <!-- Form -->
+
+  <div class="form-section">
+
+    <!-- Email -->
+
+    <label>Email or Mobile Number</label>
+
+    <div class="input-box">
+
+      <ion-icon
+        name="mail"
+        class="input-icon">
+      </ion-icon>
+
+      <ion-input
+        type="text"
+        [(ngModel)]="email"
+        placeholder="Enter Email or Mobile Number">
+      </ion-input>
+
+    </div>
+
+    <!-- Name -->
+
+    <label class="mt-20">
+      Full Name
+    </label>
+
+    <div class="input-box">
+
+      <ion-input
+        type="text"
+        [(ngModel)]="name"
+        placeholder="Enter Your Name">
+      </ion-input>
+
+    </div>
+
+    <!-- Password -->
+
+    <label class="mt-20">
+      Password
+    </label>
+
+    <div class="input-box">
+
+      <ion-input
+        [type]="showPassword ? 'text' : 'password'"
+        [(ngModel)]="password"
+        placeholder="Enter Password">
+      </ion-input>
+
+      <ion-icon
+        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+        class="eye-icon"
+        (click)="togglePassword()">
+      </ion-icon>
+
+    </div>
+
+    <!-- Button -->
+
+    <ion-button
+      expand="block"
+      class="continue-btn"
+      (click)="continue()">
+
+      Next
+
+    </ion-button>
+
+  </div>
+
 </ion-content>

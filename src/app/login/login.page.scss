@@ -1,0 +1,150 @@
+.login-content {
+
+  --background: #ffffff;
+
+}
+
+/*=============================
+Top Section
+=============================*/
+
+.top-section {
+
+  background: #0F1511;
+  height: 290px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.logo {
+
+  width: 83px;
+  height: 54px;
+
+  margin-top: 30px;
+  margin-bottom: 25px;
+
+}
+
+.top-section h1 {
+
+  margin: 0;
+
+  color: #FFFFFF;
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+  font-family: "Satoshi";
+
+}
+
+.top-section p {
+
+  width: 307px;
+
+  margin-top: 12px;
+
+  color: #7E7E7E;
+
+  text-align: center;
+
+  font-size: 15px;
+
+  line-height: 22px;
+
+  font-family: "Satoshi";
+
+}
+
+/*==============================
+Bottom
+==============================*/
+
+.bottom-section{
+
+  padding:30px 16px;
+
+}
+
+label{
+
+  display:block;
+
+  font-size:12px;
+
+  color:#000;
+
+  margin-bottom:10px;
+
+  font-family:"Satoshi";
+
+}
+
+.input-box{
+
+  height:56px;
+
+  border:1px solid rgba(212,212,212,.5);
+
+  border-radius:12px;
+
+  background:#F8F8F8;
+
+  display:flex;
+
+  align-items:center;
+
+  padding:0 15px;
+
+}
+
+.input-icon{
+
+  color:#00DA8B;
+
+  font-size:22px;
+
+}
+
+ion-input{
+
+  margin-left:12px;
+
+  font-size:14px;
+
+  --placeholder-color:#7E7E7E;
+
+  font-family:"Satoshi";
+
+}
+
+.next-btn{
+
+  margin-top:32px;
+
+  height:56px;
+
+  --border-radius:12px;
+
+  --background:linear-gradient(
+  90deg,
+  #00AF70 0%,
+  #00DA8B 100%
+  );
+
+  font-size:18px;
+
+  font-weight:700;
+
+  font-family:"Satoshi";
+
+  box-shadow:0 10px 10px
+  rgba(0,218,139,.14);
+
+}

@@ -1,0 +1,77 @@
+<ion-content [fullscreen]="true" class="signin-content">
+
+  <div class="top-dark-section">
+    
+    <div class="header-nav">
+      <ion-icon
+        name="arrow-back"
+        class="back-icon"
+        (click)="back()">
+      </ion-icon>
+    </div>
+
+    <div class="logo-section">
+      <img
+        src="assets/images/hyyndlogo.png"
+        class="logo"
+        alt="FITRIkA Logo">
+
+      <h1>Welcome back</h1>
+      <p>Log in to your account and continue your fitness journey.</p>
+    </div>
+
+  </div>
+
+  <div class="form-section">
+
+    <label>Email or Mobile Number</label>
+    <div class="input-box">
+      <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+      <ion-input
+        type="text"
+        [(ngModel)]="email"
+        placeholder="Enter Email or Mobile Number">
+      </ion-input>
+    </div>
+
+    <label class="mt-20">Password</label>
+    <div class="input-box">
+      <ion-icon name="key-outline" class="input-icon"></ion-icon>
+      <ion-input
+        [type]="showPassword ? 'text' : 'password'"
+        [(ngModel)]="password"
+        placeholder="Enter Password">
+      </ion-input>
+      <ion-icon
+        [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
+        class="eye-icon"
+        (click)="togglePassword()">
+      </ion-icon>
+    </div>
+
+    <div class="forgot-password">
+      <span (click)="forgotPassword()">Forgot Your Password?</span>
+    </div>
+
+    <ion-button
+      expand="block"
+      class="signin-btn"
+      (click)="signIn()">
+      Sign In
+    </ion-button>
+
+    <div class="terms-checkbox-container">
+      <ion-checkbox [(ngModel)]="acceptedTerms" mode="md" class="custom-checkbox"></ion-checkbox>
+      <span class="terms-text">
+        I accept the <span class="highlight" (click)="openTerms()">terms & conditions</span>
+      </span>
+    </div>
+
+    <div class="signup">
+      Don’t you have an account yet? 
+      <span (click)="goToRegistration()">Register</span>
+    </div>
+
+  </div>
+
+</ion-content>
