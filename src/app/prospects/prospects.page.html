@@ -1,0 +1,94 @@
+<div class="prospects-view-container">
+  <!-- Top Navigation App Bar -->
+  <header class="view-header">
+    <button class="back-navigation-btn" (click)="back()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#00c07f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <h1 class="view-title">Follow up</h1>
+    <div class="header-right-spacer"></div>
+  </header>
+
+  <!-- Interactive Timeline Content -->
+  <main class="timeline-wrapper">
+    <div class="timeline-vertical-line"></div>
+
+    <div id="pipeline-steps-container">
+      
+      <!-- Step 1 Card -->
+      <div class="timeline-card-item state-completed" id="step-card-1" (click)="toggleStepState(1)">
+        <div class="timeline-indicator-node"></div>
+        <div class="card-inner-box">
+          <div class="card-top-row">
+            <span class="step-badge-label">STEP 1</span>
+            <div class="checkbox-status-indicator">
+              <span class="check-icon">✓</span>
+            </div>
+          </div>
+          <h2 class="step-display-heading">First Contact done.</h2>
+          <p class="step-detailed-paragraph">Need analysis is done understood needs , wants of client</p>
+        </div>
+      </div>
+
+      <!-- Step 2 Card -->
+      <div class="timeline-card-item" id="step-card-2" (click)="toggleStepState(2)">
+        <div class="timeline-indicator-node"></div>
+        <div class="card-inner-box">
+          <div class="card-top-row">
+            <span class="step-badge-label">STEP 2</span>
+            <div class="checkbox-status-indicator">
+              <span class="check-icon">✓</span>
+            </div>
+          </div>
+          <h2 class="step-display-heading">Call Completed</h2>
+          <ul class="nested-subtask-checklist">
+            <li><span class="bullet-symbol">✓</span> Goal identified</li>
+            <li><span class="bullet-symbol">✓</span> Budget discussed</li>
+            <li><span class="bullet-symbol">✓</span> Time availability</li>
+            <li><span class="bullet-symbol">✓</span> Pain point understood</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 3 Card -->
+      <div class="timeline-card-item" id="step-card-3" (click)="toggleStepState(3)">
+        <div class="timeline-indicator-node"></div>
+        <div class="card-inner-box">
+          <div class="card-top-row">
+            <span class="step-badge-label">STEP 3</span>
+            <div class="checkbox-status-indicator">
+              <span class="check-icon">✓</span>
+            </div>
+          </div>
+          <h2 class="step-display-heading">Present Solution</h2>
+          <ul class="nested-subtask-checklist">
+            <li><span class="bullet-symbol">✓</span> Program Explained</li>
+            <li><span class="bullet-symbol">✓</span> Pricing Shared</li>
+            <li><span class="bullet-symbol">✓</span> Transformation Path Show</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 4 Card -->
+      <div class="timeline-card-item" id="step-card-4" (click)="toggleStepState(4)">
+        <div class="timeline-indicator-node"></div>
+        <div class="card-inner-box">
+          <div class="card-top-row">
+            <span class="step-badge-label">STEP 4</span>
+            <div class="checkbox-status-indicator">
+              <span class="check-icon">✓</span>
+            </div>
+          </div>
+          <h2 class="step-display-heading">Close Onboard</h2>
+          <ul class="nested-subtask-checklist">
+            <li><span class="bullet-symbol">✓</span> Payment Done</li>
+            <li><span class="bullet-symbol">✓</span> Welcome Message</li>
+            <li><span class="bullet-symbol">✓</span> Assessment + First Session Schedule</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>

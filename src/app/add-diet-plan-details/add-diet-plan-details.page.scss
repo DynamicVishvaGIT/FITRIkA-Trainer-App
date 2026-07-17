@@ -1,0 +1,232 @@
+$primary-color: #00DA8B;
+
+.diet-content {
+  --background: #ffffff;
+  --padding-bottom: 100px;
+}
+
+.add-diet-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 16px 120px;
+  background: white;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  ion-icon {
+    font-size: 26px;
+    color: $primary-color;
+  }
+}
+
+.header-spacer {
+  width: 26px;
+}
+
+.meal-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+
+  h2 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  ion-icon {
+    color: $primary-color;
+    font-size: 24px;
+  }
+}
+
+.edit-icon-btn {
+  background: transparent;
+  border: none;
+}
+
+.dropdown-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.custom-select {
+  height: 56px;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  background: #fafafa;
+
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .placeholder {
+    color: #8d8d8d;
+    font-size: 15px;
+  }
+
+  ion-icon {
+    font-size: 20px;
+    color: #666;
+  }
+}
+
+.dropdown-list {
+  position: absolute;
+  width: 100%;
+  top: 60px;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.dropdown-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.food-card {
+  background: white;
+  border: 1px solid #efefef;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.card-main-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px;
+}
+
+.food-meta {
+  flex: 2;
+
+  h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .serving {
+    font-size: 13px;
+    color: #8b8b8b;
+  }
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .qty-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 7px;
+    background: $primary-color;
+    color: white;
+  }
+
+  .qty-val {
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+
+.calories-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 70px;
+}
+
+.calorie-label {
+  font-size: 9px;
+  color: #A5A5A5;
+  font-weight: 400;
+  line-height: 10px;
+  margin-bottom: 2px;
+  margin-right: 21px;
+}
+
+.calorie-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111111;
+  line-height: 18px;
+  white-space: nowrap;
+}
+.card-macro-footer {
+  background: #effaf5;
+  padding: 12px 16px;
+
+  display: flex;
+  justify-content: space-between;
+
+  .macro-metric {
+    font-size: 12px;
+
+    .macro-val {
+      color: $primary-color;
+      font-weight: 700;
+    }
+  }
+}
+
+.action-footer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  padding: 15px;
+  z-index: 999;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(
+    90deg,
+    #00AF70,
+    #00DA8B
+  );
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}

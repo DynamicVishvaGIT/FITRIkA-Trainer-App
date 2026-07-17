@@ -1,0 +1,256 @@
+:host {
+  display: block;
+  background: #ffffff;
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+/* ==================================================
+Header Elements Layout Styling
+==================================================*/
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 45px 24px 18px;
+  background: #ffffff;
+  border-bottom: 1px solid #F6F6F6;
+}
+
+.back-btn {
+  position: absolute;
+  left: 24px;
+  font-size: 24px;
+  color: #00DA8B;
+  cursor: pointer;
+}
+
+.page-title {
+  margin: 0;
+  font-family: "SF Pro Display", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1C1C1E;
+}
+
+/* Top Navigation Bar Edit Button placement */
+.header-edit-trigger {
+  position: absolute;
+  right: 24px;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 4px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 24px;
+    color: #1C1C1E;
+  }
+}
+
+/* ==================================================
+Exercise Card & Layout Alignment
+==================================================*/
+.page-content {
+  padding: 24px 20px;
+}
+
+.exercise-card {
+  background: #ffffff;
+  border: 1px solid #F0F0F2;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.01);
+}
+
+.exercise-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 20px 0px 20px;
+  cursor: pointer;
+}
+
+.header-left-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-number {
+  color: #00DA8B;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.exercise-name {
+  margin: 0 0 6px 0;
+  font-family: "SF Pro Display", sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: #1C1C1E;
+}
+
+.set-count {
+  margin-bottom: 16px;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 13px;
+  color: #1C1C1E;
+  font-weight: 600;
+
+  span {
+    font-weight: 700;
+  }
+}
+
+/* Right-side Arrow-only wrapper matching reference dimensions */
+.header-right-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.arrow-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  ion-icon {
+    font-size: 20px;
+    color: #8E8E93; /* Soft standard gray for systemic utility arrows */
+  }
+}
+
+/* ==================================================
+Rows, Sets, and Video Content
+==================================================*/
+.info-row {
+  display: flex;
+  border-top: 1px solid #F5F5F7;
+  border-bottom: 1px solid #F5F5F7;
+  background: #FAFAFC;
+}
+
+.info-box {
+  flex: 1;
+  padding: 14px 20px;
+  
+  &:first-child {
+    border-right: 1px solid #E5E5EA;
+  }
+}
+
+.info-title {
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1C1C1E;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8E8E93;
+}
+
+.set-block {
+  display: block;
+}
+
+.set-header {
+  background: #00DA8B;
+  color: #ffffff;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 20px;
+}
+
+.set-details {
+  display: flex;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #F5F5F7;
+}
+
+.set-column {
+  flex: 1;
+}
+
+.set-label {
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1C1C1E;
+  margin-bottom: 4px;
+}
+
+.set-value {
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8E8E93;
+}
+
+.video-container {
+  padding: 20px;
+  background: #ffffff;
+}
+
+.video-box {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.video-image {
+  width: 100%;
+  height: 185px;
+  object-fit: cover;
+}
+
+.play-btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #00DA8B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 218, 139, 0.35);
+  
+  &::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 14px solid #ffffff;
+    margin-left: 4px;
+  }
+}
+
+.collapsed {
+  box-shadow: none;
+  border-color: #E5E5EA;
+}

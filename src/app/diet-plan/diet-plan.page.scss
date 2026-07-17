@@ -1,0 +1,329 @@
+:host {
+  display: block;
+  background: #FFFFFF;
+}
+ion-modal.bottom-sheet-modal{
+
+  --background:#fff;
+
+  --border-radius:32px 32px 0 0;
+
+}
+
+.custom-toolbar {
+  --background: #FFFFFF;
+  --border-width: 0px !important;
+  padding-top: 12px;
+}
+
+.menu-burger-btn {
+  --background: transparent;
+  --box-shadow: none;
+  margin-left: 8px;
+
+  .custom-menu-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    span {
+      display: block;
+      width: 20px;
+      height: 2.5px;
+      background-color: #00DA8B;
+      border-radius: 4px;
+      
+      &:nth-child(2) {
+        width: 14px;
+      }
+    }
+  }
+}
+
+.page-main-heading {
+  font-family: "SF Pro Display", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  padding-right: 60px;
+}
+
+.diet-page-content-bg {
+  --background: #FFFFFF;
+}
+
+.main-layout-container {
+  padding: 8px 20px 140px;
+}
+
+.search-box-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.search-magnifier-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #8E8E93;
+  z-index: 2;
+}
+
+.custom-search-input {
+  width: 100%;
+  height: 48px;
+  background: #F2F2F7;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0 16px 0 48px;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 16px;
+  color: #000000;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    border-color: #00DA8B;
+    background: #FFFFFF;
+  }
+}
+
+.filter-toggle-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.toggle-label-text {
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #000000;
+}
+
+.ios-switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .switch-slider-track {
+      background-color: #00DA8B;
+    }
+
+    &:checked + .switch-slider-track:before {
+      transform: translateX(20px);
+    }
+  }
+}
+
+.switch-slider-track {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #E5E5EA;
+  transition: .25s ease-in-out;
+  border-radius: 34px;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .25s ease-in-out;
+    border-radius: 50%;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.diet-blueprints-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.blueprint-card-item {
+  background: #FFFFFF;
+  border: 1px solid #E5E5EA;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.card-summary-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.blueprint-heading-title {
+  margin: 0;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.system-badge-pill {
+  background: rgba(255, 149, 0, 0.15);
+  color: #FF9500;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.right-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-utility-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 4px;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 20px;
+    color: #000000;
+  }
+}
+
+.card-collapsible-description-container {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.25s ease-out;
+  margin-top: 0;
+
+  &.is-expanded {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 12px;
+  }
+}
+
+.description-paragraph-text {
+  margin: 0;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #636366;
+}
+
+.card-footer-ribbon-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.horizontal-tags-scroller {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  flex: 1;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.feature-tag-pill {
+  background: rgba(0, 218, 139, 0.05);
+  border: 1px solid rgba(0, 218, 139, 0.3);
+  color: #00DA8B;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.expansion-chevron-trigger {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+
+  ion-icon {
+    font-size: 18px;
+    color: #8E8E93;
+  }
+}
+
+.fixed-bottom-action-anchor {
+  position: fixed;
+  bottom: 68px; // Docked elegantly above navigation layout metrics
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 0));
+  padding: 16px 24px 24px;
+  z-index: 99;
+}
+
+.core-create-cta-btn {
+  width: 100%;
+  height: 54px;
+  background: #00DA8B;
+  border: none;
+  border-radius: 14px;
+  font-family: "SF Pro Text", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0px 6px 16px rgba(0, 218, 139, 0.25);
+}
+
+.bottom-nav-bar-mock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: #FFFFFF;
+  border-top: 1px solid #F2F2F7;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 12px;
+  z-index: 100;
+
+  .nav-tab-item {
+    color: #A9A9A9;
+    font-size: 24px;
+    
+    &.active {
+      color: #00DA8B;
+    }
+  }
+}

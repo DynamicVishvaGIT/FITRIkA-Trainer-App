@@ -1,0 +1,196 @@
+<ion-content [fullscreen]="true">
+  <div class="app-screen-container">
+    
+    <!-- Top Dark Header Block -->
+    <header class="dark-profile-card">
+      <div class="top-nav-label">My Profile</div>
+      
+      <div class="user-profile-row">
+        <div class="profile-avatar-frame">
+          <img [src]="profileData.avatar" alt="User Headshot">
+        </div>
+        <div class="user-core-details">
+          <h2 class="display-name">{{ profileData.name }}</h2>
+          <p class="display-email">{{ profileData.email }}</p>
+          <button class="action-toggle-btn" (click)="toggleProfileMode()">
+            {{ isEditing ? 'Save Profile' : 'Edit profile' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="quick-stats-footer">
+        <div class="stat-item">
+          <span class="label">Experience</span>
+          <span class="value">{{ profileData.experience }}</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="label">Rating</span>
+          <span class="value">{{ profileData.rating }}</span>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons Section -->
+      <div class="profile-nav-actions-row">
+        <button class="nav-outline-action-btn" (click)="navigateToSlots()">
+          <ion-icon name="calendar-outline" class="btn-lead-icon"></ion-icon>
+          <span class="btn-text-label">My Slots</span>
+        </button>
+        <button class="nav-outline-action-btn" (click)="navigateToPackages()">
+          <ion-icon name="card-outline" class="btn-lead-icon"></ion-icon>
+          <span class="btn-text-label">Packages</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Lower Light Details Body -->
+    <main class="light-profile-body">
+
+      <!-- Mobile Number Row -->
+      <div class="profile-meta-row">
+        <div class="icon-column">
+          <ion-icon name="call" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">Mobile Number</label>
+          <div *ngIf="!isEditing" class="static-text-value">{{ profileData.mobile }}</div>
+          <input *ngIf="isEditing" type="text" [(ngModel)]="profileData.mobile" class="light-mode-text-input">
+        </div>
+      </div>
+
+      <!-- Location Row -->
+      <div class="profile-meta-row">
+        <div class="icon-column">
+          <ion-icon name="location" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">Location</label>
+          <div *ngIf="!isEditing" class="static-text-value">{{ profileData.location }}</div>
+          <input *ngIf="isEditing" type="text" [(ngModel)]="profileData.location" class="light-mode-text-input">
+        </div>
+      </div>
+
+      <!-- Birthdate Row -->
+      <div class="profile-meta-row">
+        <div class="icon-column">
+          <ion-icon name="calendar" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">Birthdate</label>
+          <div *ngIf="!isEditing" class="static-text-value">{{ profileData.birthdate }}</div>
+          <input *ngIf="isEditing" type="text" [(ngModel)]="profileData.birthdate" class="light-mode-text-input">
+        </div>
+      </div>
+
+      <!-- Gender Row -->
+      <div class="profile-meta-row">
+        <div class="icon-column">
+          <ion-icon name="transgender" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">Gender</label>
+          
+          <!-- READ MODE -->
+          <div *ngIf="!isEditing" class="static-text-value">{{ profileData.gender }}</div>
+          
+          <!-- EDIT MODE -->
+          <div *ngIf="isEditing" class="app-custom-select-container">
+            <div class="select-header-box" [class.is-active]="isGenderDropdownOpen" (click)="toggleGenderDropdown()">
+              <span class="selected-value-text">{{ profileData.gender || 'Select Gender' }}</span>
+              <ion-icon [name]="isGenderDropdownOpen ? 'chevron-up' : 'chevron-down'" class="dropdown-arrow-icon"></ion-icon>
+            </div>
+
+            <div *ngIf="isGenderDropdownOpen" class="select-options-overlay-list">
+              <div class="option-row-item" (click)="selectGenderValue('Male')">Male</div>
+              <div class="option-row-item" (click)="selectGenderValue('Female')">Female</div>
+              <div class="option-row-item" (click)="selectGenderValue('Nothing To Say')">Nothing To Say</div>
+              <div class="option-row-item" (click)="selectGenderValue('Others')">Others</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specialty Row (Styled exactly like your new light-mode screenshot layout) -->
+      <div class="profile-meta-row align-items-start">
+        <div class="icon-column push-down-icon">
+          <ion-icon name="create" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">Specialty</label>
+          
+          <!-- Unified list for both states to maintain structural integrity -->
+          <ul class="read-only-specialty-list visual-capsule-mode">
+            <li *ngFor="let spec of profileData.specialties" class="specialty-capsule-item">
+              <ion-icon name="checkmark-circle-outline" class="item-check-bullet"></ion-icon>
+              <span class="spec-text">{{ spec }}</span>
+              <!-- Clear cross icon visible only during Edit state -->
+              <ion-icon *ngIf="isEditing" name="close-outline" class="remove-capsule-x" (click)="deleteSpecialty(spec)"></ion-icon>
+            </li>
+          </ul>
+
+          <!-- Add Input Field visible during Edit state -->
+          <div *ngIf="isEditing" class="tag-append-input-wrapper no-margin-top">
+            <input type="text" placeholder="Add new specialty" class="light-mode-text-input text-field-rounded" (keyup.enter)="appendNewSpecialtyValue($event)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificate Row -->
+      <div class="profile-meta-row align-items-start">
+        <div class="icon-column push-down-icon">
+          <ion-icon name="ribbon" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">Certificate</label>
+          <div class="gallery-row-flex">
+            <div class="red-border-cert-frame" *ngFor="let cert of profileData.certificates">
+              <img [src]="cert" alt="Credential Paper Image">
+            </div>
+            <div *ngIf="isEditing" class="dashed-upload-box" (click)="triggerUpload()">
+              <ion-icon name="camera-outline" class="cam-icon"></ion-icon>
+              <span class="cam-label">Upload Image</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Tags Row (Pills left perfectly matching screenshot 1) -->
+      <div class="profile-meta-row align-items-start">
+        <div class="icon-column push-down-icon">
+          <ion-icon name="pricetag" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">Tags</label>
+          
+          <div class="solid-green-tags-flex">
+            <span class="profile-pill-tag" *ngFor="let targetTag of profileData.tags">
+              {{ targetTag }}
+              <ion-icon *ngIf="isEditing" name="close-outline" class="tag-inline-remove" (click)="deleteTag(targetTag)"></ion-icon>
+            </span>
+          </div>
+
+          <div *ngIf="isEditing" class="tag-append-input-wrapper">
+            <input type="text" placeholder="Add New Tag" class="light-mode-text-input text-field-rounded" (keyup.enter)="appendNewTagValue($event)">
+          </div>
+        </div>
+      </div>
+
+      <!-- About Us Section -->
+      <div class="profile-meta-row align-items-start no-border-bottom">
+        <div class="icon-column push-down-icon">
+          <ion-icon name="person" class="mint-icon"></ion-icon>
+        </div>
+        <div class="content-column">
+          <label class="input-header">About Us</label>
+          <div *ngIf="!isEditing" class="about-paragraph-view">
+            {{ profileData.about }}
+          </div>
+          <div *ngIf="isEditing" class="about-textarea-frame">
+            <textarea [(ngModel)]="profileData.about" rows="4" class="embedded-light-textarea"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</ion-content>

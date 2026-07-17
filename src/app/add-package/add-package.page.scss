@@ -1,0 +1,87 @@
+$primary-green: #00c48c;
+
+.fullscreen-backdrop-blur {
+  position: fixed; 
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.45); 
+  z-index: 9999;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: flex-end;
+}
+
+.bottom-action-sheet-card {
+  background: #ffffff; 
+  border-radius: 32px 32px 0 0; 
+  padding: 24px 24px 40px 24px;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  .sheet-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 32px;
+    
+    h2 { 
+      font-size: 20px; 
+      font-weight: 700; 
+      color: #000;
+      margin: 0; 
+    }
+    
+    .close-circle-btn {
+      background: transparent; 
+      border: 1.5px solid #000; 
+      width: 28px; 
+      height: 28px;
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      cursor: pointer;
+      span { font-size: 16px; font-weight: bold; color: #000; }
+    }
+  }
+}
+
+.sheet-body {
+  display: flex; 
+  flex-direction: column; 
+  gap: 32px;
+  
+  .form-group {
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px;
+    .input-label { font-size: 14px; font-weight: 600; color: #333; }
+    .sheet-input-field {
+      width: 100%; 
+      background: #f7f7f7; 
+      border: 1px solid #eee; 
+      border-radius: 14px; 
+      padding: 18px; 
+      font-size: 15px;
+      box-sizing: border-box;
+      &:focus { outline: none; border-color: $primary-green; }
+    }
+  }
+  
+  .sheet-submit-btn {
+    width: 100%; 
+    background: linear-gradient(135deg, #00d49d, $primary-green); 
+    color: white; 
+    border: none; 
+    padding: 18px;
+    border-radius: 14px; 
+    font-size: 16px; 
+    font-weight: 700; 
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 196, 140, 0.25);
+  }
+}
+
+@keyframes slideUp { 
+  from { transform: translateY(100%); } 
+  to { transform: translateY(0); } 
+}

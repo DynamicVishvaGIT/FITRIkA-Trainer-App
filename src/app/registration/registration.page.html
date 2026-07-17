@@ -1,105 +1,64 @@
 <ion-content [fullscreen]="true" class="registration-content">
 
-  <!-- Header -->
+  <div class="top-brand-section">
+    <div class="header-nav">
+      <ion-icon name="arrow-back" class="back-icon" (click)="back()"></ion-icon>
+    </div>
 
-  <!-- <div class="header"> -->
-
-    <ion-icon
-      name="chevron-back"
-      class="back-icon"
-      (click)="back()">
-    </ion-icon>
-
-  <!-- </div> -->
-
-  <!-- Logo -->
-
-  <div class="logo-section">
-
-    <img
-      src="assets/images/hyyndlogo.png"
-      class="logo"
-      alt="Logo">
-
-    <h1>Welcome</h1>
-
-    <p>
-      Log in to your account and continue your
-      fitness journey.
-    </p>
-
+    <div class="logo-container">
+      <img src="assets/images/hyyndlogo.png" class="logo" alt="Logo">
+      <h1>Welcome back</h1>
+      <p>Log in to your account and continue your fitness journey.</p>
+    </div>
   </div>
-
-  <!-- Form -->
 
   <div class="form-section">
 
-    <!-- Email -->
-
-    <label>Email or Mobile Number</label>
-
-    <div class="input-box">
-
-      <ion-icon
-        name="mail"
-        class="input-icon">
-      </ion-icon>
-
-      <ion-input
-        type="text"
-        [(ngModel)]="email"
-        placeholder="Enter Email or Mobile Number">
-      </ion-input>
-
+    <div class="input-group">
+      <label>Mobile Number</label>
+      <div class="input-box">
+        <!-- <ion-icon name="mail" class="input-icon"></ion-icon> -->
+        <ion-input
+          type="text"
+          [(ngModel)]="email"
+          placeholder="Enter the phone number">
+        </ion-input>
+      </div>
     </div>
 
-    <!-- Name -->
-
-    <label class="mt-20">
-      Full Name
-    </label>
-
-    <div class="input-box">
-
-      <ion-input
-        type="text"
-        [(ngModel)]="name"
-        placeholder="Enter Your Name">
-      </ion-input>
-
+    <div class="input-group">
+      <label>Email Address</label>
+      <div class="input-box">
+        <ion-icon name="mail" class="input-icon"></ion-icon>
+        <ion-input
+          type="email"
+          [(ngModel)]="emailAddress"
+          placeholder="Example@gmail.com">
+        </ion-input>
+      </div>
     </div>
 
-    <!-- Password -->
-
-    <label class="mt-20">
-      Password
-    </label>
-
-    <div class="input-box">
-
-      <ion-input
-        [type]="showPassword ? 'text' : 'password'"
-        [(ngModel)]="password"
-        placeholder="Enter Password">
-      </ion-input>
-
-      <ion-icon
-        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-        class="eye-icon"
-        (click)="togglePassword()">
-      </ion-icon>
-
+    <div class="input-group">
+      <label>Name</label>
+      <div class="input-box">
+        <ion-input
+          type="text"
+          [(ngModel)]="name"
+          placeholder="Enter Name">
+        </ion-input>
+      </div>
     </div>
 
-    <!-- Button -->
+    <div class="terms-container">
+      <ion-checkbox [(ngModel)]="termsAccepted" mode="md" class="custom-checkbox"></ion-checkbox>
+      <span class="terms-text">I accept the <a href="#">terms & conditions</a></span>
+    </div>
 
     <ion-button
       expand="block"
       class="continue-btn"
       (click)="continue()">
-
       Next
-
     </ion-button>
 
   </div>

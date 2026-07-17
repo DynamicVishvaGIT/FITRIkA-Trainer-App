@@ -1,0 +1,67 @@
+<ion-content class="ion-no-padding oval-modal-content">
+  <div class="edit-modal-wrapper">
+    <!-- Header Layout -->
+    <div class="modal-header">
+      <h2>Add Slot</h2>
+      <button class="close-btn" (click)="dismiss()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Main Form Block -->
+    <div class="modal-body">
+      
+      <!-- Start Time Custom Dropdown -->
+      <div class="input-group">
+        <label class="input-label">Start Time</label>
+        <div class="custom-dropdown-container">
+          <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'start'" (click)="toggleDropdown('start')">
+            <span class="selected-text">{{ startTime }}</span>
+            <ion-icon [name]="activeDropdown === 'start' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
+          </div>
+          <div *ngIf="activeDropdown === 'start'" class="select-options-list scrollable-options">
+            <div *ngFor="let time of startTimeOptions" class="option-item" [class.selected]="startTime === time" (click)="selectStart(time)">
+              {{ time }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- End Time Custom Dropdown -->
+      <div class="input-group">
+        <label class="input-label">End Time</label>
+        <div class="custom-dropdown-container">
+          <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'end'" (click)="toggleDropdown('end')">
+            <span class="selected-text">{{ endTime }}</span>
+            <ion-icon [name]="activeDropdown === 'end' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
+          </div>
+          <div *ngIf="activeDropdown === 'end'" class="select-options-list scrollable-options">
+            <div *ngFor="let time of endTimeOptions" class="option-item" [class.selected]="endTime === time" (click)="selectEnd(time)">
+              {{ time }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Initial Status Custom Dropdown -->
+      <div class="input-group">
+        <label class="input-label">Initial Status</label>
+        <div class="custom-dropdown-container">
+          <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'status'" (click)="toggleDropdown('status')">
+            <span class="selected-text">{{ selectedStatusLabel }}</span>
+            <ion-icon [name]="activeDropdown === 'status' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
+          </div>
+          <div *ngIf="activeDropdown === 'status'" class="select-options-list scrollable-options">
+            <div class="option-item" [class.selected]="status === 'Free'" (click)="selectStatus('Free')">Free</div>
+            <div class="option-item" [class.selected]="status === 'Blocked'" (click)="selectStatus('Blocked')">Blocked</div>
+            <div class="option-item" [class.selected]="status === 'Tej'" (click)="selectStatus('Tej')">Tej / Deepika (Personal Training)</div>
+            <div class="option-item" [class.selected]="status === 'Rohan'" (click)="selectStatus('Rohan')">Rohan S. (Trial Session)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button class="submit-btn" (click)="submit()">Submit</button>
+    </div>
+  </div>
+</ion-content>

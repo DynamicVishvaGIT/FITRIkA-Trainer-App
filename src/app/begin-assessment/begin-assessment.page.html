@@ -1,0 +1,63 @@
+<div class="assessment-view-container">
+  <!-- Top Navigation App Bar -->
+  <header class="view-header">
+    <button class="back-navigation-btn" (click)="back()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#00c07f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <h1 class="view-title">PARQ Assessment</h1>
+    <div class="header-right-spacer"></div>
+  </header>
+
+  <!-- Main Multi-Step Form Wrapper Container -->
+  <main class="assessment-scroll-area">
+    
+    <!-- Dynamic Step Progression Header -->
+    <div class="step-progress-indicator">
+      <h2>Step {{ currentStep + 1 }} of {{ totalSteps }}</h2>
+    </div>
+
+    <!-- Alert Informational Banner Notice Box -->
+    <div class="info-alert-banner">
+      <div class="info-icon-circle">
+        <span>i</span>
+      </div>
+      <p class="banner-text">Please read each question carefully and answer honestly.</p>
+    </div>
+
+    <!-- Active Questions Segment Iteration Layout Frame -->
+    <div class="questions-stack-list">
+      <div class="question-card" *ngFor="let question of getCurrentStepQuestions()">
+        <p class="question-prompt-text">{{ question.text }}</p>
+        
+        <!-- Toggle Button Action Choices Row Container -->
+        <div class="selection-actions-row">
+          
+          <!-- No Button Option -->
+          <button class="choice-btn option-no" 
+                  [class.active-selected]="question.selectedAnswer === 'no'"
+                  (click)="selectAnswer(question.id, 'no')">
+            <span class="symbol-prefix">✕</span> No
+          </button>
+
+          <!-- Yes Button Option -->
+          <button class="choice-btn option-yes" 
+                  [class.active-selected]="question.selectedAnswer === 'yes'"
+                  (click)="selectAnswer(question.id, 'yes')">
+            <span class="symbol-prefix">✓</span> Yes
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Persistent Primary Submission Action Footer Button Bar -->
+  <footer class="sticky-action-footer">
+    <button class="primary-submission-btn" (click)="saveAndNext()">
+      {{ currentStep === totalSteps - 1 ? 'Save & Complete' : 'Save & Next' }}
+    </button>
+  </footer>
+</div>

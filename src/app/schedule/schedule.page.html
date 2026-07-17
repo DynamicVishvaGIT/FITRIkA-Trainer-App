@@ -1,0 +1,107 @@
+<div class="mobile-container">
+  <!-- HEADER CONTROLLER -->
+  <header class="main-header">
+    <button class="menu-btn" (click)="goBack()" aria-label="Menu">
+      <div class="custom-menu-icon">
+        <span class="line-1"></span>
+        <span class="line-2"></span>
+        <span class="line-3"></span>
+      </div>
+    </button>
+    <h1 class="header-title">Schedule</h1>
+    <div class="header-spacer"></div>
+  </header>
+
+  <!-- CALENDAR STRIP SECTION -->
+  <div class="calendar-section">
+    <div class="month-selector">
+      <h2>{{ currentMonthYear }}</h2>
+      <div class="nav-arrows">
+        <button class="arrow-btn" (click)="previousMonth()" aria-label="Previous month">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="arrow-btn" (click)="nextMonth()" aria-label="Next month">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="days-strip">
+      <div *ngFor="let day of calendarDays" 
+           class="day-box" 
+           [class.active]="day.isActive"
+           (click)="selectDay(day)">
+        <span class="day-name">{{ day.label }}</span>
+        <span class="day-number">{{ day.dateNum }}</span>
+        <span class="dot-indicator" *ngIf="day.isActive"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE WITH CUSTOM CARDS CONTAINER -->
+  <main class="timeline-scroll-container">
+    <div class="timeline-item" *ngFor="let appt of appointments; let first = first">
+      
+      <!-- Left Timeline Track Column -->
+      <div class="time-track-col">
+        <span class="time-stamp">{{ appt.time }}</span>
+        <div class="node-indicator" [class.hollow]="!first"></div>
+        <div class="vertical-dash-line"></div>
+      </div>
+
+      <!-- Right Card Wrapper (Triggers profile redirection globally on card click) -->
+    <div class="card-outer-wrapper" routerLink="/profile">
+        <div class="schedule-card">
+          <div class="card-main-row">
+            <img [src]="appt.avatar" [alt]="appt.clientName" class="client-avatar" 
+                 onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150'" />
+            <div class="client-meta">
+              <h3>{{ appt.clientName }}</h3>
+              <p>{{ appt.type }}</p>
+            </div>
+            <button class="options-menu-btn" (click)="$event.stopPropagation(); openMoreOptions(appt)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="card-actions-row">
+            <button class="action-outline-btn" (click)="$event.stopPropagation(); goToWorkoutLog(appt)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              <span>Today's Workout</span>
+            </button>
+
+            <button class="status-action-btn" 
+                    [class.checked-in]="appt.isCheckedIn"
+                    (click)="$event.stopPropagation(); toggleCheckIn(appt)">
+              {{ appt.isCheckedIn ? 'Checked In' : 'Check - In' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR (Profile Tab Removed) -->
+  <!-- <nav class="bottom-tab-bar">
+    <button class="tab-item" (click)="goHome()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </button>
+    <button class="tab-item active" (click)="goSchedule()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </button>
+    <button class="tab-item" (click)="goWorkout()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 22v-4m3 4v-6m3 6V10m3 12V6m3 16V2"/></svg>
+    </button>
+    <button class="tab-item" (click)="goDiet()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </button>
+  </nav> -->
+</div>

@@ -1,0 +1,110 @@
+<ion-header class="ion-no-border core-header-wrapper">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="menu-burger-btn">
+        <div class="custom-menu-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="page-main-heading">Diet Plan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="diet-page-content-bg" [fullscreen]="true">
+  <div class="main-layout-container">
+    
+    <!-- Search -->
+    <div class="search-box-wrapper">
+      <ion-icon name="search-outline" class="search-magnifier-icon"></ion-icon>
+      <input 
+        type="text" 
+        placeholder="Search" 
+        [(ngModel)]="searchQuery" 
+        (input)="filterDietPlans()"
+        class="custom-search-input" />
+    </div>
+
+    <!-- Toggle -->
+    <div class="filter-toggle-row">
+      <span class="toggle-label-text">My Plans</span>
+      <label class="ios-switch-toggle">
+        <input 
+          type="checkbox" 
+          [(ngModel)]="isMyPlansOnly" 
+          (change)="filterDietPlans()">
+        <span class="switch-slider-track"></span>
+      </label>
+    </div>
+
+    <!-- Vertical List of Blueprints -->
+    <div class="diet-blueprints-vertical-list">
+      
+      <!-- FIX PLACEMENT HERE: We place the click router event right on the card container -->
+      <!-- We change toggleCardExpansion to only happen if they click the chevron arrow below -->
+      <div 
+        class="blueprint-card-item" 
+        *ngFor="let plan of filteredPlans; let idx = index"
+        (click)="navigateToDetails(plan)">
+        
+        <div class="card-summary-top-row">
+          <div class="left-title-group">
+            <h3 class="blueprint-heading-title">{{ plan.name }}</h3>
+            <span class="system-badge-pill" *ngIf="plan.isSystemPlan">System</span>
+          </div>
+          
+          <div class="right-actions-group">
+            <!-- $event.stopPropagation() stops navigateToDetails from firing when clicking utility items -->
+            <button 
+              class="action-utility-btn duplicate-btn" 
+              *ngIf="!plan.isSystemPlan"
+              (click)="duplicatePlan(plan); $event.stopPropagation()">
+              <ion-icon name="copy-outline"></ion-icon>
+            </button>
+            <button 
+              class="action-utility-btn edit-btn" 
+              (click)="editDietPlan(plan); $event.stopPropagation()">
+              <ion-icon name="create-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-collapsible-description-container" [class.is-expanded]="plan.isExpanded">
+          <p class="description-paragraph-text">{{ plan.description }}</p>
+        </div>
+
+        <div class="card-footer-ribbon-row">
+          <div class="horizontal-tags-scroller">
+            <span class="feature-tag-pill" *ngFor="let tag of plan.tags">
+              {{ tag }}
+            </span>
+          </div>
+          
+          <!-- Chevron will exclusively handle opening/closing descriptions locally -->
+          <button class="expansion-chevron-trigger" (click)="toggleCardExpansion(idx); $event.stopPropagation()">
+            <ion-icon [name]="plan.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'"></ion-icon>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="fixed-bottom-action-anchor">
+    <button class="core-create-cta-btn" (click)="openAddDietPlanModal()">
+      + Create New
+    </button>
+  </div>
+</ion-content>
+
+<!-- Bottom Navigation Mockup Footer -->
+<div class="bottom-nav-bar-mock">
+  <div class="nav-tab-item"><ion-icon name="home-outline"></ion-icon></div>
+  <div class="nav-tab-item"><ion-icon name="calendar-outline"></ion-icon></div>
+  <div class="nav-tab-item"><ion-icon name="barbell-outline"></ion-icon></div>
+  <div class="nav-tab-item active"><ion-icon name="restaurant"></ion-icon></div>
+  <div class="nav-tab-item"><ion-icon name="person-outline"></ion-icon></div>
+</div>

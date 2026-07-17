@@ -1,0 +1,82 @@
+<ion-content class="diet-modal-overlay-bg" [fullscreen]="true">
+  
+  <div class="modal-flex-alignment-viewport">
+    <div class="bottom-sheet-modal-card">
+      
+      <header class="sheet-modal-header">
+        <h2 class="sheet-modal-title">Add Diet Plans</h2>
+        <button class="sheet-close-round-btn" (click)="dismissModal()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </header>
+
+      <div class="sheet-scrollable-form-body">
+        
+        <div class="form-input-block">
+          <label class="form-field-label">Diet plan Name</label>
+          <input 
+            type="text" 
+            [(ngModel)]="planName" 
+            placeholder="Enter Diet plan Name" 
+            class="custom-form-input-element" />
+        </div>
+
+        <div class="form-input-block">
+          <label class="form-field-label">Description</label>
+          <textarea 
+            rows="4" 
+            [(ngModel)]="planDescription" 
+            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..." 
+            class="custom-form-textarea-element"></textarea>
+        </div>
+
+        <div class="form-input-block searchable-tags-dropdown-anchor">
+          <label class="form-field-label">Select Tag</label>
+          <div class="input-dropdown-field-wrapper">
+            <input 
+              type="text" 
+              placeholder="Select Tag" 
+              [(ngModel)]="tagSearchQuery" 
+              (click)="openDropdownMenu()"
+              (focus)="openDropdownMenu()"
+              (input)="executeTagFiltering()"
+              class="custom-form-input-element select-search-input" />
+            <ion-icon 
+              [name]="isDropdownMenuVisible ? 'chevron-up-outline' : 'chevron-down-outline'" 
+              class="input-dropdown-trailing-chevron"
+              (click)="toggleDropdownMenu($event)">
+            </ion-icon>
+          </div>
+
+          <div class="floating-dropdown-results-card" *ngIf="isDropdownMenuVisible">
+            <div 
+              class="dropdown-selectable-row" 
+              *ngFor="let option of filteredTagOptions" 
+              (click)="addNewTagToSelection(option)">
+              {{ option }}
+            </div>
+            <div class="dropdown-selectable-row no-matches-found" *ngIf="filteredTagOptions.length === 0">
+              No matching tags found
+            </div>
+          </div>
+        </div>
+
+        <div class="form-active-chips-grid-row" *ngIf="selectedTags.length > 0">
+          <span class="dismissable-tag-pill" *ngFor="let tag of selectedTags">
+            {{ tag }}
+            <ion-icon name="close-outline" class="pill-dismiss-action-icon" (click)="removeTagFromSelection(tag)"></ion-icon>
+          </span>
+        </div>
+
+      </div>
+
+      <div class="sheet-action-footer-anchor">
+        <button class="sheet-submit-primary-btn" (click)="handleFormSubmission()">
+          Next
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>

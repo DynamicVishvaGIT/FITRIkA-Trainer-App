@@ -1,0 +1,169 @@
+$primary-color: #00cc88;
+$text-dark: #111111;
+$text-muted: #999999;
+$bg-light: #fcfcfc;
+$border-color: #f1f2f4;
+$orange-color: #ff9f29;
+
+.diet-plan-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  .back-btn { 
+    background: none; border: none; color: $primary-color; cursor: pointer; padding: 0;
+    ion-icon { font-size: 28px; } 
+  }
+  h1 { font-size: 22px; font-weight: 700; color: $text-dark; margin: 0; }
+  .header-spacer { width: 28px; }
+}
+
+.plan-info {
+  margin-bottom: 24px;
+  .title-row {
+    display: flex; align-items: center; gap: 8px; position: relative;
+    h2 { font-size: 20px; font-weight: 700; color: $text-dark; margin: 0; letter-spacing: -0.3px; }
+    .badge.system { background-color: $orange-color; color: #ffffff; font-size: 11px; padding: 4px 10px; border-radius: 12px; font-weight: 500; }
+    .edit-btn { background: none; border: none; color: $text-dark; margin-left: auto; cursor: pointer; ion-icon { font-size: 20px; } }
+  }
+  .description { font-size: 14px; color: #666666; line-height: 1.45; margin: 14px 0; }
+  .tags-container {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    .tag { border: 1px solid rgba($primary-color, 0.4); color: $primary-color; font-size: 12px; padding: 5px 12px; border-radius: 20px; background: #ffffff; }
+  }
+}
+
+.weeks-tabs {
+  border-bottom: 2.5px solid #008ee6; margin-bottom: 20px; display: flex;
+  .tab.active { 
+    font-size: 18px; font-weight: 700; color: $text-dark; padding-bottom: 6px; display: flex; align-items: center; gap: 6px;
+    .add-week-btn { 
+      background: none; border: none; color: $primary-color; padding: 0; cursor: pointer; display: flex; align-items: center;
+      ion-icon { font-size: 20px; } 
+    }
+  }
+}
+
+.days-carousel {
+  margin-bottom: 24px;
+  .days-wrapper {
+    display: flex; background-color: #ffffff; padding: 8px; border-radius: 16px; border: 1px solid $border-color; box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    button {
+      flex: 1; background: none; border: none; padding: 12px 4px; font-size: 14px; color: #666666; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+      &.active { background-color: $primary-color; color: #ffffff; font-weight: 600; }
+    }
+  }
+}
+
+.day-tracker-summary {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;
+  .current-day-label { font-size: 15px; color: #444444; font-weight: 500; }
+  .total-calories { font-size: 15px; color: $orange-color; strong { font-weight: 700; } }
+}
+
+.meals-list {
+  display: flex; flex-direction: column;
+  .meal-wrapper { display: flex; flex-direction: column; position: relative; }
+  
+  .meal-card {
+    display: flex; background: #ffffff; border: 1px solid $border-color; border-radius: 16px; min-height: 96px; box-shadow: 0 4px 12px rgba(0,0,0,0.01); overflow: hidden;
+    .meal-card-accent { width: 4px; background-color: $primary-color; }
+    .meal-card-content {
+      flex: 1; padding: 18px 16px; display: flex; align-items: center;
+      .meal-header-row {
+        display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px;
+        h3 { margin: 0; font-size: 18px; font-weight: 700; color: $text-dark; min-width: 90px; }
+        .meal-body-inline { flex: 1; cursor: pointer; .placeholder-text { font-size: 15px; color: #cccccc; font-weight: 400; } .summary-items-list { font-size: 13px; color: #555555; } }
+        .clear-meal-btn { background: none; border: none; color: $text-dark; padding: 0; cursor: pointer; display: flex; align-items: center; ion-icon { font-size: 22px; } }
+      }
+    }
+  }
+
+  /* Centered Overlapping Add Button Styling */
+  .connective-container {
+    height: 32px; position: relative; display: flex; align-items: center; justify-content: center; z-index: 5;
+    .connective-add-btn {
+      background-color: #ffffff; border: 1px solid $border-color; padding: 6px 16px; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer;
+      ion-icon { color: $primary-color; font-size: 20px; }
+      span { font-size: 14px; color: #333333; font-weight: 600; }
+    }
+  }
+}
+
+.meal-details-layout {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.meal-left {
+  flex: 1;
+}
+
+.meal-total-calories {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+.food-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.food-row:last-child {
+  border-bottom: none;
+}
+
+.meal-chart {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      #f4b400 0 120deg,
+      #ff9800 120deg 240deg,
+      #9c27b0 240deg 360deg
+    );
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.chart-circle::after {
+  content: "";
+  width: 35px;
+  height: 35px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.chart-circle span {
+  position: relative;
+  z-index: 10;
+  font-size: 11px;
+  font-weight: 700;
+}

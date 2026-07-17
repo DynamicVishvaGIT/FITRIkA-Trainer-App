@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true">
+
+  <div class="page-header">
+    <ion-icon
+      name="arrow-back-outline"
+      class="back-btn"
+      (click)="goBack()">
+    </ion-icon>
+    <h2 class="page-title">{{ dayTitle }}</h2>
+    
+    <button class="header-edit-trigger" (click)="editExercise(0)" aria-label="Edit Plan">
+      <ion-icon name="create-outline"></ion-icon>
+    </button>
+  </div>
+
+  <div class="page-content">
+
+    <div
+      class="exercise-card"
+      [class.collapsed]="!exercise.isExpanded"
+      *ngFor="let exercise of exercisesList; let i = index">
+
+      <div class="exercise-top-header" (click)="toggleExercise(i)">
+        <div class="header-left-meta">
+          <span class="exercise-number">{{ i + 1 }} Exercises</span>
+          <h3 class="exercise-name">{{ exercise.name }}</h3>
+          <div class="set-count">
+            Number of Sets: <span>{{ exercise.sets.length }}</span>
+          </div>
+        </div>
+
+        <div class="header-right-actions">
+          <div class="arrow-icon-wrapper">
+            <ion-icon [name]="exercise.isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible-body" *ngIf="exercise.isExpanded">
+        
+        <div class="info-row">
+          <div class="info-box">
+            <div class="info-title">Equipment</div>
+            <div class="info-value">{{ exercise.equipment || '-' }}</div>
+          </div>
+          <div class="info-box">
+            <div class="info-title">Muscle group</div>
+            <div class="info-value">{{ exercise.muscleGroup || '-' }}</div>
+          </div>
+        </div>
+
+        <div class="set-block" *ngFor="let set of exercise.sets; let setIdx = index">
+          <div class="set-header">
+            Set {{ setIdx + 1 }}
+          </div>
+          <div class="set-details">
+            <div class="set-column">
+              <div class="set-label">Intensity</div>
+              <div class="set-value">{{ set.intensity || '-' }} KG</div>
+            </div>
+            <div class="set-column">
+              <div class="set-label">Reps</div>
+              <div class="set-value">{{ set.reps || '-' }}</div>
+            </div>
+            <div class="set-column">
+              <div class="set-label">Tempo</div>
+              <div class="set-value">{{ exercise.tempo || '-' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-container" *ngIf="exercise.videoAttachedPath">
+          <div class="video-box">
+            <img [src]="exercise.videoAttachedPath" class="video-image" alt="Workout Execution">
+            <div class="play-btn" (click)="playVideo(exercise.videoAttachedPath); $event.stopPropagation();"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

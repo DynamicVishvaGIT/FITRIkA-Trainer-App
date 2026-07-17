@@ -1,0 +1,112 @@
+.sheet-wrapper {
+  background-color: #ffffff;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  padding: 24px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  position: relative;
+
+  .sheet-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+    padding-left: 24px; /* Perfectly balance out close button alignment offset */
+  }
+
+  .close-icon-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    transition: opacity 0.15s ease;
+
+    &:active {
+      opacity: 0.6;
+    }
+    
+    svg {
+      opacity: 0.85;
+    }
+  }
+}
+
+.sheet-form-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .input-label {
+    font-size: 14.5px;
+    color: #2c2d30;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .input-container {
+    margin-bottom: 36px;
+    
+    .custom-form-input {
+      width: 100%;
+      height: 54px;
+      background-color: #f7f8fa;
+      border: 1px solid #f1f2f5;
+      border-radius: 12px;
+      padding: 0 16px;
+      font-size: 15px;
+      color: #1a1a1a;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s ease;
+
+      &::placeholder {
+        color: #a4a7ae;
+        font-weight: 400;
+      }
+
+      &:focus {
+        border-color: #e2e4e9;
+      }
+    }
+  }
+
+  .sheet-submit-btn {
+    width: 100%;
+    height: 52px;
+    background: linear-gradient(135deg, #00df9a, #00cb82);
+    border: none;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 223, 154, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+    &:active {
+      transform: scale(0.985);
+      box-shadow: 0 2px 6px rgba(0, 223, 154, 0.15);
+    }
+  }
+}

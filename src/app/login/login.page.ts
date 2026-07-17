@@ -17,22 +17,18 @@ export class LoginPage {
 
   goToOtp() {
 
-    if (
-      this.mobile.trim().length == 10
-    ) {
+  const mobile = this.mobile.trim();
 
-      alert('Please enter Email or Mobile Number');
-
-      return;
-
-    }
-
-    this.router.navigate(['/otp-verification'], {
-      queryParams: {
-        mobile: this.mobile
-      }
-    });
-
+  if (!/^\d{10}$/.test(mobile)) {
+    alert('Please enter a valid  Mobile Number');
+    return;
   }
 
+  this.router.navigate(['/otp-verification'], {
+    queryParams: {
+      mobile: mobile
+    }
+  });
+
+  }
 }

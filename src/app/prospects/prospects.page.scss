@@ -1,0 +1,188 @@
+.prospects-view-container {
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+
+  * { box-sizing: border-box; }
+}
+
+.view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .back-navigation-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .view-title {
+    font-size: 21px;
+    font-weight: 700;
+    color: #11142d;
+    margin: 0;
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  .header-right-spacer {
+    width: 40px;
+  }
+}
+
+.timeline-wrapper {
+  position: relative;
+  padding: 8px 16px 32px 48px;
+
+  .timeline-vertical-line {
+    position: absolute;
+    left: 24px;
+    top: 28px;
+    bottom: 28px;
+    width: 2px;
+    background-color: #eff1f5;
+    z-index: 1;
+  }
+}
+
+.timeline-card-item {
+  position: relative;
+  margin-bottom: 20px;
+  cursor: pointer;
+  user-select: none;
+
+  .timeline-indicator-node {
+    position: absolute;
+    left: -32px;
+    top: 24px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 2px #ffffff;
+    z-index: 5;
+    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-inner-box {
+    background: #ffffff;
+    border: 1.5px solid #f4f5f8;
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.25s ease;
+  }
+
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+
+    .step-badge-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: #b2b3bd;
+    }
+
+    .checkbox-status-indicator {
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+
+      .check-icon {
+        font-size: 11px;
+        color: #00c07f;
+        font-weight: bold;
+        display: none;
+      }
+    }
+  }
+
+  .step-display-heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: #6c727f;
+    margin: 0 0 8px 0;
+  }
+
+  .step-detailed-paragraph {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #11142d;
+    margin: 0;
+  }
+
+  .nested-subtask-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    li {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      color: #808191;
+
+      .bullet-symbol {
+        margin-right: 10px;
+        color: #b2b3bd;
+        font-weight: 600;
+      }
+    }
+  }
+
+  /* Active Modifier Styles */
+  &.state-completed {
+    .timeline-indicator-node {
+      background-color: #00c07f;
+      width: 16px;
+      height: 16px;
+      left: -33px;
+    }
+
+    .card-inner-box {
+      border-color: #f4f5f8;
+    }
+
+    .card-top-row {
+      .step-badge-label {
+        color: #00c07f;
+      }
+      .checkbox-status-indicator {
+        background-color: #e6f9f2;
+        border-color: #e6f9f2;
+        .check-icon {
+          display: block;
+        }
+      }
+    }
+
+    .step-display-heading {
+      color: #11142d;
+    }
+  }
+}

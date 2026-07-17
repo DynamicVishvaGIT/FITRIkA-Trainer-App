@@ -1,0 +1,150 @@
+<ion-content class="diet-content">
+
+  <div class="add-diet-container">
+
+    <!-- Header -->
+    <div class="app-header">
+      <button class="back-btn" (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+
+      <h1>Add Detail Diet Plan</h1>
+
+      <div class="header-spacer"></div>
+    </div>
+
+    <!-- Meal Title -->
+    <div class="meal-title-row">
+      <h2>{{ mealName }}</h2>
+
+      <button class="edit-icon-btn">
+        <ion-icon name="create-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Food Dropdown -->
+    <div class="dropdown-container">
+
+      <div class="custom-select" (click)="toggleDropdown()">
+
+        <span class="placeholder">
+          {{
+            selectedDropdownFood
+            ? selectedDropdownFood.name
+            : 'Select Food'
+          }}
+        </span>
+
+        <ion-icon
+          [name]="dropdownOpen ? 'chevron-up-outline' : 'chevron-down-outline'">
+        </ion-icon>
+
+      </div>
+
+      <div class="dropdown-list" *ngIf="dropdownOpen">
+
+        <div
+          class="dropdown-item"
+          *ngFor="let food of availableFoodsMaster"
+          (click)="selectFoodFromDropdown(food,$event)">
+
+          {{ food.name }}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Food Cards -->
+    <div class="items-list">
+
+      <div
+        class="food-card"
+        *ngFor="let item of currentItems">
+
+        <div class="card-main-info">
+
+          <div class="food-meta">
+            <h3>{{ item.name }}</h3>
+            <span class="serving">
+              {{ item.servingSize }}
+            </span>
+          </div>
+
+          <div class="quantity-control">
+
+            <button
+              class="qty-btn"
+              (click)="updateQuantity(item.id,-1)">
+              <ion-icon name="remove"></ion-icon>
+            </button>
+
+            <span class="qty-val">
+              {{ item.quantity }}
+            </span>
+
+            <button
+              class="qty-btn"
+              (click)="updateQuantity(item.id,1)">
+              <ion-icon name="add"></ion-icon>
+            </button>
+
+          </div>
+
+          <div class="calories-display">
+  <div class="calorie-label">
+    Calories
+  </div>
+
+  <div class="calorie-value">
+    {{ item.calories }} Cal
+  </div>
+</div>
+
+        </div>
+
+        <div class="card-macro-footer">
+
+          <span class="macro-metric">
+            Protein:
+            <span class="macro-val">
+              {{ item.protein * item.quantity | number:'1.1-1' }} g
+            </span>
+          </span>
+
+          <span class="macro-metric">
+            Fats:
+            <span class="macro-val">
+              {{ item.fats * item.quantity | number:'1.1-1' }} g
+            </span>
+          </span>
+
+          <span class="macro-metric">
+            Carbs:
+            <span class="macro-val">
+              {{ item.carbs * item.quantity | number:'1.1-1' }} g
+            </span>
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>
+
+<div class="action-footer">
+
+  <button
+    class="submit-btn"
+    (click)="submitDietDetails()">
+
+    Submit
+
+  </button>
+
+</div>

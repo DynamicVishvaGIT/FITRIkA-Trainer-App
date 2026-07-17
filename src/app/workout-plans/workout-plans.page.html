@@ -1,75 +1,128 @@
 <ion-content [fullscreen]="true" class="workout-content">
 
+  <!-- Header -->
   <div class="workout-header">
     <ion-icon name="menu-outline" class="nav-menu-icon"></ion-icon>
     <h1 class="page-title">Workout Plans</h1>
   </div>
 
+  <!-- Search -->
   <div class="search-container">
     <ion-icon name="search-outline" class="search-icon"></ion-icon>
-    <input 
-      type="text" 
-      [(ngModel)]="searchQuery" 
-      (input)="filterPlans()" 
-      placeholder="Search" 
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="filterPlans()"
+      placeholder="Search"
       class="custom-search-input">
   </div>
 
+  <!-- Toggle -->
   <div class="filter-toggle-row">
     <span class="toggle-label">My Plans</span>
-    <ion-toggle [(ngModel)]="myPlansOnly" mode="ios" class="custom-toggle" (ionChange)="filterPlans()"></ion-toggle>
+    <ion-toggle
+      [(ngModel)]="myPlansOnly"
+      mode="ios"
+      class="custom-toggle"
+      (ionChange)="filterPlans()">
+    </ion-toggle>
   </div>
 
+  <!-- Workout List -->
   <div class="plans-list">
-    <div class="plan-card" *ngFor="let plan of filteredPlans; let i = index">
-      
-      <div class="card-top-row" (click)="viewPlanDetails(plan)">
+    <div
+      class="plan-card"
+      *ngFor="let plan of filteredPlans; let i = index"
+      (click)="viewPlanDetails(plan)">
+
+      <!-- Top Row -->
+      <div class="card-top-row">
         <div class="title-heading-group">
           <h2 class="plan-name">{{ plan.name }}</h2>
           <span class="system-badge">System</span>
         </div>
+
         <div class="action-icons">
-          <ion-icon *ngIf="plan.isCopyable" name="copy-outline" class="action-icon" (click)="copyPlan(plan, $event)"></ion-icon>
-          <ion-icon name="create-outline" class="action-icon" (click)="editPlan(plan, $event)"></ion-icon>
+          <ion-icon
+            *ngIf="plan.isCopyable"
+            name="copy-outline"
+            class="action-icon"
+            (click)="copyPlan(plan, $event)">
+          </ion-icon>
+
+          <!-- Edit Icon modified to launch AddWorkout modal directly -->
+          <ion-icon
+            name="create-outline"
+            class="action-icon"
+            (click)="editPlan(plan, $event)">
+          </ion-icon>
         </div>
       </div>
 
-      <p class="plan-description" [class.expanded]="expandedIndex === i" (click)="toggleExpand(i)">
+      <!-- Description -->
+      <p
+        class="plan-description"
+        [class.expanded]="expandedIndex === i"
+        (click)="toggleExpand(i); $event.stopPropagation()">
         {{ plan.description }}
       </p>
 
+      <!-- Tags -->
       <div class="badge-row">
-        <span class="tag-badge primary-badge">Fat loss</span>
-        <span class="tag-badge primary-badge">Beginner</span>
-        <span class="tag-badge primary-badge">4 weeks</span>
-        <span class="tag-badge secondary-badge">push, pull, leg</span>
+        <span
+          class="tag-badge primary-badge"
+          *ngFor="let tag of plan.tags">
+          {{ tag }}
+        </span>
       </div>
 
-      <div class="chevron-row" (click)="viewPlanDetails(plan)">
-        <ion-icon [name]="expandedIndex === i ? 'chevron-up-outline' : 'chevron-forward-outline'" class="arrow-indicator"></ion-icon>
+      <!-- Arrow -->
+      <div
+        class="chevron-row"
+        (click)="viewPlanDetails(plan); $event.stopPropagation()">
+        <ion-icon
+          name="chevron-forward-outline"
+          class="arrow-indicator">
+        </ion-icon>
       </div>
 
     </div>
 
+    <!-- Empty State -->
     <div class="empty-state" *ngIf="filteredPlans.length === 0">
-      <p>No workout plans found matching your filters.</p>
+      No workout plans found.
     </div>
   </div>
 
 </ion-content>
 
+<!-- Create Button Box Container Wrapper -->
 <div class="bottom-action-container">
-  <ion-button expand="block" class="create-btn" (click)="openAddWorkoutModal()">
+  <ion-button
+    expand="block"
+    class="create-btn"
+    (click)="openAddWorkoutModal()">
     + Create New
   </ion-button>
 </div>
 
-<ion-footer class="ion-no-border dashboard-footer-bar">
-  <div class="tab-bar-container">
-    <div class="tab-item" (click)="navigateTab('/dashboard')"><ion-icon name="home-outline"></ion-icon></div>
-    <div class="tab-item" (click)="navigateTab('/calendar')"><ion-icon name="calendar-clear-outline"></ion-icon></div>
-    <div class="tab-item active-tab"><ion-icon name="dumbbell"></ion-icon></div>
-    <div class="tab-item" (click)="navigateTab('/diet')"><ion-icon name="restaurant-outline"></ion-icon></div>
-    <div class="tab-item" (click)="navigateTab('/profile')"><ion-icon name="person-outline"></ion-icon></div>
+<!-- Uniform Sticky Tab Nav Footer -->
+<ion-footer class="custom-footer ion-no-border">
+  <div class="footer-container">
+    <div class="footer-item" (click)="navigateTab('/dashboard')">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+    <div class="footer-item" (click)="navigateTab('/calendar')">
+      <ion-icon name="calendar-clear-outline"></ion-icon>
+    </div>
+    <div class="footer-item active">
+      <ion-icon name="barbell"></ion-icon>
+    </div>
+    <div class="footer-item" (click)="navigateTab('/diet')">
+      <ion-icon name="restaurant-outline"></ion-icon>
+    </div>
+    <div class="footer-item" (click)="navigateTab('/profile')">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
   </div>
 </ion-footer>

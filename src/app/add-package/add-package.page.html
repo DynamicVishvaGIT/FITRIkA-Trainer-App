@@ -1,0 +1,26 @@
+<div class="fullscreen-backdrop-blur">
+  <!-- Underlay layer styled to resemble background configurations shown in image 3 -->
+  <div class="mocked-underlay-page"></div>
+
+  <!-- Bottom Sheet Container Card -->
+  <div class="bottom-action-sheet-card">
+    <div class="sheet-header">
+      <h2>Add {{ contextCategory }}</h2>
+      <button class="close-circle-btn" (click)="dismissActionSheet()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="sheet-body">
+      <div class="form-group">
+        <label class="input-label">{{ contextCategory }} Name</label>
+        <input type="text" 
+               class="sheet-input-field" 
+               [(ngModel)]="newItemName" 
+               [placeholder]="'Enter ' + (contextCategory | lowercase) + ' name'">
+      </div>
+
+      <button class="sheet-submit-btn" (click)="submitAndReturn()">Submit</button>
+    </div>
+  </div>
+</div>

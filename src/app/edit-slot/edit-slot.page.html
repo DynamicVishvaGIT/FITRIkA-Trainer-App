@@ -1,0 +1,43 @@
+<ion-content class="ion-no-padding oval-modal-content">
+  <div class="edit-modal-wrapper">
+    <!-- Header Panel layout matching reference image 4 -->
+    <div class="modal-header">
+      <h2>Edit</h2>
+      <button class="close-btn" (click)="dismiss()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Main Dynamic Form Elements Layer -->
+    <div class="modal-body" [class.expand-spacing]="isDropdownOpen">
+      <label class="input-label">Change</label>
+      
+      <div class="custom-dropdown-container">
+        <!-- Interactive Closed State Header Input Trigger Box -->
+        <div class="select-header-box" [class.dropdown-open]="isDropdownOpen" (click)="toggleDropdown()">
+          <span class="selected-text">{{ selectedStatusLabel }}</span>
+          <ion-icon [name]="isDropdownOpen ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
+        </div>
+
+        <!-- Absolute Layer Float Dropdown Menu Panel -->
+        <div *ngIf="isDropdownOpen" class="select-options-list">
+          <div class="option-item" [class.selected]="selectedStatus === 'Free'" (click)="selectOption('Free')">
+            Free
+          </div>
+          <div class="option-item" [class.selected]="selectedStatus === 'Blocked'" (click)="selectOption('Blocked')">
+            Blocked
+          </div>
+          <div class="option-item" [class.selected]="selectedStatus === 'Tej'" (click)="selectOption('Tej')">
+            Tej / Deepika (Personal Training)
+          </div>
+          <div class="option-item" [class.selected]="selectedStatus === 'Rohan'" (click)="selectOption('Rohan')">
+            Rohan S. (Trial Session)
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Submission Interface Core CTA Element -->
+      <button class="submit-btn" (click)="submitChange()">Submit</button>
+    </div>
+  </div>
+</ion-content>

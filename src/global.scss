@@ -94,3 +94,56 @@ ion-app {
   content:" *";
   color: red;
 }
+ion-modal.bottom-sheet-modal::part(content) {
+  border-radius: 32px 32px 0 0 !important;
+  overflow: hidden;
+    --background: transparent;
+}
+
+// ion-modal.bottom-sheet-modal {
+//   --height: 90%;
+//   --width: 100%;
+//   --border-radius: 32px 32px 0 0;
+//   align-items: flex-end;
+//    overflow:hidden;
+// }
+ion-select::part(icon) {
+//color: #971e49;
+margin-left: 268px !important;
+position: absolute;
+}
+.add-day-modal-sheet {
+  --border-radius: 36px 36px 0 0;
+  --height: 92%;
+  --width: 100%;
+  --max-width: 100%;
+}
+/* Target the CSS Custom Properties of the native Ion Modal Element globally */
+ion-modal.bottom-sheet-modal {
+  --height: 90%;
+  --border-radius: 28px 28px 0 0;
+  --backdrop-opacity: 0.4;
+  align-items: flex-end;
+
+  &::part(content) {
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+  }
+}
+/* Premium High-Fidelity Oval Bottom Sheet Framework */
+.oval-bottom-modal {
+  --border-radius: 30px 30px 0px 0px !important; // Deep oval corner curve
+  --box-shadow: 0px -8px 28px rgba(0, 0, 0, 0.08);
+  
+  // Crucial: allows your custom absolute dropdown overlay menus to flow 
+  // outside the boundary of the modal wrapper without getting clipped!
+  .modal-wrapper {
+    overflow: visible !important;
+  }
+
+  ion-content {
+    --background: #ffffff;
+    --overflow: visible;
+    overflow: visible;
+  }
+}

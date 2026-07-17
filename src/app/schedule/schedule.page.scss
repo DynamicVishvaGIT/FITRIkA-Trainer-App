@@ -1,0 +1,145 @@
+$ui-brand-color: #00d689;
+$ui-dark-text: #0f172a;
+$ui-muted-gray: #94a3b8;
+$ui-border-color: #f1f5f9;
+$ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
+
+.mobile-container {
+  width: 100%;
+  max-width: 412px;
+  height: 892px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 8px;
+  
+  .header-title { font-size: 20px; font-weight: 700; color: $ui-dark-text; text-align: center; flex: 1; margin-right: -8px; }
+  .header-spacer { width: 24px; }
+  
+  .menu-btn {
+    background: none; border: none; cursor: pointer;
+    .custom-menu-icon {
+      display: flex; flex-direction: column; gap: 4px;
+      span { height: 2px; background-color: $ui-brand-color; border-radius: 2px; }
+      .line-1 { width: 18px; }
+      .line-2 { width: 12px; }
+      .line-3 { width: 16px; }
+    }
+  }
+}
+
+/* CALENDAR REGION */
+.calendar-section {
+  padding: 8px 20px 16px;
+  border-bottom: 1px solid #f8fafc;
+
+  .month-selector {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+    h2 { font-size: 14px; font-weight: 700; color: $ui-dark-text; }
+    .nav-arrows {
+      display: flex; gap: 10px;
+      .arrow-btn {
+        width: 32px; height: 32px; border-radius: 50%; background-color: #f8fafc; border: none; display: flex; align-items: center; justify-content: center; color: #475569; cursor: pointer;
+      }
+    }
+  }
+
+  .days-strip {
+    display: flex; justify-content: space-between;
+  }
+
+  .day-box {
+    display: flex; flex-direction: column; align-items: center; width: 46px; padding: 10px 0; border-radius: 14px; cursor: pointer; position: relative;
+    .day-name { font-size: 9px; color: $ui-muted-gray; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; }
+    .day-number { font-size: 15px; color: $ui-dark-text; font-weight: 700; }
+    .dot-indicator { width: 4px; height: 4px; background-color: $ui-brand-color; border-radius: 50%; position: absolute; bottom: 4px; }
+
+    &.active {
+      background-color: $ui-brand-color;
+      .day-name { color: rgba(255, 255, 255, 0.85); font-weight: 600; }
+      .day-number { color: #ffffff; }
+    }
+  }
+}
+
+/* TIMELINE AND FEED */
+.timeline-scroll-container {
+  flex: 1; overflow-y: auto; padding: 20px 16px 100px 0;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.timeline-item {
+  display: flex; margin-bottom: 16px; position: relative;
+  
+  &:last-child .vertical-dash-line { display: none; }
+
+  .time-track-col {
+    width: 80px; display: flex; flex-direction: column; align-items: center; position: relative; flex-shrink: 0;
+    .time-stamp { font-size: 13px; font-weight: 700; color: $ui-dark-text; margin-bottom: 8px; margin-top: 4px; }
+    
+    .node-indicator {
+      width: 12px; height: 12px; border-radius: 50%; background-color: $ui-brand-color; z-index: 2;
+      &.hollow { background-color: #ffffff; border: 2px solid #cbd5e1; }
+    }
+
+    .vertical-dash-line {
+      position: absolute; top: 40px; bottom: -24px; width: 1px; border-left: 1px dashed #cbd5e1; z-index: 1;
+    }
+  }
+
+  .card-outer-wrapper {
+    flex: 1; cursor: pointer;
+  }
+}
+
+/* CARD DETAILS STYLE */
+.schedule-card {
+  background: #ffffff; border: 1px solid #f1f5f9; border-radius: 18px; padding: 12px; box-shadow: $ui-card-shadow; transition: transform 0.2s;
+  &:active { transform: scale(0.99); }
+
+  .card-main-row {
+    display: flex; align-items: center; margin-bottom: 16px; position: relative;
+    .client-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; margin-right: 12px; }
+    .client-meta {
+      flex: 1;
+      h3 { font-size: 15px; font-weight: 700; color: $ui-dark-text; margin-bottom: 2px; }
+      p { font-size: 12px; color: $ui-muted-gray; font-weight: 500; }
+    }
+    .options-menu-btn { background: none; border: none; color: $ui-brand-color; cursor: pointer; }
+  }
+
+  .card-actions-row {
+    display: flex; gap: 10px;
+    
+    button { flex: 1; height: 38px; border-radius: 10px; font-size: 10px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; border: none; }
+    
+    .action-outline-btn {
+      background: #ffffff; border: 1px solid #e2e8f0; color: $ui-dark-text;
+      svg { color: $ui-brand-color; }
+    }
+
+    .status-action-btn {
+      background-color: $ui-brand-color; color: #ffffff;
+      &.checked-in { background-color: #e8fbf4; color: $ui-brand-color; border: 1px solid #bbf7d0; }
+    }
+  }
+}
+
+/* NAVIGATION DOCK */
+.bottom-tab-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 72px; background: #ffffff; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; align-items: center; padding-bottom: 12px; z-index: 10;
+  .tab-item {
+    background: none; border: none; color: #94a3b8; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center;
+    &.active { color: $ui-brand-color; }
+  }
+}

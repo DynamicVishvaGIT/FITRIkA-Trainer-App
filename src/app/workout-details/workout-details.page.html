@@ -1,13 +1,59 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>workout-details</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="workout-details-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">workout-details</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Header Section -->
+  <div class="custom-nav-header">
+    <div class="back-arrow-hitbox" (click)="goBack()">
+      <ion-icon name="arrow-back-outline" class="header-back-arrow"></ion-icon>
+    </div>
+    <h1 class="header-page-title">Workout Plans</h1>
+    <div class="header-right-placeholder"></div>
+  </div>
+
+  <!-- Main Hero Info Card -->
+  <div class="main-plan-hero-card">
+    <div class="hero-top-heading-row">
+      <h2 class="plan-main-title">{{ planName }}</h2>
+      <span class="system-orange-badge">System</span>
+    </div>
+    
+    <p class="plan-main-description">
+      {{ description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pretium tellus quis arcu mollis, in sodales dui volutpat.' }}
+    </p>
+
+    <div class="tags-badge-matrix">
+      <span class="custom-pill-badge" *ngFor="let tag of tags">
+        {{ tag }}
+      </span>
+    </div>
+
+    <!-- FIXED: Added tap tracking click interface to open add-workout page modal -->
+    <div class="edit-action-icon-wrap" (click)="editWorkoutPlan($event)">
+      <ion-icon name="create-outline" class="green-edit-glyph"></ion-icon>
+    </div>
+  </div>
+
+  <!-- Day Workouts Vertical List Stack -->
+  <div class="days-vertical-stack">
+    <div class="day-routine-card" *ngFor="let day of workoutDays" (click)="goToWorkoutPlanDetails()">
+      <div class="card-inner-flex">
+        <div class="routine-meta-left">
+          <h3 class="routine-title">{{ day.title }}</h3>
+          <div class="exercises-counter-row">
+            <ion-icon name="document-text-outline" class="doc-icon"></ion-icon>
+            <span class="counter-text">{{ day.exerciseCount }} Exercises</span>
+          </div>
+        </div>
+        <div class="routine-meta-right">
+          <span class="day-count-label">{{ day.dayNumber }}</span>
+          <ion-icon name="ellipsis-vertical" class="menu-dots-icon" (click)="$event.stopPropagation()"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Day Action Node Link Trigger -->
+  <div class="add-day-dashed-btn" (click)="addNewWorkoutDay()">
+    <span class="add-day-text">+ Add Day</span>
+  </div>
+
 </ion-content>

@@ -1,0 +1,64 @@
+<div class="forms-view-container">
+  <!-- Top Navigation App Bar -->
+  <header class="view-header">
+    <button class="back-navigation-btn" (click)="back()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#00c07f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <h1 class="view-title">PARQ Assessment</h1>
+    <div class="header-right-spacer"></div>
+  </header>
+
+  <!-- Main Scroll Container Options List -->
+  <main class="scrollable-content-area">
+    
+    <!-- Hero Info Card Layout Group -->
+    <section class="parq-hero-info-card">
+      <h2 class="hero-heading">Physical Activity Readiness Questionnaire</h2>
+      <p class="hero-description">The PAR+Q helps determine it is safe for you to because more physically active. it takes about 3-5 minutes to complete.</p>
+    </section>
+
+    <!-- Content Selection Stack -->
+    <div class="form-selection-stack">
+      
+      <!-- 7 General Questions Row -->
+      <div class="interactive-row-card" 
+           [class.selected-active]="selectedSection === 'general'"
+           (click)="chooseSection('general')">
+        <div class="card-interior-layout">
+          <h3 class="row-card-title">7 General Questions</h3>
+          <p class="row-card-subtitle">Quick yes/no health Screnning</p>
+        </div>
+      </div>
+
+      <!-- Medical Follow-Up Row -->
+      <div class="interactive-row-card" 
+           [class.selected-active]="selectedSection === 'medical'"
+           (click)="chooseSection('medical')">
+        <div class="card-interior-layout">
+          <h3 class="row-card-title">Medical Follow-Up</h3>
+          <p class="row-card-subtitle">Details Questions if needed</p>
+        </div>
+      </div>
+
+      <!-- Your Declaration Row -->
+      <div class="interactive-row-card" 
+           [class.selected-active]="selectedSection === 'declaration'"
+           (click)="chooseSection('declaration')">
+        <div class="card-interior-layout">
+          <h3 class="row-card-title">Your Declaration</h3>
+          <p class="row-card-subtitle">Details Questions if needed</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Sticky Execution CTA Button Base -->
+  <footer class="sticky-action-footer">
+    <button class="primary-submission-btn" (click)="continue()">
+      Begin Assessment
+    </button>
+  </footer>
+</div>

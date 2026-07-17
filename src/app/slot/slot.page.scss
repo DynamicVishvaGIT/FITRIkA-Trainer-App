@@ -1,0 +1,207 @@
+$brand-green: #00df9a;
+$text-dark: #1e293b;
+$text-muted: #64748b;
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #000000;
+  padding: 6px 4px;
+  
+  ion-title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-right: 48px;
+  }
+}
+
+.profile-card {
+  display: flex;
+  background: #eef2f6;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 4px 16px 16px 16px;
+  align-items: center;
+  gap: 16px;
+
+  .avatar-container img {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .profile-info {
+    flex: 1;
+    h2 {
+      margin: 0 0 6px 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: $text-dark;
+    }
+    .info-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+    .info-item, .email-item {
+      font-size: 12px;
+      color: $text-muted;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      
+      ion-icon {
+        color: $brand-green;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.days-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background: #ffffff;
+
+  .day-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 52px;
+    border-radius: 8px;
+    color: #94a3b8;
+    cursor: pointer;
+    position: relative;
+
+    .day-name {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .day-date {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .dot {
+      position: absolute;
+      bottom: -2px;
+      font-size: 14px;
+      color: $brand-green;
+    }
+
+    &.active {
+      background: $brand-green;
+      color: #ffffff;
+      
+      .day-name, .day-date {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.add-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px;
+
+  .add-btn {
+    background: $brand-green;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 223, 154, 0.2);
+
+    .plus-circle {
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+}
+
+.slots-list {
+  padding: 8px 16px;
+
+  .slot-card {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .slot-time {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: $text-dark;
+    }
+
+    .badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .status-badge {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 12px;
+
+        &.tej, &.rohan {
+          background: #eef2ff;
+          color: #4f46e5;
+        }
+        &.free {
+          background: #e6fbf3;
+          color: $brand-green;
+        }
+        &.blocked {
+          background: #fef2f2;
+          color: #ef4444;
+        }
+      }
+
+      .slot-type {
+        font-size: 12px;
+        color: $text-muted;
+      }
+    }
+
+    .slot-actions {
+      display: flex;
+      gap: 12px;
+
+      .action-btn {
+        background: transparent;
+        border: none;
+        font-size: 20px;
+        color: #94a3b8;
+        padding: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &.delete-btn:hover {
+          color: #ef4444;
+        }
+      }
+    }
+  }
+}

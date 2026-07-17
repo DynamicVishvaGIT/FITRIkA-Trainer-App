@@ -1,0 +1,61 @@
+<div class="forms-view-container">
+  <!-- Top Navigation App Bar -->
+  <header class="view-header">
+    <button class="back-navigation-btn" (click)="back()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#00c07f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <h1 class="view-title">PARQ Assessment</h1>
+    <div class="header-right-spacer"></div>
+  </header>
+
+  <!-- Active Evaluation Form Question Sheets Workspace -->
+  <main class="scrollable-content-area assignment-active-body">
+    <div class="step-indicator-text">Step 1 of 10</div>
+
+    <!-- Mint Informational Box Banner Container -->
+    <div class="mint-info-alert-banner">
+      <div class="info-icon-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00b474" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </div>
+      <p class="banner-alert-text">Please read each question carefully and answer honestly.</p>
+    </div>
+
+    <!-- Questions Block Listing Array -->
+    <div class="assessment-questions-container">
+      <div class="question-structural-card" *ngFor="let q of generalQuestions; let i = index">
+        <p class="question-prompt-label">{{ q.questionText }}</p>
+        
+        <!-- Toggle Binary Selections Action Bar Row -->
+        <div class="binary-selection-grid">
+          <!-- NO OPTION ELEMENT -->
+         <!-- NO OPTION BUTTON PILL -->
+<button class="choice-action-node choice-no" 
+        [class.node-selected-no]="q.userAnswer === false"
+        (click)="answerQuestion(i, false)">
+  <span class="btn-icon-symbol">✕</span> No
+</button>
+
+<!-- YES OPTION BUTTON PILL -->
+<button class="choice-action-node choice-yes" 
+        [class.node-selected-yes]="q.userAnswer === true"
+        (click)="answerQuestion(i, true)">
+  <span class="btn-icon-symbol">✓</span> Yes
+</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fixed Execution Dynamic CTA Footer Base -->
+  <footer class="sticky-action-footer">
+    <button class="primary-submission-btn green-solid-cta" (click)="submitAssessmentAnswers()">
+      Save & Next
+    </button>
+  </footer>
+</div>

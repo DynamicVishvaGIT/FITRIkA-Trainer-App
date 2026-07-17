@@ -1,0 +1,167 @@
+<div class="modal-sheet-wrapper">
+
+  <!-- Header Section -->
+  <div class="modal-header-container">
+    <h2 class="modal-heading-title">Add Day Plan</h2>
+    <div class="close-icon-hitbox" (click)="dismissModal()">
+      <div class="custom-close-circle">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrollable Content Area -->
+  <div class="modal-scrollable-content">
+
+    <!-- Day Label -->
+    <span class="day-tracker-lbl">Day 1</span>
+
+    <!-- Upper Body Header Title Input Block -->
+    <div class="input-card-box header-title-card">
+      <input
+        class="day-title-input"
+        type="text"
+        [(ngModel)]="dayTitle"
+        placeholder="Upper Body">
+    </div>
+
+    <!-- Exercises Container Repeater Loop Nodes -->
+    <div class="exercise-repeater-node" *ngFor="let exercise of exercisesList; let idx=index">
+
+      <!-- Header Row Details Area -->
+      <div class="exercise-accordion-header">
+        <div class="header-left-toggle" (click)="toggleExerciseExpand(idx)">
+          <span class="exercise-index-label">{{idx+1}} Exercises</span>
+          <ion-icon
+            [name]="exercise.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'"
+            class="accordion-arrow">
+          </ion-icon>
+        </div>
+
+        <div class="header-icons">
+          <ion-icon
+            name="trash-outline"
+            class="delete-trash-glyph"
+            (click)="removeExerciseNode(idx)">
+          </ion-icon>
+        </div>
+      </div>
+
+      <!-- Accordion Content Body Base Section Layout -->
+      <div class="exercise-accordion-body" [class.collapsed]="!exercise.isExpanded">
+
+        <!-- Exercise Dropdown Selector Area Layout Layer -->
+        <div class="exercise-dropdown">
+          <ion-select
+            interface="popover"
+            [(ngModel)]="exercise.name"
+            class="exercise-select">
+            <ion-select-option *ngFor="let option of exerciseOptions" [value]="option">
+              {{option}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <!-- Interactive Dynamic Stepper Sets Control Rows Counter -->
+        <div class="stepper-counter-row">
+          <span class="stepper-row-label">Number of Sets:</span>
+          <div class="counter-stepper-control">
+            <button type="button" class="stepper-btn decrement" (click)="updateSetsCount(idx,-1)">
+              <ion-icon name="remove-outline"></ion-icon>
+            </button>
+            <span class="stepper-current-value">{{exercise.sets.length}}</span>
+            <button type="button" class="stepper-btn increment" (click)="updateSetsCount(idx,1)">
+              <ion-icon name="add-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Divider Line -->
+        <div class="section-horizontal-divider"></div>
+
+        <!-- Nested Individual Workouts Set Dynamic Matrix Parameters Field Form Loops -->
+        <div class="individual-set-section" *ngFor="let set of exercise.sets; let setIdx=index">
+          <h4 class="set-index-subheading">Set {{setIdx+1}}</h4>
+
+          <!-- Dual Field Structural Layout Input Grid (Intensity / Reps Rows) -->
+          <div class="set-inputs-dual-grid">
+            <div>
+              <label class="unit-label">Intensity</label>
+              <div class="input-card-box alignment-right-placeholder">
+                <input type="number" [(ngModel)]="set.intensity">
+                <span class="embedded-static-unit-placeholder" *ngIf="!set.intensity">Kg</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="unit-label">Reps</label>
+              <div class="input-card-box alignment-right-placeholder">
+                <input type="number" [(ngModel)]="set.reps">
+                <span class="embedded-static-unit-placeholder" *ngIf="!set.reps">Reps</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Solo Full-Width Parametric Box Setup Element Area Details (Tempo Fields) -->
+          <div class="solo-field-row-block">
+            <label class="unit-label">Tempo</label>
+            <div class="input-card-box clear-inline-input">
+              <input type="text" [(ngModel)]="set.tempo" placeholder="Tempo">
+            </div>
+          </div>
+        </div>
+
+        <div class="section-horizontal-divider"></div>
+
+        <!-- Equipment Module Properties Matrix Config Boxes Grid Layer Details Area -->
+        <div class="set-inputs-dual-grid mt-12">
+          <div>
+            <label class="unit-label">Equipment</label>
+            <div class="input-card-box clear-inline-input">
+              <input type="text" [(ngModel)]="exercise.equipment" placeholder="Equipment">
+            </div>
+          </div>
+
+          <div>
+            <label class="unit-label">Muscle group</label>
+            <div class="input-card-box clear-inline-input">
+              <input type="text" [(ngModel)]="exercise.muscleGroup" placeholder="Muscle group">
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashed Video Dropzone Upload Frame Attachment Actions Block Panel -->
+        <div class="video-upload-dashed-dropzone" (click)="triggerVideoAttachmentPlaceholder(idx,0)">
+          <div class="camera-icon-bg-wrapper">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7E7E7E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </div>
+          <div class="dropzone-text-group">
+            <span class="dropzone-title">Video Demonstration</span>
+            <span class="dropzone-subtitle">maximum file size is 10MB</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Dash Border Outline Layout Add Exercises Controls Button Panel Bar Link Area -->
+    <div class="add-exercises-dashed-outline-btn" (click)="addNewExerciseNode()">
+      <span>+ Add Exercises</span>
+    </div>
+
+  </div>
+
+  <!-- Submit Button (Pinned outside scroll container, perfectly visible) -->
+  <div class="modal-fixed-bottom-bar">
+    <button class="primary-brand-green-submit-btn" (click)="processFormSubmission()">
+      Submit
+    </button>
+  </div>
+
+</div>

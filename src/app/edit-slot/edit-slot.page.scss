@@ -1,0 +1,149 @@
+$brand-green: #00e699;
+$border-light: #ecefef;
+$bg-light: #f8fafc;
+$text-dark: #1f2421;
+$text-muted: #929794;
+
+// Vital structural override forcing ionic frames to render overflow popovers elegantly
+.oval-modal-content {
+  --overflow: visible;
+  overflow: visible;
+}
+
+.edit-modal-wrapper {
+  padding: 24px;
+  background: #ffffff;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    color: #000000;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  transition: padding-bottom 0.2s ease-in-out;
+
+  // Seamlessly compensates layout volume when options list is extended downwards
+  &.expand-spacing {
+    padding-bottom: 180px; 
+  }
+
+  .input-label {
+    font-size: 14px;
+    color: $text-muted;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+}
+
+/* Dropdown Alignment Positioning Element Box Context */
+.custom-dropdown-container {
+  position: relative; 
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.select-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: $bg-light;
+  border: 1px solid $border-light;
+  border-radius: 14px;
+  padding: 15px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.dropdown-open {
+    border-color: $brand-green;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 230, 153, 0.1);
+  }
+
+  .selected-text {
+    font-size: 15px;
+    color: $text-dark;
+  }
+
+  .arrow-icon {
+    font-size: 18px;
+    color: $text-muted;
+  }
+}
+
+/* Float Overlay Panel Strategy UI Implementation */
+.select-options-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid $border-light;
+  border-radius: 14px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+  z-index: 9999; 
+  overflow: hidden;
+
+  .option-item {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: $text-dark;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover, &.selected {
+      background-color: #e6fbf5;
+      color: $brand-green;
+      font-weight: 500;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $bg-light;
+    }
+  }
+}
+
+.submit-btn {
+  width: 100%;
+  background: $brand-green;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 230, 153, 0.2);
+  transition: background 0.2s ease;
+
+  &:active {
+    opacity: 0.9;
+  }
+}

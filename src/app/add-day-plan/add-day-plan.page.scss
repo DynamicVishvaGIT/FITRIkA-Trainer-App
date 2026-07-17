@@ -1,0 +1,403 @@
+.modal-sheet-wrapper {
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  /* Match the border-radius applied by ion-modal part(content) to prevent clipping */
+  border-radius: 28px 28px 0 0;
+}
+
+.modal-header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 24px 20px 10px 20px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.modal-heading-title {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #111111;
+  margin: 0;
+}
+
+.close-icon-hitbox {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-close-circle {
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid #000000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+/* Scroll Container matches exact height bounds of ion-modal bottom sheet */
+.modal-scrollable-content {
+  overflow-y: auto;
+  flex: 1;
+  padding: 16px 20px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.day-tracker-lbl {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555555;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Input Fields Styles matching image 2 */
+.input-card-box {
+  background: #F7F7F7;
+  border: 1px solid #ECECEC;
+  border-radius: 14px;
+  height: 52px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  position: relative;
+
+  &.header-title-card {
+    background: #F7F7F7;
+    border: none;
+    height: 56px;
+    margin-bottom: 22px;
+    padding: 0 18px;
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #000000;
+    
+    &::placeholder {
+      color: #A0A0A0;
+    }
+  }
+}
+
+.day-title-input {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  color: #000000 !important;
+}
+
+/* Accordion Component Module styles matching image 2 */
+.exercise-repeater-node {
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.exercise-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.header-left-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.exercise-index-label {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #00DA8B;
+}
+
+.accordion-arrow {
+  font-size: 18px;
+  color: #555555;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+
+.delete-trash-glyph {
+  font-size: 18px;
+  color: #FF5B5B;
+  cursor: pointer;
+}
+
+.exercise-accordion-body {
+  max-height: 3000px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.2s ease;
+
+  &.collapsed {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none;
+    margin-bottom: 0;
+  }
+}
+
+/* Dropdown styling */
+.exercise-dropdown {
+  height: 50px;
+  background: #F7F7F7;
+  border: 1px solid #ECECEC;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  margin-top: 14px;
+  margin-bottom: 18px;
+}
+
+.exercise-select {
+  width: 100%;
+  --padding-start: 0;
+  --padding-end: 0;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111111;
+  
+  &::part(icon) {
+    color: #555555;
+    opacity: 1;
+    font-size: 16px;
+  }
+}
+
+/* Stepper counter styling */
+.stepper-counter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 2px 0;
+}
+
+.stepper-row-label {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.counter-stepper-control {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stepper-btn {
+  width: 36px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 16px;
+  cursor: pointer;
+  background: #00DA8B;
+
+  &:active {
+    opacity: 0.85;
+  }
+}
+
+.stepper-current-value {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #000000;
+  min-width: 12px;
+  text-align: center;
+}
+
+.section-horizontal-divider {
+  height: 1px;
+  background-color: #F3F3F3;
+  width: 100%;
+  margin: 14px 0;
+}
+
+.set-index-subheading {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #000000;
+  margin: 12px 0 8px 0;
+}
+
+.set-inputs-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.solo-field-row-block {
+  margin-top: 4px;
+}
+
+.unit-label {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666666;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.alignment-right-placeholder {
+  input {
+    text-align: left;
+    padding-right: 36px;
+  }
+}
+
+.embedded-static-unit-placeholder {
+  position: absolute;
+  right: 16px;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  color: #BCBCBC;
+  pointer-events: none;
+}
+
+.clear-inline-input {
+  input::placeholder {
+    color: #BCBCBC;
+  }
+}
+
+.mt-12 {
+  margin-top: 6px;
+}
+
+/* Video Demonstration section styling */
+.video-upload-dashed-dropzone {
+  border: 1px dashed #CCCCCC;
+  background: #FFFFFF;
+  border-radius: 14px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 16px;
+  margin-top: 18px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.camera-icon-bg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropzone-title {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #444444;
+}
+
+.dropzone-subtitle {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  color: #888888;
+}
+
+/* Add Exercises Outline Button styling */
+.add-exercises-dashed-outline-btn {
+  border: 1.5px dashed #00DA8B;
+  border-radius: 12px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 16px;
+  margin-bottom: 12px;
+  background: transparent;
+
+  span {
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #00DA8B;
+  }
+}
+
+/* FIXED: Bottom Bar Container (Resting exactly on the bottom edge) */
+.modal-fixed-bottom-bar {
+  flex-shrink: 0; 
+  background: #FFFFFF;
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 16px)) 20px;
+  z-index: 1000;
+  border-top: 1px solid #F2F2F2;
+}
+
+/* FIXED: Green Submit Button Layout Specs */
+.primary-brand-green-submit-btn {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: #00DA8B;
+  color: #FFFFFF;
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 12px rgba(0, 218, 139, 0.2);
+  transition: opacity 0.15s ease;
+  margin-bottom: 60px;
+
+  &:active {
+    opacity: 0.95;
+  }
+}

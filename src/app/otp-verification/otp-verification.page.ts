@@ -13,6 +13,8 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
   otp: string[] = ['', '', '', ''];
 
   timer: string = '01:32';
+  // Add the phone number property here
+  phoneNumber: string = '';
 
   private seconds: number = 92;
 
@@ -20,7 +22,14 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
 
   constructor(
     private router: Router
-  ) {}
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state && navigation.extras.state['phoneNumber']) {
+      this.phoneNumber = navigation.extras.state['phoneNumber'];
+    } else {
+      this.phoneNumber = '+91 7029900582'; // Fallback if no state found
+    }
+  }
 
   ngOnInit() {
     this.startTimer();

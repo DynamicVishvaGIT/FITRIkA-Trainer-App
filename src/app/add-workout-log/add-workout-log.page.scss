@@ -1,0 +1,114 @@
+$brand-green: #00df9a;
+
+.sheet-container {
+  background: #ffffff;
+  padding: 32px 24px 24px 24px;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 36px;
+
+  .sheet-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: -0.3px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .close-icon-btn {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    color: #000000;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+
+    svg {
+      width: 26px;
+      height: 26px;
+      opacity: 0.9;
+    }
+  }
+}
+
+.sheet-body {
+  display: flex;
+  flex-direction: column;
+
+  .field-label {
+    font-size: 15px;
+    font-weight: 400;
+    color: #1c221f;
+    margin-bottom: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .input-wrapper {
+    width: 100%;
+    background-color: #f7f7f9;
+    border: 1px solid #f1f1f4;
+    border-radius: 14px;
+    padding: 16px;
+    box-sizing: border-box;
+    margin-bottom: 32px;
+
+    .clean-native-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 16px;
+      color: #1c221f;
+      padding: 0;
+
+      &::placeholder {
+        color: #a3aaa6;
+        opacity: 1;
+      }
+    }
+  }
+
+  .action-submit-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #00df9a, #00cc88);
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 223, 154, 0.25);
+    outline: none;
+    transition: all 0.2s ease-in-out;
+
+    &:active {
+      transform: scale(0.99);
+      opacity: 0.95;
+    }
+
+    &[disabled] {
+      background: #ecefef;
+      color: #b5b9b7;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+}

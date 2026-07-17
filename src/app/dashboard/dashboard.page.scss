@@ -1,21 +1,17 @@
-/*==================================================
-DASHBOARD GLOBAL VARIABLES & WRAPPER
-==================================================*/
+/* Global Overrides */
 .dashboard-content {
-  --background: #FFFFFF;
-  --padding-start: 16px;
-  --padding-end: 16px;
+  --background: #ffffff !important;
+  --padding-start: 16px !important;
+  --padding-end: 16px !important;
 }
 
-/*==================================================
-HEADER MODULE (FIGMA PIXEL DESIGN ATTACHMENTS)
-==================================================*/
+/* Top App Header Component */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 52px; /* Derived from Figma specs top bounds */
-  margin-bottom: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   width: 100%;
 }
 
@@ -25,10 +21,24 @@ HEADER MODULE (FIGMA PIXEL DESIGN ATTACHMENTS)
   gap: 16px;
 }
 
-.menu-icon {
+.custom-brand-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
   width: 24px;
   height: 24px;
-  color: #00DA8B;
+  cursor: pointer;
+
+  .bar-line {
+    height: 2.5px;
+    background-color: #00DA8B;
+    border-radius: 4px;
+    display: block;
+  }
+  .short-line { width: 14px; }
+  .long-line  { width: 22px; }
+  .mid-line   { width: 18px; }
 }
 
 .user-titles {
@@ -40,27 +50,25 @@ HEADER MODULE (FIGMA PIXEL DESIGN ATTACHMENTS)
   font-family: 'Satoshi', sans-serif;
   font-weight: 400;
   font-size: 13px;
-  line-height: 100%;
-  letter-spacing: 0.005em;
-  color: #000000;
+  color: #7E7E7E;
+  margin-bottom: 2px;
 }
 
 .action-headline {
   font-family: 'Satoshi', sans-serif;
   font-weight: 700;
-  font-size: 16px;
-  line-height: 16px;
-  letter-spacing: 0.01em;
-  color: #000000;
-  margin: 5px 0 0 0;
+  font-size: 18px;
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.2px;
 }
 
 .avatar-container {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #D9D9D9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .user-avatar {
@@ -69,71 +77,88 @@ HEADER MODULE (FIGMA PIXEL DESIGN ATTACHMENTS)
   object-fit: cover;
 }
 
-/*==================================================
-MOTIVATIONAL GRADIENT BANNER
-==================================================*/
+/* Green Energy Motivation Box */
 .motivation-banner {
   width: 100%;
-  height: 68px;
-  border-radius: 20px;
+  border-radius: 18px;
   background: linear-gradient(90deg, #00BE79 0%, #00DA8B 100%);
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 18px 20px;
   box-sizing: border-box;
   margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(0, 218, 139, 0.15);
+
+  .banner-icon-svg {
+    width: 22px;
+    height: 22px;
+    color: #ffffff;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .banner-text {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 1.4;
+    margin: 0;
+  }
 }
 
-.banner-icon {
-  width: 26px;
-  height: 26px;
-  color: #FFFFFF;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.banner-text {
-  font-family: 'Satoshi', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #FFFFFF;
-  line-height: 19px;
-  margin: 0;
-}
-
-/*==================================================
-TODAY'S SCHEDULE COMPONENT CARD
-==================================================*/
-.schedule-card {
-  background: #FFFFFF;
-  border: 1px solid #F0F2F1;
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+/* Today's Schedule Design Setup */
+.schedule-card-wrapper {
+  position: relative;
+  width: 100%;
   margin-bottom: 20px;
+}
+
+.schedule-top-accent-line {
+  width: 100%;
+  height: 4px;
+  background-color: #00DA8B;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.schedule-card {
+  background: #ffffff;
+  border: 1px solid #f2f4f6;
+  border-radius: 20px;
+  padding: 16px;
+    padding-top: 10px;
+  box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.02);
+  position: relative;
+  z-index: 1;
 }
 
 .schedule-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 
   h3 {
     font-family: 'Satoshi', sans-serif;
     font-size: 16px;
     font-weight: 700;
-    color: #1A1A1A;
+    color: #111111;
     margin: 0;
   }
 
   .view-more {
     font-family: 'Satoshi', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
     color: #7E7E7E;
-    text-decoration: underline;
     cursor: pointer;
+    text-decoration: underline;
   }
 }
 
@@ -143,20 +168,22 @@ TODAY'S SCHEDULE COMPONENT CARD
   gap: 12px;
 }
 
-.schedule-item {
+.schedule-item-row {
   display: flex;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #F8FAF9;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
 
-  &:last-child {
-    border-bottom: none;
+  &.row-highlight-active {
+    background-color: #e6faf4 !important;
   }
 }
 
-.time-badge {
+.time-badge-pill {
   width: 82px;
-  height: 28px;
+  height: 30px;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -164,184 +191,213 @@ TODAY'S SCHEDULE COMPONENT CARD
   font-family: 'Satoshi', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  margin-right: 14px;
+  margin-right: 16px;
+  flex-shrink: 0;
+
+  &.filled-pill {
+    background: #00ce8d;
+    color: #ffffff;
+  }
+
+  &.outlined-pill {
+    border: 1px solid #00DA8B;
+    color: #00DA8B;
+    background: transparent;
+  }
 }
 
-.active-badge {
-  background: rgba(0, 218, 139, 0.15);
-  color: #00AF70;
-}
-
-.outline-badge {
-  border: 1px solid #00DA8B;
-  color: #00DA8B;
-  background: transparent;
-}
-
-.schedule-details {
+.schedule-details-content {
   font-family: 'Satoshi', sans-serif;
   font-size: 14px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  color: #2c3e50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.client-name {
+.client-name-label {
   font-weight: 700;
-  color: #2C2C2C;
+  color: #222222;
 }
 
-.session-type {
+.divider-bar-symbol {
+  margin: 0 6px;
+  color: #cbd5e1;
+}
+
+.session-type-description {
   font-weight: 400;
-  color: #7E7E7E;
+  color: #64748b;
 }
 
-/*==================================================
-METRICS SEGMENT FLEX GRID
-==================================================*/
-.metrics-container {
+/* Metrics Grid - Round Light Green Circles */
+.metrics-dashboard-grid {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
   width: 100%;
 }
 
-.metric-box {
+.metric-block-card {
   flex: 1;
-  background: #FFFFFF;
-  border: 1px solid #F0F2F1;
+  background: #ffffff;
+  border: 1px solid #f1f3f5;
   border-radius: 16px;
-  padding: 14px;
+  padding: 12px 7px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.01);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.015);
   text-align: center;
+  cursor: pointer;
+  min-height: 140px;
 }
 
-.metric-icon-wrapper {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+.metric-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
-
-  ion-icon {
-    font-size: 20px;
-    color: #FFFFFF;
-  }
+  margin-bottom: 14px;
 }
 
-.prospect-bg { background: #00DA8B; }
-.client-bg { background: #00BE79; }
-.revenue-bg { background: #00935D; }
+.green-bg-circle {
+  background-color: #e6faf4 !important;
+}
 
-.metric-title {
+.metric-inner-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.metric-title-text {
   font-family: 'Satoshi', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  color: #4A4A4A;
+  color: #64748b;
+  margin-bottom: 6px;
 }
 
-.metric-value {
+.metric-numerical-display {
   font-family: 'Satoshi', sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  margin: 4px 0 2px;
-}
-
-.green-text {
   color: #00DA8B;
 }
 
-.metric-sub {
+.metric-sub-context-info {
   font-family: 'Satoshi', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  color: #9A9A9A;
+  font-size: 11px;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-top: 6px;
+  
+  &.font-light {
+    font-weight: 400;
+  }
 }
 
-/*==================================================
-QUICK ACTIONS ROW PANELS
-==================================================*/
-.quick-actions-row {
+/* ==========================================================================
+   QUICK NAVIGATION ACTIONS - PERFECT HORIZONTAL ALIGNMENT
+   ========================================================================== */
+.quick-action-dock-row {
   display: flex;
+  flex-direction: row; /* Forces strict side-by-side row display */
   justify-content: space-between;
-  margin-bottom: 30px;
+  gap: 12px;
+  margin-bottom: 32px;
   width: 100%;
 }
 
-.action-tile {
+.action-dock-tile-node {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-
-  span {
-    font-family: 'Satoshi', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: #333333;
-  }
+  flex: 1;
 }
 
-.action-icon-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid #EAEAEA;
+/* Outer white card with border & rounded corner style */
+.icon-square-container-card {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 72px;
+  border-radius: 14px;
+  border: 1px solid #eef1f4;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #FFFFFF;
-  transition: all 0.2s ease-in-out;
-
-  ion-icon {
-    font-size: 22px;
-    color: #00DA8B;
-  }
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+  box-sizing: border-box;
+  transition: transform 0.15s ease;
+  MARGIN-TOP: -8PX;
 
   &:active {
-    background: #F4FFEB;
-    border-color: #00DA8B;
+    transform: scale(0.96);
   }
 }
 
-/*==================================================
-STICKY NAVIGATION TAB-BAR COMPONENT
-==================================================*/
-.dashboard-footer-bar {
-  background: #FFFFFF;
-  border-top: 1px solid #EAEAEA;
+/* Interior circular green accent node */
+.inner-green-circle-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #00da8b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.tab-bar-container {
+.inner-action-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Keeps images pure white inside the green badge */
+}
+
+.action-dock-tile-node .action-node-label {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #111111;
+  text-align: center;
+}
+
+/* Bottom Tab Bar Dock Area */
+.navigation-tab-fixed-footer {
+  background: #ffffff !important;
+  border-top: 1px solid #f1f3f5 !important;
+}
+
+.tab-bar-flexbox-wrapper {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 65px;
-  padding-bottom: env(safe-area-inset-bottom); /* iOS native support */
+  height: 45px;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-.tab-item {
+.tab-icon-action-node {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   cursor: pointer;
+  color: #bac3d1;
 
-  ion-icon {
-    font-size: 24px;
-    color: #BCBCBC;
+  svg {
+    transition: color 0.2s ease;
   }
-}
 
-.active-tab {
-  ion-icon {
-    color: #00DA8B;
+  &.active-route-tint {
+    color: #00DA8B !important;
   }
 }

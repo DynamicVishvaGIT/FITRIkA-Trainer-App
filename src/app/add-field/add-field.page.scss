@@ -1,0 +1,92 @@
+$brand-green: #00c48c;
+$border-light: #ecefef;
+$bg-light: #f4f6f6;
+$text-dark: #1f2421;
+
+.oval-modal-content {
+  --overflow: hidden;
+  overflow: hidden;
+}
+
+.scrollable-modal-content {
+  padding: 24px;
+  background: #ffffff;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+    margin-left: 55px;
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #000000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+  }
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+
+  .input-group {
+    margin-bottom: 24px;
+  }
+
+  .input-label {
+    display: block;
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 8px;
+    font-weight: 600;
+    margin-left: 13px;
+  }
+
+  .custom-text-input {
+    width: 100%;
+    background: $bg-light;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 15px;
+    color: $text-dark;
+    font-weight: 500;
+    outline: none;
+    
+    &:focus {
+      border-color: $brand-green;
+      background: #ffffff;
+    }
+  }
+}
+
+.submit-btn {
+  width: 100%;
+  background: $brand-green;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 196, 140, 0.15);
+
+  &:active {
+    opacity: 0.9;
+  }
+}

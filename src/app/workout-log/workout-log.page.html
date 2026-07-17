@@ -1,0 +1,79 @@
+<div class="mobile-container">
+  <!-- BACK HEADER CONTAINER -->
+  <header class="main-header">
+    <button class="back-btn" (click)="goBack()" aria-label="Go Back">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00df9a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </button>
+    <h1 class="header-title">Workout log</h1>
+    <div class="header-spacer"></div>
+  </header>
+
+  <main class="scrollable-content">
+    <!-- CALENDAR DROPDOWN COMPONENT -->
+    <div class="month-selector-container">
+      <div class="month-selector" (click)="toggleMonthDropdown()">
+        <span>{{ currentMonthName }} {{ currentYear }}</span>
+        <ion-icon name="chevron-down-outline" class="dropdown-chevron" [class.rotated]="isDropdownOpen"></ion-icon>
+      </div>
+
+      <!-- Month Dropdown List overlay -->
+      <div class="month-dropdown" *ngIf="isDropdownOpen">
+        <div *ngFor="let month of months; let i = index" 
+             class="dropdown-item" 
+             [class.active]="i === currentDate.getMonth()"
+             (click)="selectMonth(i)">
+          {{ month }}
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEKDAY LABELS (S M T W T F S) -->
+    <div class="weekday-header">
+      <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+    </div>
+
+    <!-- DYNAMIC CALENDAR GRID MATRIX -->
+    <div class="matrix-wrapper">
+      <div class="matrix-grid">
+        <div *ngFor="let day of matrixCells" 
+             class="matrix-cell" 
+             [class.filled]="day.filled" 
+             [class.empty]="!day.filled && !day.hidden"
+             [class.hidden]="day.hidden">
+          <span class="day-number" *ngIf="day.label">{{ day.label }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDS STACK -->
+    <div class="log-cards-stack">
+      <div class="log-card" *ngFor="let item of workoutLogs">
+        <div class="accent-indicator"></div>
+        <div class="card-inner-payload">
+          <div class="meta-details">
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.date }}</p>
+          </div>
+          <span class="active-badge">Active</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD BUTTON -->
+    <button class="dashed-add-btn" (click)="addNewWorkout()">
+      <span>+ Add</span>
+    </button>
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav">
+    <button class="nav-item"><ion-icon name="home-outline"></ion-icon></button>
+    <button class="nav-item"><ion-icon name="calendar-outline"></ion-icon></button>
+    <button class="nav-item active"><ion-icon name="barbell-outline"></ion-icon></button>
+    <button class="nav-item"><ion-icon name="restaurant-outline"></ion-icon></button>
+    <button class="nav-item"><ion-icon name="person-outline"></ion-icon></button>
+  </nav>
+</div>

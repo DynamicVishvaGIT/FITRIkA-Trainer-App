@@ -1,0 +1,153 @@
+$color-primary: #00d689;
+$color-primary-pale: #e6fbf3;
+$color-text-dark: #000000;
+$color-text-muted: #999999;
+$color-bg-white: #ffffff;
+$font-stack: -apple-system, BlinkMacSystemFont, sans-serif;
+
+* { box-sizing: border-box; }
+
+.mobile-container {
+  width: 100%; max-width: 412px; height: 892px; margin: 0 auto; background: $color-bg-white; display: flex; flex-direction: column; position: relative; font-family: $font-stack; overflow: hidden;
+}
+
+.main-header {
+  display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; height: 54px;
+  .header-title { font-size: 22px; font-weight: 700; color: $color-text-dark; margin: 0; }
+  .header-spacer { width: 32px; }
+  .back-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; padding: 6px; }
+}
+
+.scrollable-content { flex: 1; overflow-y: auto; padding: 12px 24px 100px; &::-webkit-scrollbar { display: none; } }
+
+/* MONTH DROPDOWN ELEMENT */
+.month-selector-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+  z-index: 100;
+}
+
+.month-selector {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 19px; font-weight: 700; color: $color-text-dark; cursor: pointer; user-select: none;
+
+  .dropdown-chevron {
+    transition: transform 0.25s ease;
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.month-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background: $color-bg-white;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+  max-height: 240px;
+  overflow-y: auto;
+  width: 160px;
+  z-index: 1000;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $color-primary-pale;
+    border-radius: 2px;
+  }
+  
+  .dropdown-item {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: $color-text-dark;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #fcfcfc;
+    }
+    &.active {
+      background-color: $color-primary-pale;
+      font-weight: 600;
+      color: $color-primary;
+    }
+  }
+}
+
+/* WEEKDAY HEADER LABELS */
+.weekday-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 7px;
+  width: 85%;
+  margin: 0 auto 6px;
+  
+  span {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #cccccc;
+    text-transform: uppercase;
+  }
+}
+
+.matrix-wrapper {
+  display: flex; justify-content: center; margin-bottom: 28px;
+  .matrix-grid { display: grid; grid-template-columns: repeat(7, 1fr); grid-auto-rows: min-content; gap: 7px; width: 85%; }
+  .matrix-cell {
+    aspect-ratio: 1; border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+
+    &.filled { 
+      background-color: $color-primary; 
+      color: #ffffff;
+    }
+    &.empty { 
+      background-color: $color-primary-pale; 
+      color: #6a716e;
+    }
+    &.hidden { 
+      visibility: hidden; 
+      pointer-events: none;
+    }
+
+    .day-number {
+      font-size: 11px;
+      font-weight: 500;
+    }
+  }
+}
+
+.log-cards-stack {
+  display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;
+}
+
+.log-card {
+  display: flex; background: $color-bg-white; border: 1px solid #f0f0f0; border-radius: 14px; height: 66px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+  .accent-indicator { width: 4.5px; background-color: $color-primary; }
+  .card-inner-payload { flex: 1; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; }
+  .meta-details {
+    h4 { font-size: 16px; font-weight: 700; color: $color-text-dark; margin: 0 0 3px 0; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 220px; }
+    p { font-size: 12px; color: $color-text-muted; margin: 0; }
+  }
+  .active-badge { font-size: 11px; font-weight: 500; color: $color-primary; border: 1px solid $color-primary; padding: 4px 12px; border-radius: 14px; background: transparent; }
+}
+
+.dashed-add-btn {
+  width: 100%; border: 1px dashed $color-primary; background: transparent; border-radius: 14px; padding: 15px; text-align: center; cursor: pointer; transition: background 0.2s;
+  span { color: $color-primary; font-size: 16px; font-weight: 600; }
+  &:active { background-color: rgba(0, 214, 137, 0.05); }
+}
+
+.bottom-nav {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 72px; background: $color-bg-white; border-top: 1px solid #f5f5f5; display: flex; justify-content: space-around; align-items: center; padding-bottom: 8px;
+  .nav-item { background: none; border: none; color: #cccccc; cursor: pointer; padding: 12px; &.active { color: $color-primary; } }
+}

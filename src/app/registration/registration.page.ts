@@ -11,13 +11,11 @@ import { Location } from '@angular/common';
 export class RegistrationPage implements OnInit {
 
   email: string = '';
+  emailAddress: string = '';
 
   name: string = '';
 
-  password: string = '';
-
-  showPassword: boolean = false;
-
+  termsAccepted: boolean = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -46,48 +44,34 @@ export class RegistrationPage implements OnInit {
 
   }
 
-  togglePassword(): void {
-
-    this.showPassword = !this.showPassword;
-
-  }
-
+ 
   continue(): void {
 
     if (this.email.trim() === '') {
 
-      alert('Email or Mobile Number is required');
+      alert('Mobile Number is required');
 
       return;
 
     }
 
-    if (this.name.trim() === '') {
+    if (!this.emailAddress || this.emailAddress.trim() === '') {
+      alert('Email Address is required');
+      return;
+    }
 
+    if (!this.name || this.name.trim() === '') {
       alert('Please enter your name');
-
       return;
-
     }
 
-    if (this.password.trim() === '') {
-
-      alert('Please enter your password');
-
+    if (!this.termsAccepted) {
+      alert('Please accept the terms & conditions to proceed');
       return;
-
-    }
-
-    if (this.password.length < 6) {
-
-      alert('Password must be at least 6 characters');
-
-      return;
-
     }
 
     this.router.navigate(
-      ['/signin'],
+      ['/dashboard'],
       {
         queryParams: {
           email: this.email,
