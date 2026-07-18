@@ -21,13 +21,13 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px 8px;
+  padding: 22px 20px 8px;
   
   .header-title { font-size: 20px; font-weight: 700; color: $ui-dark-text; text-align: center; flex: 1; margin-right: -8px; }
   .header-spacer { width: 24px; }
   
   .menu-btn {
-    background: none; border: none; cursor: pointer;
+    background: none; border: none; cursor: pointer; margin-top: 10px;
     .custom-menu-icon {
       display: flex; flex-direction: column; gap: 4px;
       span { height: 2px; background-color: $ui-brand-color; border-radius: 2px; }

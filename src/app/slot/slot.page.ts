@@ -22,7 +22,7 @@ interface Slot {
 export class SlotPage implements OnInit {
 
   showProfile: boolean = true;
-  selectedDate: number = 17; // Defaulting to TUE 17
+  selectedDate: number = 17; // Synchronized initialization default to TUE 17
 
   days = [
     { name: 'Mon', date: 16 },
@@ -33,7 +33,6 @@ export class SlotPage implements OnInit {
     { name: 'Sat', date: 21 },
   ];
 
-  // Master array holding all database slots
   slots: Slot[] = [
     { id: 1, date: 17, startTime: '6:00 AM', endTime: '7:00 AM', status: 'Tej', statusLabel: 'Tej / Deepika', type: 'Personal Training' },
     { id: 2, date: 17, startTime: '7:00 AM', endTime: '8:00 AM', status: 'Free', statusLabel: 'Free' },
@@ -41,10 +40,9 @@ export class SlotPage implements OnInit {
     { id: 4, date: 17, startTime: '9:00 AM', endTime: '10:00 AM', status: 'Rohan', statusLabel: 'Rohan S.', type: 'Trial Session' },
   ];
 
-  // The array bound to your HTML view loop (*ngFor="let slot of filteredSlots")
   filteredSlots: Slot[] = [];
 
- constructor(
+  constructor(
     private modalCtrl: ModalController,
     private navCtrl: NavController 
   ) {}
@@ -52,8 +50,8 @@ export class SlotPage implements OnInit {
   ngOnInit() {
     this.filterSlots();
   }
+
   goBack() {
-    // Replace '/profile' with your project's actual profile page route if different
     this.navCtrl.navigateBack('/my-profile'); 
   }
 
@@ -62,12 +60,10 @@ export class SlotPage implements OnInit {
     this.filterSlots();
   }
 
-  // Refreshes the display view to show data matching the chosen header day
   filterSlots() {
     this.filteredSlots = this.slots.filter(slot => slot.date === this.selectedDate);
   }
 
-  // FIXED: Open and process data back from Add Slot sheet
   async openAddSlotModal() {
     const modal = await this.modalCtrl.create({
       component: AddSlotPage,
@@ -78,15 +74,12 @@ export class SlotPage implements OnInit {
     });
 
     await modal.present();
-
-    // Capture dismissed data pack payload safely
     const { data } = await modal.onDidDismiss();
     
     if (data && data.slotData) {
-      // Build an explicit structural object matching the Slot interface scheme
       const newSlot: Slot = {
-        id: Date.now(), // Generate unique numeric ID
-        date: this.selectedDate, // Save it explicitly to the day the user is looking at
+        id: Date.now(),
+        date: this.selectedDate,
         startTime: data.slotData.startTime,
         endTime: data.slotData.endTime,
         status: data.slotData.status,
@@ -94,10 +87,7 @@ export class SlotPage implements OnInit {
         type: this.getStatusType(data.slotData.status)
       };
 
-      // Push into the master collection state data array
       this.slots.push(newSlot);
-      
-      // CRUCIAL: Re-run the view filter so the UI updates instantly
       this.filterSlots();
     }
   }
@@ -115,8 +105,8 @@ export class SlotPage implements OnInit {
     });
 
     await modal.present();
-
     const { data } = await modal.onDidDismiss();
+    
     if (data && data.updatedStatus) {
       const target = this.slots.find(s => s.id === slot.id);
       if (target) {
@@ -133,7 +123,6 @@ export class SlotPage implements OnInit {
     this.filterSlots();
   }
 
-  // Helper mappings
   private getStatusLabel(status: 'Tej' | 'Rohan' | 'Free' | 'Blocked'): string {
     if (status === 'Tej') return 'Tej / Deepika';
     if (status === 'Rohan') return 'Rohan S.';

@@ -25,7 +25,8 @@ export interface FitnessPackage {
 })
 export class PackagePage implements OnInit {
 
-  selectedPackageId: string = 'p2'; // Defaults selected package as in screenshot 1
+  // Defaults selection indicator to 'p2' (matches your screenshot mockup)
+  selectedPackageId: string = 'p2'; 
 
   packages: FitnessPackage[] = [
     {
@@ -49,7 +50,7 @@ export class PackagePage implements OnInit {
       id: 'p2',
       name: 'Expert coaching...',
       price: 25000,
-      isExpanded: true, // Default open matching SS 1
+      isExpanded: true, 
       validity: '3 Months',
       sessions: 36,
       duration: '60 minutes',
@@ -69,7 +70,7 @@ export class PackagePage implements OnInit {
       id: 'p3',
       name: 'Accountability coach...',
       price: 35000,
-      isExpanded: true,
+      isExpanded: true, 
       validity: '3 Months',
       sessions: 36,
       duration: '60 minutes',
@@ -87,28 +88,24 @@ export class PackagePage implements OnInit {
     }
   ];
 
-  constructor(private router: Router,private navCtrl: NavController) {}
+  constructor(private router: Router, private navCtrl: NavController) {}
 
   ngOnInit() {
-    // Listens for updated data payloads returning from customization pages
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state && navigation.extras.state['updatedPackages']) {
       this.packages = navigation.extras.state['updatedPackages'];
     }
   }
 
-  selectPackage(id: string) {
-    this.selectedPackageId = id;
-  }
-
-  // Handles expanding and collapsing correctly
-  toggleExpand(event: Event, pkg: FitnessPackage) {
-    event.stopPropagation(); // Prevents auto-selecting card when only toggle is clicked
+  // FIXED: Tapping the header card body selects it immediately and toggles layout details
+  handleCardSelect(pkg: FitnessPackage) {
+    this.selectedPackageId = pkg.id;
     pkg.isExpanded = !pkg.isExpanded;
   }
 
+  // Navigates safely without accidentally toggling accordion wrappers or radio states
   navigateToEditPackage(event: Event, packageId: string) {
-    event.stopPropagation(); // Stops card from collapsing when click hits edit icon
+    event.stopPropagation(); // Essential constraint: drops event bubbling on background elements
     this.router.navigate(['/edit-package'], {
       state: {
         packageId: packageId,
@@ -125,12 +122,14 @@ export class PackagePage implements OnInit {
       }
     });
   }
+
   goBack() {
     this.navCtrl.navigateBack('/my-profile');
   }
 
   confirmSelection() {
     const activePkg = this.packages.find(p => p.id === this.selectedPackageId);
-    console.log('Confirmed Active Selection: ', activePkg);
+    console.log('Confirmed Selection Submission Package: ', activePkg);
+    // Add your navigation router route or context modal submission hooks here
   }
 }

@@ -1,78 +1,90 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
+<ion-header class="ion-no-border global-slot-header">
+  <ion-toolbar class="slot-toolbar-container">
     <ion-buttons slot="start">
-      <ion-button class="back-btn" (click)="goBack()">
+      <ion-button class="back-navigation-btn" (click)="goBack()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00df9a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
       </ion-button>
     </ion-buttons>
-    <ion-title>Slot Sheet</ion-title>
+    <ion-title class="slot-centered-title">Slot Sheet</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- Profile Header Card (As shown in Image 1/4) -->
-  <div class="profile-card" *ngIf="showProfile">
-    <div class="avatar-container">
-      <img src="https://i.pravatar.cc/150?img=47" alt="Astha Dhaliwal" />
+<ion-content [fullscreen]="true" class="slot-page-content">
+
+  <!-- Profile Header Card Block -->
+  <div class="trainer-profile-card" *ngIf="showProfile">
+    <div class="profile-avatar-frame">
+      <img src="https://i.pravatar.cc/150?img=47" alt="Profile User" />
     </div>
-    <div class="profile-info">
-      <h2>Astha Dhaliwal</h2>
-      <div class="info-row">
-        <span class="info-item"><ion-icon name="call"></ion-icon> +91 9876543210</span>
-        <span class="info-item"><ion-icon name="transgender"></ion-icon> Female</span>
+    <div class="profile-details-column">
+      <h2 class="profile-heading-name">Astha Dhaliwal</h2>
+      
+      <div class="profile-meta-row">
+        <span class="meta-inline-item">
+          <ion-icon name="call-outline"></ion-icon> +91 9876543210
+        </span>
+        <span class="meta-inline-item">
+          <ion-icon name="person-outline"></ion-icon> Female
+        </span>
       </div>
-      <p class="email-item"><ion-icon name="mail"></ion-icon> asthadhaliwal@gmail.com</p>
+      
+      <p class="profile-email-line">
+        <ion-icon name="mail-outline"></ion-icon> asthadhaliwal@gmail.com
+      </p>
     </div>
   </div>
 
-  <!-- Days Horizontal Selector Alignment -->
-  <div class="days-container">
+  <!-- Horizontal Week Calendar Day Strip -->
+  <div class="calendar-horizontal-strip">
     <div 
       *ngFor="let day of days" 
-      class="day-box" 
-      [class.active]="day.date === selectedDate"
+      class="calendar-day-node" 
+      [class.node-selected-active]="day.date === selectedDate"
       (click)="selectDay(day.date)"
     >
-      <span class="day-name">{{ day.name }}</span>
-      <span class="day-date">{{ day.date }}</span>
-      <span class="dot" *ngIf="day.date === selectedDate">•</span>
+      <span class="node-day-label">{{ day.name }}</span>
+      <span class="node-date-numeric">{{ day.date }}</span>
     </div>
   </div>
 
-  <!-- Add Slot Trigger Bar -->
-  <div class="add-container">
-    <button class="add-btn" (click)="openAddSlotModal()">
-      <span class="plus-circle">+</span> Add
+  <!-- Action Row: Add New Slot Trigger -->
+  <div class="action-trigger-container">
+    <button class="pill-add-action-btn" (click)="openAddSlotModal()">
+      <span class="math-plus-symbol">+</span> Add
     </button>
   </div>
 
-  <!-- Slots List View (Clean Border Layout from Image 1) -->
-  <div class="slots-list">
-    <div class="slot-card" *ngFor="let slot of filteredSlots">
-      <div class="slot-details">
-        <h3 class="slot-time">{{ slot.startTime }} - {{ slot.endTime }}</h3>
+  <!-- Dynamic Content Slots List View Container -->
+  <div class="slots-vertical-feed-stack">
+    <div class="time-slot-display-card" *ngFor="let slot of filteredSlots">
+      
+      <div class="slot-left-details">
+        <h3 class="slot-duration-headline">{{ slot.startTime }} - {{ slot.endTime }}</h3>
         
-        <div class="badge-row">
-          <span class="status-badge" [ngClass]="slot.status.toLowerCase()">
+        <div class="slot-badges-inline-row">
+          <span class="pill-status-badge" [ngClass]="slot.status.toLowerCase()">
             {{ slot.statusLabel }}
           </span>
-          <span class="slot-type" *ngIf="slot.type">{{ slot.type }}</span>
+          <span class="pill-sub-context-type" *ngIf="slot.type">{{ slot.type }}</span>
         </div>
       </div>
 
-      <div class="slot-actions">
-        <!-- Edit Action Dynamic Icon Trigger -->
-        <button class="action-btn edit-btn" (click)="openEditModal(slot)">
+      <div class="slot-right-actions">
+        <!-- Structural edit/lock responsive state icons -->
+        <button class="icon-utility-action-btn interaction-edit-trigger" (click)="openEditModal(slot)">
           <ion-icon [name]="slot.status === 'Blocked' ? 'lock-closed-outline' : (slot.status === 'Free' ? 'lock-open-outline' : 'pencil-outline')"></ion-icon>
         </button>
-        <!-- Trash Delete Action -->
-        <button class="action-btn delete-btn" (click)="deleteSlot(slot.id)">
+        
+        <!-- Danger/Trash Delete Button -->
+        <button class="icon-utility-action-btn interaction-delete-trigger" (click)="deleteSlot(slot.id)">
           <ion-icon name="trash-outline"></ion-icon>
         </button>
       </div>
+
     </div>
   </div>
+
 </ion-content>

@@ -1,9 +1,9 @@
 <ion-content class="ion-no-padding oval-modal-content">
-  <div class="edit-modal-wrapper scrollable-modal-content">
+  <div class="edit-modal-wrapper">
     
-    <!-- Header Layout -->
+    <!-- Header Section with Close Button -->
     <div class="modal-header">
-      <h2>Add {{ fieldTitle }}</h2>
+      <h2 class="modal-title">Add {{ fieldTitle }}</h2>
       <button class="close-btn" (click)="dismiss()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -12,7 +12,7 @@
       </button>
     </div>
 
-    <!-- Main Content Input Form -->
+    <!-- Main Input Form Content Area -->
     <div class="modal-body">
       <div class="input-group">
         <label class="input-label">Item Title</label>

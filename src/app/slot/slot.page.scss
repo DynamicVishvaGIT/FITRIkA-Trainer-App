@@ -1,205 +1,266 @@
-$brand-green: #00df9a;
-$text-dark: #1e293b;
-$text-muted: #64748b;
+$brand-emerald: #00df9a;
+$slate-dark: #1e293b;
+$slate-muted: #64748b;
+$slate-border: #f1f5f9;
 
-ion-toolbar {
+/* Header Area Notch Alignment Overrides */
+.global-slot-header {
+  background: #ffffff;
+  padding-top: env(safe-area-inset-top, 0px); /* Safely pushes navbar below status bar */
+}
+
+.slot-toolbar-container {
   --background: #ffffff;
-  --color: #000000;
-  padding: 6px 4px;
-  
-  ion-title {
+  --border-width: 0px !important;
+  display: flex;
+  align-items: center;
+  height: 56px;
+
+  .back-navigation-btn {
+    --padding-start: 8px;
+    --color: #{$brand-emerald};
+  }
+
+  .slot-centered-title {
+    font-family: 'Satoshi', sans-serif;
     font-size: 20px;
     font-weight: 700;
+    color: #111111;
     text-align: center;
-    margin-right: 48px;
+    padding-right: 48px; /* Counter-balances the back arrow for accurate center alignment */
   }
 }
 
-.profile-card {
+/* Page Content Viewport Wrappers */
+.slot-page-content {
+  --background: #ffffff !important;
+  --padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Card Header Container Block */
+.trainer-profile-card {
   display: flex;
-  background: #eef2f6;
-  border-radius: 16px;
-  padding: 16px;
-  margin: 4px 16px 16px 16px;
   align-items: center;
+  background: #eff3f8;
+  border-radius: 20px;
+  padding: 16px;
+  margin: 12px 16px 20px 16px;
   gap: 16px;
 
-  .avatar-container img {
-    width: 68px;
-    height: 68px;
+  .profile-avatar-frame {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    object-fit: cover;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
-  .profile-info {
+  .profile-details-column {
+    display: flex;
+    flex-direction: column;
     flex: 1;
-    h2 {
-      margin: 0 0 6px 0;
+
+    .profile-heading-name {
+      font-family: 'Satoshi', sans-serif;
       font-size: 18px;
       font-weight: 700;
-      color: $text-dark;
+      color: #1e2538;
+      margin: 0 0 4px 0;
     }
-    .info-row {
+
+    .profile-meta-row {
       display: flex;
-      gap: 14px;
+      flex-wrap: wrap;
+      gap: 12px;
       margin-bottom: 4px;
     }
-    .info-item, .email-item {
+
+    .meta-inline-item, .profile-email-line {
+      font-family: 'Satoshi', sans-serif;
       font-size: 12px;
-      color: $text-muted;
+      font-weight: 500;
+      color: $slate-muted;
       display: flex;
       align-items: center;
-      gap: 4px;
-      
+      gap: 6px;
+      margin: 0;
+
       ion-icon {
-        color: $brand-green;
+        color: #00be83;
         font-size: 14px;
       }
     }
+    
+    .profile-email-line {
+      margin-top: 2px;
+    }
   }
 }
 
-.days-container {
+/* Horizontal Week Slider Element Layout */
+.calendar-horizontal-strip {
   display: flex;
   justify-content: space-between;
-  padding: 8px 20px;
-  background: #ffffff;
+  align-items: center;
+  padding: 4px 20px;
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
 
-  .day-box {
+  .calendar-day-node {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 52px;
-    border-radius: 8px;
+    width: 46px;
+    height: 54px;
+    border-radius: 10px;
     color: #94a3b8;
     cursor: pointer;
-    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
-    .day-name {
+    .node-day-label {
+      font-family: 'Satoshi', sans-serif;
       font-size: 10px;
       text-transform: uppercase;
       font-weight: 600;
-      margin-bottom: 2px;
+      letter-spacing: 0.2px;
+      margin-bottom: 3px;
     }
 
-    .day-date {
+    .node-date-numeric {
+      font-family: 'Satoshi', sans-serif;
       font-size: 15px;
       font-weight: 700;
     }
 
-    .dot {
-      position: absolute;
-      bottom: -2px;
-      font-size: 14px;
-      color: $brand-green;
-    }
-
-    &.active {
-      background: $brand-green;
-      color: #ffffff;
+    &.node-selected-active {
+      background: #00da8b !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(0, 218, 139, 0.25);
       
-      .day-name, .day-date {
-        color: #ffffff;
+      .node-day-label, .node-date-numeric {
+        color: #ffffff !important;
       }
     }
   }
 }
 
-.add-container {
+/* Trigger Button Settings */
+.action-trigger-container {
   display: flex;
   justify-content: flex-end;
-  padding: 8px 16px;
+  padding: 0 16px;
+  margin-bottom: 16px;
 
-  .add-btn {
-    background: $brand-green;
-    color: white;
+  .pill-add-action-btn {
+    background: #00da8b;
+    color: #ffffff;
     border: none;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 700;
     font-size: 14px;
     display: flex;
     align-items: center;
     gap: 6px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 223, 154, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 218, 139, 0.2);
 
-    .plus-circle {
+    .math-plus-symbol {
       font-size: 16px;
-      font-weight: 700;
+      line-height: 1;
     }
   }
 }
 
-.slots-list {
-  padding: 8px 16px;
+/* Scroll Feed Slot View Stack Cards styling */
+.slots-vertical-feed-stack {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-  .slot-card {
+  .time-slot-display-card {
     background: #ffffff;
-    border: 1px solid #f1f5f9;
-    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+    border-radius: 14px;
     padding: 16px;
-    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
 
-    .slot-time {
+    .slot-duration-headline {
       margin: 0 0 8px 0;
+      font-family: 'Satoshi', sans-serif;
       font-size: 16px;
       font-weight: 700;
-      color: $text-dark;
+      color: #1e2538;
     }
 
-    .badge-row {
+    .slot-badges-inline-row {
       display: flex;
       align-items: center;
       gap: 10px;
 
-      .status-badge {
+      .pill-status-badge {
+        font-family: 'Satoshi', sans-serif;
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 700;
         padding: 4px 12px;
         border-radius: 12px;
+        display: inline-block;
 
         &.tej, &.rohan {
-          background: #eef2ff;
+          background: #edf2ff;
           color: #4f46e5;
         }
         &.free {
-          background: #e6fbf3;
-          color: $brand-green;
+          background: #e6faf4;
+          color: #00ba76;
         }
         &.blocked {
-          background: #fef2f2;
-          color: #ef4444;
+          background: #fff1f2;
+          color: #f43f5e;
         }
       }
 
-      .slot-type {
+      .pill-sub-context-type {
+        font-family: 'Satoshi', sans-serif;
         font-size: 12px;
-        color: $text-muted;
+        font-weight: 500;
+        color: $slate-muted;
       }
     }
 
-    .slot-actions {
+    .slot-right-actions {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      gap: 14px;
 
-      .action-btn {
+      .icon-utility-action-btn {
         background: transparent;
         border: none;
         font-size: 20px;
-        color: #94a3b8;
+        color: #a4b3c6;
         padding: 4px;
         cursor: pointer;
         display: flex;
         align-items: center;
+        justify-content: center;
+        transition: color 0.15s ease;
 
-        &.delete-btn:hover {
-          color: #ef4444;
+        &.interaction-delete-trigger:active {
+          color: #f43f5e;
         }
       }
     }

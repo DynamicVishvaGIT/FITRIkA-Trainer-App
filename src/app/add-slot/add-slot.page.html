@@ -16,7 +16,10 @@
         <label class="input-label">Start Time</label>
         <div class="custom-dropdown-container">
           <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'start'" (click)="toggleDropdown('start')">
-            <span class="selected-text">{{ startTime }}</span>
+            <!-- Uses placeholder styling until a time value is selected -->
+            <span class="selected-text" [class.placeholder-active]="!startTime">
+              {{ startTime ? startTime : 'Select Start Time' }}
+            </span>
             <ion-icon [name]="activeDropdown === 'start' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
           </div>
           <div *ngIf="activeDropdown === 'start'" class="select-options-list scrollable-options">
@@ -32,7 +35,10 @@
         <label class="input-label">End Time</label>
         <div class="custom-dropdown-container">
           <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'end'" (click)="toggleDropdown('end')">
-            <span class="selected-text">{{ endTime }}</span>
+            <!-- Uses placeholder styling until a time value is selected -->
+            <span class="selected-text" [class.placeholder-active]="!endTime">
+              {{ endTime ? endTime : 'Select End Time' }}
+            </span>
             <ion-icon [name]="activeDropdown === 'end' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
           </div>
           <div *ngIf="activeDropdown === 'end'" class="select-options-list scrollable-options">
@@ -48,7 +54,10 @@
         <label class="input-label">Initial Status</label>
         <div class="custom-dropdown-container">
           <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'status'" (click)="toggleDropdown('status')">
-            <span class="selected-text">{{ selectedStatusLabel }}</span>
+            <!-- Label getter logic handles fallback text natively -->
+            <span class="selected-text" [class.placeholder-active]="!status">
+              {{ selectedStatusLabel }}
+            </span>
             <ion-icon [name]="activeDropdown === 'status' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
           </div>
           <div *ngIf="activeDropdown === 'status'" class="select-options-list scrollable-options">
@@ -61,7 +70,7 @@
       </div>
 
       <!-- Submit Button -->
-      <button class="submit-btn" (click)="submit()">Submit</button>
+      <button class="submit-btn" [disabled]="!startTime || !endTime || !status" (click)="submit()">Submit</button>
     </div>
   </div>
 </ion-content>

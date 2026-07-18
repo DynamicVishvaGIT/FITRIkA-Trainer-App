@@ -9,7 +9,8 @@ import { ModalController } from '@ionic/angular';
 })
 export class AddFieldPage {
 
-  @Input() fieldTitle: string = 'Option';
+  // Pass "Program Inclusion" from the parent component trigger to display it perfectly
+  @Input() fieldTitle: string = 'Program Inclusion';
   itemName: string = '';
 
   constructor(private modalCtrl: ModalController) {}
@@ -19,8 +20,10 @@ export class AddFieldPage {
   }
 
   submit() {
+    if (!this.itemName.trim()) return;
+    
     this.modalCtrl.dismiss({
-      newItemName: this.itemName
+      newItemName: this.itemName.trim()
     });
   }
 }

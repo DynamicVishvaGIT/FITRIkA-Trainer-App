@@ -1,41 +1,54 @@
 $brand-green: #00c48c;
-$border-light: #ecefef;
-$bg-light: #f4f6f6;
-$text-dark: #1f2421;
+$bg-light: #f4f6f8;
+$text-dark: #1e293b;
+$text-muted: #475569;
 
 .oval-modal-content {
+  --background: #ffffff;
   --overflow: hidden;
   overflow: hidden;
 }
 
-.scrollable-modal-content {
-  padding: 24px;
+.edit-modal-wrapper {
+  padding: 9px 24px calc(32px + env(safe-area-inset-bottom, 0px)) 24px;
   background: #ffffff;
 }
 
 .modal-header {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  min-height: 56px;
 
-  h2 {
+  .modal-title {
     font-size: 20px;
     font-weight: 700;
     color: #000000;
     margin: 0;
-    margin-left: 55px;
+    text-align: center;
+    max-width: 75%;
+    line-height: 1.25;
   }
 
   .close-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
     border: none;
-    font-size: 24px;
-    color: #000000;
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 4px;
+    justify-content: center;
+    padding: 6px;
+    color: #000000;
+
+    &:active {
+      opacity: 0.5;
+    }
   }
 }
 
@@ -44,31 +57,40 @@ $text-dark: #1f2421;
   flex-direction: column;
 
   .input-group {
-    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
   }
 
+  /* Fixed: Removed manual margin-left to align perfectly with the box */
   .input-label {
-    display: block;
     font-size: 14px;
-    color: #475569;
-    margin-bottom: 8px;
-    font-weight: 600;
-    margin-left: 13px;
+    color: $text-muted;
+    font-weight: 700;
+    text-align: left;
   }
 
   .custom-text-input {
     width: 100%;
     background: $bg-light;
     border: 1px solid transparent;
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: 14px;
+    padding: 18px 16px;
     font-size: 15px;
     color: $text-dark;
     font-weight: 500;
     outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
     
+    &::placeholder {
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
     &:focus {
-      border-color: $brand-green;
+      border-color: rgba(0, 196, 140, 0.3);
       background: #ffffff;
     }
   }
@@ -84,9 +106,10 @@ $text-dark: #1f2421;
   border: none;
   border-radius: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 196, 140, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 196, 140, 0.2);
+  transition: background 0.15s ease;
 
   &:active {
-    opacity: 0.9;
+    background: #00b07e;
   }
 }

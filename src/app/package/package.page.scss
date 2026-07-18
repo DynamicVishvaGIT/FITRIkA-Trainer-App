@@ -1,43 +1,50 @@
 $primary-green: #00c48c;
-$text-dark: #1f2421;
-$border-color: #f1f5f9;
+$text-dark: #1e293b;
+$slate-gray: #94a3b8;
 
 .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   background-color: #fafbfc;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   position: relative;
+  box-sizing: border-box;
 }
 
+/* Fixed Header Spacing Preventing Notification Bar Overlap */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 20px 14px 20px;
   background: #ffffff;
   border-bottom: 1px solid #f1f5f9;
-
-  h1 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #111111;
-    margin: 0;
-    margin-left: 33px;
-  }
+  z-index: 100;
 
   .back-btn {
     background: none;
     border: none;
-    padding: 0;
+    padding: 4px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .header-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
   }
 
   .add-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: #ffffff;
     border: 1px solid #e2e8f0;
     padding: 6px 14px;
@@ -46,77 +53,58 @@ $border-color: #f1f5f9;
     font-weight: 600;
     color: #334155;
     cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 
     .plus-circle {
       color: $primary-green;
-      font-weight: 800;
-      font-size: 16px;
+      font-weight: 700;
+      font-size: 15px;
     }
   }
 }
 
+/* Main Content Container Adjustments */
 .content-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 18px 20px 140px 20px;
+  padding: 16px 16px calc(110px + env(safe-area-inset-bottom, 0px)) 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-// Package Card Container
+/* Beautiful Rounded Cards matching the Layout Graphic */
 .package-card {
   position: relative;
   background: #ffffff;
   border: 1px solid #eef1f1;
   border-radius: 16px;
-  padding: 4px 0px; // Padding on sides is handled by headers to isolate the accent strip
-  transition: all 0.2s ease-in-out;
+  padding: 2px 0;
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
 
-  // Active highlighted green border (Matches Image 1)
   &.active {
     border: 1.5px solid $primary-green;
   }
 
-  // Accent vertical left-side strip
   .accent-strip {
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 5px;
+    width: 6px;
     background: $primary-green;
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
   }
 }
 
-// Header portion of card
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 18px 18px 22px; // extra left padding to offset accent bar
-}
-.icon-btn {
-  background: none;
-  border: none;
-  font-size: 28px;        /* Increases the arrow footprint to look exact */
-  font-weight: 1000;       /* Fine-tunes the weight of the arrow line */
-  color: #00c48c;        /* Matches the green color exactly */
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
-  line-height: 1;
-  outline: none;
-
-  &:active {
-    opacity: 0.7;
-  }
+  padding: 16px 16px 16px 22px; 
 }
 
 .header-left {
@@ -127,102 +115,95 @@ $border-color: #f1f5f9;
   min-width: 0;
 
   .package-name {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: #111111;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 60%;
+  }
+
+  .edit-icon-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 2px;
+
+    &:active {
+      transform: scale(0.92);
+    }
   }
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
-// Custom Radio Button
+/* Radio Button Controls */
 .custom-radio {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 2px solid #cbd5e1;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: border-color 0.15s ease;
 
   &.checked {
     border-color: $primary-green;
   }
 
   .radio-inner {
-    width: 10px;
-    height: 10px;
+    width: 11px;
+    height: 11px;
     border-radius: 50%;
     background: $primary-green;
   }
 }
 
-// Edit Icon Button Placement & Action
-.edit-icon-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: transform 0.15s;
-
-  &:active {
-    transform: scale(0.9);
-  }
-
-  &.inline-edit {
-    margin-left: 2px;
-  }
-
-  &.price-edit {
-    margin-right: 4px;
-  }
-}
-
-// Pricing Format matching Image 1
+/* Pricing Presentation Settings */
 .price-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  min-width: 75px;
 
   .price-amount {
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 800;
     color: #000000;
-    line-height: 1.1;
+    line-height: 1;
   }
 
   .price-period {
     font-size: 10px;
-    color: #94a3b8;
-    margin-top: 2px;
+    color: $slate-gray;
+    margin-top: 3px;
+    font-weight: 500;
   }
 }
 
 .chevron-indicator {
   display: flex;
   align-items: center;
-  color: #64748b;
+  justify-content: center;
+  width: 20px;
+  color: $slate-gray;
 }
 
-// Expanded Inclusions Container & Divider
+/* Inclusions Detail Subgrid */
 .card-details {
-  padding: 0 18px 18px 22px;
-}
-
-.details-divider {
-  height: 1px;
-  background-color: #f1f5f9;
-  margin-bottom: 16px;
+  padding: 4px 16px 20px 22px;
 }
 
 .inclusions-list {
@@ -236,7 +217,7 @@ $border-color: #f1f5f9;
   li {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 
     .check-dot {
       display: flex;
@@ -244,7 +225,7 @@ $border-color: #f1f5f9;
       justify-content: center;
       width: 18px;
       height: 18px;
-      background: #e6fbf5;
+      background: #e6faf4;
       border-radius: 50%;
       flex-shrink: 0;
     }
@@ -257,31 +238,32 @@ $border-color: #f1f5f9;
   }
 }
 
-// Fixed Footer matching visual specifications
+/* Desktop & Notch Safe Fixed Footer Section */
 .sticky-footer {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 16px 20px 24px 20px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px)) 20px;
   background: #ffffff;
   border-top: 1px solid #f1f5f9;
-  z-index: 10;
+  z-index: 110;
 
   .primary-select-btn {
     width: 100%;
     background: $primary-green;
     color: #ffffff;
     border: none;
-    padding: 16px;
+    padding: 15px;
     border-radius: 14px;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 196, 140, 0.2);
+    box-shadow: 0 4px 14px rgba(0, 196, 140, 0.25);
+    transition: background 0.15s ease;
 
     &:active {
-      opacity: 0.95;
+      background: #00b07e;
     }
   }
 }

@@ -9,14 +9,14 @@ import { ModalController } from '@ionic/angular';
 })
 export class AddSlotPage {
 
-  startTime: string = '11:00 AM';
-  endTime: string = '12:00 PM';
-  status: 'Free' | 'Blocked' | 'Tej' | 'Rohan' = 'Free';
+  // Change initial values to empty strings so placeholders display first
+  startTime: string = '';
+  endTime: string = '';
+  status: 'Free' | 'Blocked' | 'Tej' | 'Rohan' | '' = '';
   
-  // Tracks which dropdown overlay is currently active ('start' | 'end' | 'status' | null)
+  // Tracks which dropdown overlay is currently active
   activeDropdown: string | null = null;
 
-  // Custom datasets for your time dropdown lists
   startTimeOptions: string[] = ['6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '11:00 AM'];
   endTimeOptions: string[] = ['7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '12:00 PM'];
 
@@ -31,9 +31,9 @@ export class AddSlotPage {
 
   toggleDropdown(dropdownType: string) {
     if (this.activeDropdown === dropdownType) {
-      this.activeDropdown = null; // Close if clicked again
+      this.activeDropdown = null; 
     } else {
-      this.activeDropdown = dropdownType; // Open targeted dropdown
+      this.activeDropdown = dropdownType; 
     }
   }
 
@@ -57,6 +57,12 @@ export class AddSlotPage {
   }
 
   submit() {
+    // Basic validation guard to make sure values are chosen before submission
+    if (!this.startTime || !this.endTime || !this.status) {
+      alert('Please select all fields before submitting.');
+      return;
+    }
+
     this.modalCtrl.dismiss({
       slotData: {
         startTime: this.startTime,
@@ -67,6 +73,7 @@ export class AddSlotPage {
   }
 
   get selectedStatusLabel(): string {
+    if (!this.status) return 'Select Initial Status';
     return this.statusDisplayMap[this.status] || this.status;
   }
 }

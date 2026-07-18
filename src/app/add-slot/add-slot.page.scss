@@ -90,7 +90,7 @@ $text-muted: #929794;
   }
 
   .arrow-icon {
-    font-size: 18px;
+    font-size: 14px;
     color: $text-muted;
   }
 }
@@ -148,4 +148,21 @@ $text-muted: #929794;
   &:active {
     opacity: 0.9;
   }
+  .selected-text {
+  color: #1e293b; /* Normal selected state color */
+  font-weight: 500;
+
+  &.placeholder-active {
+    color: #94a3b8 !important; /* Muted slate placeholder look */
+    font-weight: 400;
+  }
+}
+
+/* Optional style adjustment to show a disabled button state */
+.submit-btn:disabled {
+  background: #cbd5e1 !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
 }

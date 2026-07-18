@@ -20,6 +20,9 @@
   align-items: center;
   gap: 16px;
 }
+.page-content {
+  margin-top: 20px;
+}
 
 .custom-brand-menu {
   display: flex;
@@ -52,6 +55,7 @@
   font-size: 13px;
   color: #7E7E7E;
   margin-bottom: 2px;
+   margin-top: 10px;
 }
 
 .action-headline {
@@ -380,7 +384,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 45px;
+  height: 50px;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
