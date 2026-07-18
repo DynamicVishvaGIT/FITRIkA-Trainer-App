@@ -1,7 +1,6 @@
 <div class="mobile-container">
-  
 
-  <!-- MAIN HEADER -->
+  <!-- MAIN HEADER WITH DEVICE SAFE BOUNDARIES -->
   <header class="main-header">
     <button class="menu-btn" aria-label="Menu">
       <div class="custom-menu-icon">
@@ -24,17 +23,17 @@
     </div>
   </div>
 
-  <!-- FILTER CONTROLS BAR (Image 1 Perfect Styling) -->
+  <!-- FILTER CONTROLS BAR -->
   <div class="filter-tabs-row">
     <div class="tabs-group">
       <button class="tab-btn" [class.active]="activeTab === 'prospects'" (click)="setTab('prospects')">
-        Prospects <span class="badge badge-prospect">2</span>
+        Prospects <span class="badge badge-prospect">{{ getCount('prospects') }}</span>
       </button>
-      <button class="tab-btn" [class.active]="activeTab === 'clients'" (class.active)="activeTab === 'clients'" (click)="setTab('clients')">
-        Clients <span class="badge badge-client">3</span>
+      <button class="tab-btn" [class.active]="activeTab === 'clients'" (click)="setTab('clients')">
+        Clients <span class="badge badge-client">{{ getCount('clients') }}</span>
       </button>
       <button class="tab-btn" [class.active]="activeTab === 'ex-clients'" (click)="setTab('ex-clients')">
-        Ex-Clients <span class="badge badge-ex">1</span>
+        Ex-Clients <span class="badge badge-ex">{{ getCount('ex-clients') }}</span>
       </button>
     </div>
     
@@ -48,7 +47,6 @@
 
   <!-- SCROLLABLE LIST CONTAINER -->
   <main class="scrollable-content">
-    <!-- FIXED: Added (click) event listener and a visual pointer CSS class -->
     <div class="client-card clickable-card" *ngFor="let client of filteredClients" (click)="viewClientProfile(client)">
       <div class="avatar-container">
         <img [src]="client.avatar" [alt]="client.name" />
@@ -83,7 +81,7 @@
     </div>
   </main>
 
-  <!-- BOTTOM NAVIGATION (Clean Outline Style from Image 1) -->
+  <!-- BOTTOM NAVIGATION BAR (Fixed position framework safe layer) -->
   <nav class="bottom-nav">
     <button class="nav-item">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>

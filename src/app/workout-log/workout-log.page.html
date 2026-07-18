@@ -1,5 +1,5 @@
 <div class="mobile-container">
-  <!-- BACK HEADER CONTAINER -->
+  <!-- BACK HEADER CONTAINER WITH DEVICE SAFE BOUNDARIES -->
   <header class="main-header">
     <button class="back-btn" (click)="goBack()" aria-label="Go Back">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00df9a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -30,20 +30,23 @@
       </div>
     </div>
 
-    <!-- WEEKDAY LABELS (S M T W T F S) -->
-    <div class="weekday-header">
-      <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
-    </div>
+    <!-- CALENDAR STRUCTURE BOX -->
+    <div class="calendar-card-wrapper">
+      <!-- WEEKDAY LABELS (S M T W T F S) -->
+      <div class="weekday-header">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
 
-    <!-- DYNAMIC CALENDAR GRID MATRIX -->
-    <div class="matrix-wrapper">
-      <div class="matrix-grid">
-        <div *ngFor="let day of matrixCells" 
-             class="matrix-cell" 
-             [class.filled]="day.filled" 
-             [class.empty]="!day.filled && !day.hidden"
-             [class.hidden]="day.hidden">
-          <span class="day-number" *ngIf="day.label">{{ day.label }}</span>
+      <!-- DYNAMIC CALENDAR GRID MATRIX -->
+      <div class="matrix-wrapper">
+        <div class="matrix-grid">
+          <div *ngFor="let day of matrixCells" 
+               class="matrix-cell" 
+               [class.filled]="day.filled" 
+               [class.empty]="!day.filled && !day.hidden"
+               [class.hidden]="day.hidden">
+            <span class="day-number" *ngIf="day.label">{{ day.label }}</span>
+          </div>
         </div>
       </div>
     </div>
