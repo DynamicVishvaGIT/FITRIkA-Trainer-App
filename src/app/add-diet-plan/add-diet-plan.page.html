@@ -4,7 +4,7 @@
     <div class="bottom-sheet-modal-card">
       
       <header class="sheet-modal-header">
-        <h2 class="sheet-modal-title">Add Diet Plans</h2>
+        <h2 class="sheet-modal-title">{{ isEditing ? 'Edit Diet Plan' : 'Add Diet Plans' }}</h2>
         <button class="sheet-close-round-btn" (click)="dismissModal()">
           <ion-icon name="close-outline"></ion-icon>
         </button>
@@ -26,7 +26,7 @@
           <textarea 
             rows="4" 
             [(ngModel)]="planDescription" 
-            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..." 
+            placeholder="Enter description..." 
             class="custom-form-textarea-element"></textarea>
         </div>
 
@@ -72,7 +72,7 @@
 
       <div class="sheet-action-footer-anchor">
         <button class="sheet-submit-primary-btn" (click)="handleFormSubmission()">
-          Next
+          {{ isEditing ? 'Save Changes' : 'Next' }}
         </button>
       </div>
 

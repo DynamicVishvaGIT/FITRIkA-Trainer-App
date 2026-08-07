@@ -9,8 +9,14 @@
       </svg>
     </button>
     <h1 class="header-title">Package</h1>
-    <button class="add-btn" (click)="navigateToAddPackage()">
-      <span class="plus-circle">+</span> Add
+    <button class="add-btn-circle" (click)="navigateToAddPackage()">
+      <span class="plus-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </span>
+      <span class="add-text">Add</span>
     </button>
   </header>
   
@@ -21,8 +27,8 @@
       class="package-card" 
       [class.active]="selectedPackageId === pkg.id">
       
-      <!-- Inside Left Accent Strip for Selected Card -->
-      <div class="accent-strip" *ngIf="selectedPackageId === pkg.id"></div>
+      <!-- Green Accent Strip rendered on ALL cards unconditionally -->
+      <div class="accent-strip"></div>
 
       <!-- Card Top Main Row (Handles Selection & Expansion) -->
       <div class="card-header" (click)="handleCardSelect(pkg)">
@@ -35,7 +41,7 @@
           <!-- Package Name Title -->
           <span class="package-name">{{ pkg.name }}</span>
 
-          <!-- Uniform Edit Button (Stops expansion/selection event conflicts) -->
+          <!-- Uniform Edit Button -->
           <button class="edit-icon-btn" (click)="navigateToEditPackage($event, pkg.id)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V13" 

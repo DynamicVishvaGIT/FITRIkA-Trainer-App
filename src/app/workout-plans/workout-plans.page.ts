@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, ToastController } from '@ionic/angular';
 import { AddWorkoutPage } from '../add-workout/add-workout.page';
-import { AddDayPlanPage } from '../add-day-plan/add-day-plan.page';
 
-interface WorkoutPlan {
-  id: number;
+export interface WorkoutPlan {
+  id: number | string;
   name: string;
   description: string;
   isCopyable: boolean;
+  isSystemPlan?: boolean;
+  isUserCreated?: boolean;
   tags: string[];
 }
 
@@ -22,29 +23,62 @@ export class WorkoutPlansPage implements OnInit {
 
   searchQuery: string = '';
   myPlansOnly: boolean = false;
-  expandedIndex: number | null = null;
+  expandedIndex: number | null = 2; // Card 3 expanded by default
 
   workoutPlans: WorkoutPlan[] = [
     {
       id: 1,
-      name: 'Beginner Weight Loss Program',
-      description: 'A complete beginner workout plan for weight loss and overall fitness.',
-      isCopyable: true,
-      tags: ['Fat Loss', 'Beginner']
+      name: 'Beginner weight loss program..',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      isCopyable: false,
+      isSystemPlan: true,
+      isUserCreated: false,
+      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg']
     },
     {
       id: 2,
-      name: 'Muscle Building Plan',
-      description: 'Strength training workout for intermediate gym members.',
+      name: 'Beginner weight loss program..',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       isCopyable: true,
-      tags: ['Muscle Gain', 'Intermediate']
+      isSystemPlan: true,
+      isUserCreated: false,
+      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg']
     },
     {
       id: 3,
-      name: 'Cardio Blast',
-      description: 'High intensity cardio sessions for endurance improvement.',
+      name: 'Beginner weight loss program..',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pretium tellus quis arcu mollis, in sodales dui volutpat.',
       isCopyable: false,
-      tags: ['Cardio', 'Advanced']
+      isSystemPlan: true,
+      isUserCreated: false,
+      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg']
+    },
+    {
+      id: 4,
+      name: 'Beginner weight loss program..',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      isCopyable: false,
+      isSystemPlan: true,
+      isUserCreated: false,
+      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg']
+    },
+    {
+      id: 5,
+      name: 'Beginner weight loss program..',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      isCopyable: true,
+      isSystemPlan: true,
+      isUserCreated: false,
+      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg']
+    },
+    {
+      id: 6,
+      name: 'Beginner weight loss program..',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      isCopyable: false,
+      isSystemPlan: true,
+      isUserCreated: false,
+      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg']
     }
   ];
 
@@ -57,24 +91,9 @@ export class WorkoutPlansPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.filteredPlans = [...this.workoutPlans];
+    this.filterPlans();
   }
 
-  // Opens AddWorkoutPage Sheet Overlay for fresh workflows
-  async openAddWorkoutModal() {
-    const modal = await this.modalController.create({
-      component: AddWorkoutPage,
-      cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.75,
-      breakpoints: [0, 0.75, 1],
-      backdropDismiss: true,
-      handle: false
-    });
-
-    await modal.present();
-  }
-
-  // Search filter configuration mapping logic
   filterPlans(): void {
     const search = this.searchQuery.trim().toLowerCase();
 
@@ -84,103 +103,129 @@ export class WorkoutPlansPage implements OnInit {
         plan.description.toLowerCase().includes(search) ||
         plan.tags.some(tag => tag.toLowerCase().includes(search));
 
-      const matchesToggle = this.myPlansOnly ? plan.isCopyable : true;
+      const matchesToggle = this.myPlansOnly ? plan.isUserCreated === true : true;
 
       return matchesSearch && matchesToggle;
     });
   }
 
-  // View Routine Item details path router index
-  async viewPlanDetails(plan: WorkoutPlan) {
-    const toast = await this.toastController.create({
-      message: `Opening ${plan.name}`,
-      duration: 1200,
-      position: 'bottom',
-      color: 'success'
+  async openAddWorkoutModal() {
+    const modal = await this.modalController.create({
+      component: AddWorkoutPage,
+      cssClass: 'bottom-sheet-modal',
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.92, 1],
+      backdropDismiss: true,
+      handle: false,
+      componentProps: {
+        editingPlan: null // Passes null so the form opens empty
+      }
     });
-    await toast.present();
 
-    this.router.navigate(['/workout-details'], {
-      queryParams: { id: plan.id }
-    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data) {
+      const newPlan: WorkoutPlan = {
+        id: 'plan_' + Date.now(),
+        name: data.name || 'New Workout Plan',
+        description: data.description || '',
+        tags: data.tags || [],
+        isCopyable: true,
+        isSystemPlan: false,
+        isUserCreated: true
+      };
+
+      this.workoutPlans.unshift(newPlan);
+      this.filterPlans();
+
+      const toast = await this.toastController.create({
+        message: 'Workout Plan Added Successfully',
+        duration: 1800,
+        color: 'success',
+        position: 'top'
+      });
+      await toast.present();
+    }
   }
 
-  // Duplicate an existing layout blueprint data package array structure
-  async copyPlan(plan: WorkoutPlan, event: Event) {
-    event.stopPropagation();
-    const toast = await this.toastController.create({
-      message: `${plan.name} copied successfully`,
-      duration: 1200,
-      position: 'bottom',
-      color: 'success'
-    });
-    await toast.present();
-  }
-
-  // FIXED: Clicking the edit icon now launches the AddWorkoutPage modal sheet container instead of routing
   async editPlan(plan: WorkoutPlan, event: Event) {
     event.stopPropagation();
 
     const modal = await this.modalController.create({
       component: AddWorkoutPage,
       cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.75,
-      breakpoints: [0, 0.75, 1],
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.92, 1],
       backdropDismiss: true,
       handle: false,
       componentProps: {
-        selectedPlan: plan,
-        isEditMode: true
+        editingPlan: plan // Pass existing plan to populate modal for editing
       }
     });
 
     await modal.present();
-  }
 
-  // Expand text window toggles dynamically
-  toggleExpand(index: number): void {
-    this.expandedIndex = this.expandedIndex === index ? null : index;
-  }
-
-  // Base footer tab dynamic router map link configuration
-  navigateTab(path: string): void {
-    this.router.navigate([path]);
-  }
-
-  // Day layout plan dynamic modal addition configurations 
-  async openAddPlanModal() {
-    const modal = await this.modalController.create({
-      component: AddDayPlanPage,
-      cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.92,
-      breakpoints: [0, 0.92, 1],
-      handle: false
-    });
-
-    await modal.present();
     const { data } = await modal.onWillDismiss();
 
     if (data) {
-      this.workoutPlans = [
-        {
-          id: this.workoutPlans.length + 1,
+      const index = this.workoutPlans.findIndex(p => p.id === data.id);
+      if (index !== -1) {
+        this.workoutPlans[index] = {
+          ...this.workoutPlans[index],
           name: data.name,
           description: data.description,
-          tags: data.tags || [],
-          isCopyable: true
-        },
-        ...this.workoutPlans
-      ];
-
+          tags: data.tags
+        };
+      }
       this.filterPlans();
 
       const toast = await this.toastController.create({
-        message: 'Workout Plan Added Successfully',
-        duration: 2000,
+        message: 'Workout Plan Updated Successfully',
+        duration: 1800,
         color: 'success',
         position: 'top'
       });
       await toast.present();
     }
+  }
+
+  async copyPlan(plan: WorkoutPlan, event: Event) {
+    event.stopPropagation();
+
+    const duplicatedPlan: WorkoutPlan = {
+      ...plan,
+      id: 'plan_' + Date.now(),
+      name: `${plan.name} (Copy)`,
+      isUserCreated: true,
+      isSystemPlan: false,
+      isCopyable: true
+    };
+
+    this.workoutPlans.unshift(duplicatedPlan);
+    this.filterPlans();
+
+    const toast = await this.toastController.create({
+      message: `${plan.name} copied successfully`,
+      duration: 1800,
+      color: 'success',
+      position: 'top'
+    });
+    await toast.present();
+  }
+
+  async viewPlanDetails(plan: WorkoutPlan) {
+    this.router.navigate(['/workout-details'], {
+      queryParams: { id: plan.id }
+    });
+  }
+
+  toggleExpand(index: number): void {
+    this.expandedIndex = this.expandedIndex === index ? null : index;
+  }
+
+  navigateTab(path: string): void {
+    this.router.navigate([path]);
   }
 }

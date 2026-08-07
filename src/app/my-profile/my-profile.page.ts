@@ -26,6 +26,7 @@ interface ProfileDataset {
 export class MyProfilePage implements OnInit {
   
   public isEditing: boolean = false;
+  public isGenderDropdownOpen: boolean = false;
 
   public profileData: ProfileDataset = {
     name: 'Hany Rambod',
@@ -53,16 +54,6 @@ export class MyProfilePage implements OnInit {
     about: 'Hany believes that by unlocking the body and the mind trough regular strength practice everything else in life becomes...'
   };
 
-  public availableTags: string[] = [
-    'Fat loss', 
-    'Beginner', 
-    '4 weeks', 
-    'Push, pull, leg', 
-    'HIIT', 
-    'Yoga', 
-    'Crossfit'
-  ];
-
   constructor(private navCtrl: NavController) {}
 
   ngOnInit(): void {}
@@ -71,51 +62,49 @@ export class MyProfilePage implements OnInit {
     this.isEditing = !this.isEditing;
   }
 
-  // --- SPECIALTY CAPSULED LOGIC PIPELINE ---
+  public toggleGenderDropdown(): void {
+    this.isGenderDropdownOpen = !this.isGenderDropdownOpen;
+  }
+
+  public selectGenderValue(chosenGender: string): void {
+    this.profileData.gender = chosenGender;
+    this.isGenderDropdownOpen = false;
+  }
+
+  // --- SPECIALTY LOGIC PIPELINE ---
   public appendNewSpecialtyValue(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
+    if (!inputElement) return;
+
     const cleanValue = inputElement.value.trim();
-    
     if (cleanValue && !this.profileData.specialties.includes(cleanValue)) {
       this.profileData.specialties.push(cleanValue);
       inputElement.value = ''; 
     }
   }
-  // Add near your properties at the top
-public isGenderDropdownOpen: boolean = false;
 
-// Add alongside your other methods
-public toggleGenderDropdown(): void {
-  this.isGenderDropdownOpen = !this.isGenderDropdownOpen;
-}
-
-public selectGenderValue(chosenGender: string): void {
-  this.profileData.gender = chosenGender;
-  this.isGenderDropdownOpen = false;
-}
-
-  public deleteSpecialty(specToDelete: string): void {
-    this.profileData.specialties = this.profileData.specialties.filter(spec => spec !== specToDelete);
+  public deleteSpecialty(target: string | number): void {
+    if (typeof target === 'number') {
+      this.profileData.specialties.splice(target, 1);
+    } else {
+      this.profileData.specialties = this.profileData.specialties.filter(spec => spec !== target);
+    }
   }
 
-  // --- TAGS CAPSULED LOGIC PIPELINE ---
+  public trackByIndex(index: number, item: any): number {
+    return index;
+  }
+
+  // --- TAGS LOGIC PIPELINE ---
   public appendNewTagValue(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
+    if (!inputElement) return;
+
     const cleanValue = inputElement.value.trim();
-    
     if (cleanValue && !this.profileData.tags.includes(cleanValue)) {
       this.profileData.tags.push(cleanValue);
       inputElement.value = ''; 
     }
-  }
-
-  public selectTag(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = selectElement.value;
-    if (selectedValue && !this.profileData.tags.includes(selectedValue)) {
-      this.profileData.tags.push(selectedValue);
-    }
-    selectElement.value = ''; 
   }
 
   public deleteTag(tagToDelete: string): void {
@@ -126,10 +115,7 @@ public selectGenderValue(chosenGender: string): void {
     alert('Access sequence to device camera library pipeline initiated.');
   }
 
-  public trackByIndex(index: number, item: any): number {
-    return index;
-  }
-  navigateToSlots() {
+  public navigateToSlots() {
     this.navCtrl.navigateForward('/slot', {
       state: {
         profile: {
@@ -142,11 +128,12 @@ public selectGenderValue(chosenGender: string): void {
       }
     });
   }
-  goBack() {
+
+  public goBack() {
     this.navCtrl.navigateBack('/dashboard');
   }
 
-  navigateToPackages() {
+  public navigateToPackages() {
     this.navCtrl.navigateForward('/package');
   }
 }

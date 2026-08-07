@@ -24,7 +24,7 @@ export class DashboardPage implements OnInit {
       time: '4:30 PM',
       client: 'Nitesh Patel',
       type: 'DB(I) Upper Body',
-      active: true
+      active: false
     },
     {
       id: 2,
@@ -75,6 +75,9 @@ export class DashboardPage implements OnInit {
   }
 
   async openSchedule(item: any) {
+    // Set clicked item to active and toggle others off
+    this.schedules.forEach(s => s.active = (s.id === item.id));
+
     this.router.navigate(['/schedule'], {
       queryParams: { itemId: item.id }
     });

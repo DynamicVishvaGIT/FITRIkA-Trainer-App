@@ -41,24 +41,41 @@ $slate-gray: #94a3b8;
     pointer-events: none;
   }
 
-  .add-btn {
+  /* Solid Green Circular Add Badge Button */
+  .add-btn-circle {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    padding: 6px 14px;
-    border-radius: 20px;
+    
+    padding: 5px 14px 5px 5px;
+    border-radius: 24px;
     font-size: 14px;
     font-weight: 600;
     color: #334155;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    // box-shadow: 0 2px 6px rgba(0, 196, 140, 0.15);
+    transition: all 0.15s ease;
 
-    .plus-circle {
-      color: $primary-green;
-      font-weight: 700;
-      font-size: 15px;
+    .plus-icon {
+      width: 26px;
+      height: 26px;
+      background: $primary-green;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .add-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   }
 }
@@ -88,6 +105,7 @@ $slate-gray: #94a3b8;
     border: 1.5px solid $primary-green;
   }
 
+  /* Full-height green accent strip applied to ALL cards unconditionally */
   .accent-strip {
     position: absolute;
     left: 0;
@@ -115,7 +133,7 @@ $slate-gray: #94a3b8;
   min-width: 0;
 
   .package-name {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     color: #111111;
     white-space: nowrap;
@@ -179,7 +197,7 @@ $slate-gray: #94a3b8;
   min-width: 75px;
 
   .price-amount {
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 800;
     color: #000000;
     line-height: 1;

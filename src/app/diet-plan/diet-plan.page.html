@@ -1,22 +1,22 @@
 <ion-header class="ion-no-border core-header-wrapper">
   <ion-toolbar class="custom-toolbar">
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()" class="menu-burger-btn">
+    <div class="header-inner-row">
+      <button class="menu-burger-btn" (click)="goBack()" aria-label="Menu">
         <div class="custom-menu-icon">
           <span></span>
           <span></span>
-          <span></span>
         </div>
-      </ion-button>
-    </ion-buttons>
-    <ion-title class="page-main-heading">Diet Plan</ion-title>
+      </button>
+      <h1 class="page-main-heading">Diet Plan</h1>
+      <div class="header-spacer"></div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="diet-page-content-bg" [fullscreen]="true">
   <div class="main-layout-container">
     
-    <!-- Search -->
+    <!-- Search Bar -->
     <div class="search-box-wrapper">
       <ion-icon name="search-outline" class="search-magnifier-icon"></ion-icon>
       <input 
@@ -39,16 +39,15 @@
       </label>
     </div>
 
-    <!-- Vertical List of Blueprints -->
+    <!-- Cards List -->
     <div class="diet-blueprints-vertical-list">
       
-      <!-- FIX PLACEMENT HERE: We place the click router event right on the card container -->
-      <!-- We change toggleCardExpansion to only happen if they click the chevron arrow below -->
       <div 
         class="blueprint-card-item" 
         *ngFor="let plan of filteredPlans; let idx = index"
         (click)="navigateToDetails(plan)">
         
+        <!-- Top Row: Title + System Badge + Edit/Copy Actions -->
         <div class="card-summary-top-row">
           <div class="left-title-group">
             <h3 class="blueprint-heading-title">{{ plan.name }}</h3>
@@ -56,25 +55,28 @@
           </div>
           
           <div class="right-actions-group">
-            <!-- $event.stopPropagation() stops navigateToDetails from firing when clicking utility items -->
             <button 
-              class="action-utility-btn duplicate-btn" 
-              *ngIf="!plan.isSystemPlan"
-              (click)="duplicatePlan(plan); $event.stopPropagation()">
+              class="action-utility-btn copy-btn" 
+              *ngIf="plan.isUserCreated || plan.id === 'plan_2'" 
+              (click)="duplicatePlan(plan); $event.stopPropagation()"
+              aria-label="Duplicate">
               <ion-icon name="copy-outline"></ion-icon>
             </button>
             <button 
               class="action-utility-btn edit-btn" 
-              (click)="editDietPlan(plan); $event.stopPropagation()">
+              (click)="editDietPlan(plan); $event.stopPropagation()"
+              aria-label="Edit">
               <ion-icon name="create-outline"></ion-icon>
             </button>
           </div>
         </div>
 
+        <!-- Collapsible Description -->
         <div class="card-collapsible-description-container" [class.is-expanded]="plan.isExpanded">
           <p class="description-paragraph-text">{{ plan.description }}</p>
         </div>
 
+        <!-- Bottom Row: Tags + Chevron -->
         <div class="card-footer-ribbon-row">
           <div class="horizontal-tags-scroller">
             <span class="feature-tag-pill" *ngFor="let tag of plan.tags">
@@ -82,8 +84,7 @@
             </span>
           </div>
           
-          <!-- Chevron will exclusively handle opening/closing descriptions locally -->
-          <button class="expansion-chevron-trigger" (click)="toggleCardExpansion(idx); $event.stopPropagation()">
+          <button class="expansion-chevron-trigger" (click)="toggleCardExpansion(idx); $event.stopPropagation()" aria-label="Expand">
             <ion-icon [name]="plan.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'"></ion-icon>
           </button>
         </div>
@@ -93,6 +94,7 @@
 
   </div>
 
+  <!-- Create CTA Button -->
   <div class="fixed-bottom-action-anchor">
     <button class="core-create-cta-btn" (click)="openAddDietPlanModal()">
       + Create New
@@ -100,11 +102,4 @@
   </div>
 </ion-content>
 
-<!-- Bottom Navigation Mockup Footer -->
-<div class="bottom-nav-bar-mock">
-  <div class="nav-tab-item"><ion-icon name="home-outline"></ion-icon></div>
-  <div class="nav-tab-item"><ion-icon name="calendar-outline"></ion-icon></div>
-  <div class="nav-tab-item"><ion-icon name="barbell-outline"></ion-icon></div>
-  <div class="nav-tab-item active"><ion-icon name="restaurant"></ion-icon></div>
-  <div class="nav-tab-item"><ion-icon name="person-outline"></ion-icon></div>
-</div>
+<!-- Bottom Navigation Bar Mockup -->

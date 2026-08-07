@@ -1,148 +1,168 @@
 /*==================================================
-Registration Page Container
+Registration Page Root Container & Mobile Scroll
 ==================================================*/
 .registration-content {
   --background: #FFFFFF;
+
+  &::part(scroll) {
+    /* Ensures smooth momentum scrolling on iOS and Android */
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
-/*==================================================
-Top Brand Header Section (Dark Theme Box from Image 1)
-==================================================*/
-.top-brand-section {
-  background-color: #111612; /* Deep matte black matching figma header */
-  padding: 50px 24px 35px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.back-icon {
-  font-size: 24px;
-  color: #00DA8B; /* Pure vibrant green indicator */
-  cursor: pointer;
-}
-
-.logo-container {
+.registration-scroll-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.logo {
-  width: 75px;
-  height: 50px;
-  object-fit: contain;
-}
-
-.logo-container h1 {
-  margin: 16px 0 6px;
-  font-family: "SF Pro Display", "Inter", sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #FFFFFF;
-  letter-spacing: -0.5px;
-}
-
-.logo-container p {
-  margin: 0;
-  max-width: 280px;
-  font-family: "SF Pro Text", "Inter", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #8E8E93;
-  line-height: 20px;
+  min-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /*==================================================
-Form Input & Fields Styling Section
+Top Brand Header Section (Dark Theme Header)
+==================================================*/
+.top-brand-section {
+  background-color: #111612;
+  padding: calc(env(safe-area-inset-top, 20px) + 24px) 24px 32px 24px;
+  flex-shrink: 0;
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .back-icon {
+      font-size: 24px;
+      color: #00DA8B;
+      cursor: pointer;
+      padding: 4px;
+      margin-left: -4px;
+    }
+  }
+
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .logo {
+      width: 75px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    h1 {
+      margin: 14px 0 6px;
+      font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      margin: 0;
+      max-width: 290px;
+      font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #8E8E93;
+      line-height: 20px;
+    }
+  }
+}
+
+/*==================================================
+Form Input & Fields Layout
 ==================================================*/
 .form-section {
-  padding: 32px 24px;
-}
-
-.input-group {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-family: "SF Pro Text", "Inter", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: #1C1C1E;
-}
-
-.input-box {
-  height: 56px;
-  background: #F2F2F7; /* Light layout background from figma image 1 */
-  border: 1px solid transparent;
-  border-radius: 14px; /* Perfectly smooth rounded layout boxes */
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  transition: all 0.2s ease-in-out;
-}
-
-.input-icon {
-  font-size: 20px;
-  color: #00DA8B;
-  margin-right: 12px;
-}
-
-ion-input {
   flex: 1;
-  font-family: "SF Pro Text", "Inter", sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  color: #000000;
-  --padding-start: 0px;
-  --placeholder-color: #A9A9AE;
-  --placeholder-font-weight: 400;
-}
+  padding: 28px 24px calc(env(safe-area-inset-bottom, 20px) + 28px) 24px;
+  display: flex;
+  flex-direction: column;
 
-/* Focused input state ring rules */
-.input-box:focus-within {
-  border: 1px solid #00DA8B;
-  background: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(0, 218, 139, 0.12);
+  .input-group {
+    margin-bottom: 18px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1C1C1E;
+    }
+
+    .input-box {
+      height: 54px;
+      background: #F2F2F7;
+      border: 1.5px solid transparent;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      transition: all 0.2s ease-in-out;
+
+      .input-icon {
+        font-size: 20px;
+        color: #00DA8B;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+
+      ion-input {
+        flex: 1;
+        font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #000000;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        --placeholder-color: #A9A9AE;
+        --placeholder-opacity: 1;
+        --placeholder-font-weight: 400;
+      }
+
+      &:focus-within {
+        border-color: #00DA8B;
+        background: #FFFFFF;
+        box-shadow: 0 0 0 3px rgba(0, 218, 139, 0.12);
+      }
+    }
+  }
 }
 
 /*==================================================
-Terms & Conditions Alignment
+Terms & Conditions Row
 ==================================================*/
 .terms-container {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 40px;
+  margin-top: 24px;
   margin-bottom: 24px;
-}
 
-.custom-checkbox {
-  --size: 20px;
-  --border-radius: 6px;
-  --border-color: #C7C7CC;
-  --checkbox-background-checked: #00DA8B;
-  --border-color-checked: #00DA8B;
-}
+  .custom-checkbox {
+    --size: 20px;
+    --border-radius: 6px;
+    --border-color: #C7C7CC;
+    --checkbox-background-checked: #00DA8B;
+    --border-color-checked: #00DA8B;
+    margin: 0;
+  }
 
-.terms-text {
-  font-family: "SF Pro Text", sans-serif;
-  font-size: 14px;
-  color: #1C1C1E;
-  
-  a {
-    color: #00DA8B;
-    text-decoration: underline;
-    font-weight: 500;
+  .terms-text {
+    font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    color: #1C1C1E;
+
+    a {
+      color: #00DA8B;
+      text-decoration: underline;
+      font-weight: 500;
+    }
   }
 }
 
@@ -150,13 +170,13 @@ Terms & Conditions Alignment
 Action Button
 ==================================================*/
 .continue-btn {
-  margin-top: 16px;
-  height: 56px;
+  margin-top: auto;
+  height: 54px;
   --border-radius: 14px;
   --background: linear-gradient(90deg, #00AF70 0%, #00DA8B 100%);
-  font-family: "SF Pro Text", sans-serif;
+  --box-shadow: 0 10px 20px rgba(0, 218, 139, 0.18);
+  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
   font-weight: 600;
   text-transform: none;
-  box-shadow: 0 10px 20px rgba(0, 218, 139, 0.16);
 }

@@ -83,7 +83,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
       border: none; 
       outline: none; 
       width: 100%; 
-      font-size: 15px; 
+      font-size: 16px; 
       color: #1e293b;
       background: transparent; 
       font-weight: 400; 
@@ -94,6 +94,11 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     }
   }
 }
+.feature-icon-img {
+        width: 15px;
+        height: 15px;
+        object-fit: contain;
+      }
 
 .filter-tabs-row {
   display: flex; 

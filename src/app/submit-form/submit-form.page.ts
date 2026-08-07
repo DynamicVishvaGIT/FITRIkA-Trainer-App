@@ -28,36 +28,20 @@ export class SubmitFormPage implements OnInit {
     { id: 4, questionText: 'Do you have a bone or joint problem that could be made worse by a change in your physical activity?', userAnswer: null },
     { id: 5, questionText: 'Is your doctor currently prescribing drugs for your blood pressure or heart condition?', userAnswer: null },
     { id: 6, questionText: 'Do you know of any other reason why you should not do physical activity?', userAnswer: null },
-    { id: 7, questionText: 'Have you recently undergone surgical operations that restrict intense movement?', userAnswer: null },
-    { id: 8, questionText: 'Have you recently undergone surgical operations that restrict intense movement?', userAnswer: null },
-    { id: 9, questionText: 'Have you recently undergone surgical operations that restrict intense movement?', userAnswer: null },
-    { id: 10, questionText: 'Have you recently undergone surgical operations that restrict intense movement?', userAnswer: null }
-   
+    { id: 7, questionText: 'Have you recently undergone surgical operations that restrict intense movement?', userAnswer: null }
   ];
 
   // 2. Data Source: Medical Follow-Up Questions
   medicalQuestions: ParqQuestion[] = [
     { id: 1, questionText: 'Do you have a history of chronic respiratory conditions or metabolic diseases that require regular therapy?', userAnswer: null },
     { id: 2, questionText: 'Are you currently taking any regular medical treatment unmentioned in general health screening?', userAnswer: null },
-    { id: 3, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null },
-    { id: 4, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null },
-    { id: 5, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null },
-    { id: 6, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null },
-    { id: 7, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null },
-    { id: 8, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null },
-    { id: 9, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null },
-    { id: 10, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null }
+    { id: 3, questionText: 'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?', userAnswer: null }
   ];
 
   // 3. Data Source: Your Declaration Metrics
   declarationQuestions: ParqQuestion[] = [
     { id: 1, questionText: 'I confirm that all the information provided regarding my health status is accurate and correct to my best knowledge.', userAnswer: null },
-    { id: 2, questionText: 'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.', userAnswer: null },
-     { id: 3, questionText: 'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.', userAnswer: null },
-      { id: 4, questionText: 'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.', userAnswer: null },
-       { id: 5, questionText: 'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.', userAnswer: null },
-        { id: 6, questionText: 'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.', userAnswer: null },
-         { id: 7, questionText: 'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.', userAnswer: null }
+    { id: 2, questionText: 'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.', userAnswer: null }
   ];
 
   constructor(
@@ -68,7 +52,6 @@ export class SubmitFormPage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Read parameters passed from the forms menu screen
     this.route.queryParams.subscribe(params => {
       const type = params['type'];
       if (type) {
@@ -98,16 +81,18 @@ export class SubmitFormPage implements OnInit {
 
   answerQuestion(index: number, answer: boolean): void {
     this.activeQuestionsList[index].userAnswer = answer;
-
-    // 2. Synchronize back to the source arrays so choices are preserved
-  if (this.currentSectionType === 'medical') {
-    this.medicalQuestions[index].userAnswer = answer;
-  } else if (this.currentSectionType === 'declaration') {
-    this.declarationQuestions[index].userAnswer = answer;
-  } else {
-    this.generalQuestions[index].userAnswer = answer;
+    this.cdr.detectChanges();
   }
 
+  /**
+   * Calculates the percentage of answered questions to drive the progress bar width smoothly.
+   */
+  calculateProgressPercentage(): number {
+    if (!this.activeQuestionsList || this.activeQuestionsList.length === 0) {
+      return 0;
+    }
+    const answeredCount = this.activeQuestionsList.filter(q => q.userAnswer !== null).length;
+    return (answeredCount / this.activeQuestionsList.length) * 100;
   }
 
   submitAssessmentAnswers(): void {

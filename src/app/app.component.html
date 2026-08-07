@@ -19,15 +19,43 @@
         <ion-list id="labels-list">
           <ion-list-header>Labels</ion-list-header>
 
-          @for (label of labels; track label) {
+          <!-- @for (label of labels; track label) {
             <ion-item lines="none">
               <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
               <ion-label>{{ label }}</ion-label>
             </ion-item>
-          }
+          } -->
         </ion-list>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
+    <ion-tabs  #myTabs (ionTabsDidChange)="getSelectedTab()">
+      <ion-tab-bar slot="bottom" selectedTab="{{tab_name}}" *ngIf="tab_name =='dashboard' || tab_name =='workout-plans' || tab_name =='add-workout' || tab_name =='diet-plan' || tab_name =='add-diet-plan' || tab_name =='clients' || tab_name =='profile' || tab_name =='schedule' || tab_name =='workout-log' || tab_name =='diet-log' || tab_name =='package' ">
+        <ion-tab-button tab="dashboard">
+          <img src="assets/images/home.png" class="footer-icon">
+         
+        </ion-tab-button>
+
+        <ion-tab-button tab="schedule">
+          <img src="assets/images/calendar.png" class="footer-icon">
+          <!-- <ion-label class="footer-label">REDEEM</ion-label> -->
+        </ion-tab-button>
+
+        <ion-tab-button tab="workout-plans">
+          <img src="assets/images/barbel.png" class="footer-icon">
+          <!-- <ion-label class="footer-label">EARN POINTS</ion-label> -->
+        </ion-tab-button>
+    
+        <ion-tab-button tab="diet-plan">
+          <img src="assets/images/diet.png" class="footer-icon">
+          <!-- <ion-label class="footer-label">PROFILE</ion-label> -->
+        </ion-tab-button>
+        <ion-tab-button tab="my-profile">
+          <img src="assets/images/profile.png" class="footer-icon">
+          <!-- <ion-label class="footer-label">PROFILE</ion-label> -->
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+
   </ion-split-pane>
 </ion-app>

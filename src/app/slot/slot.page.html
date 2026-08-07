@@ -1,23 +1,18 @@
 <ion-header class="ion-no-border global-slot-header">
   <ion-toolbar class="slot-toolbar-container">
     <ion-buttons slot="start">
-      <ion-button class="back-navigation-btn" (click)="goBack()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00df9a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-      </ion-button>
+      <ion-back-button defaultHref="/my-profile" text="" class="back-navigation-btn"></ion-back-button>
     </ion-buttons>
     <ion-title class="slot-centered-title">Slot Sheet</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="slot-page-content">
+<ion-content [fullscreen]="false" class="slot-page-content">
 
-  <!-- Profile Header Card Block -->
-  <div class="trainer-profile-card" *ngIf="showProfile">
+  <!-- Trainer Profile Header Card Block -->
+  <div class="trainer-profile-card">
     <div class="profile-avatar-frame">
-      <img src="https://i.pravatar.cc/150?img=47" alt="Profile User" />
+      <img src="https://i.pravatar.cc/150?img=47" alt="Astha Dhaliwal" />
     </div>
     <div class="profile-details-column">
       <h2 class="profile-heading-name">Astha Dhaliwal</h2>
@@ -50,10 +45,16 @@
     </div>
   </div>
 
-  <!-- Action Row: Add New Slot Trigger -->
-  <div class="action-trigger-container">
-    <button class="pill-add-action-btn" (click)="openAddSlotModal()">
-      <span class="math-plus-symbol">+</span> Add
+  <!-- Action Row: Add New Slot Button aligned right underneath calendar strip -->
+  <div class="action-row-container">
+    <button class="add-btn-circle" (click)="openAddSlotModal()">
+      <span class="plus-icon">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </span>
+      <span class="add-text">Add</span>
     </button>
   </div>
 
@@ -73,12 +74,10 @@
       </div>
 
       <div class="slot-right-actions">
-        <!-- Structural edit/lock responsive state icons -->
         <button class="icon-utility-action-btn interaction-edit-trigger" (click)="openEditModal(slot)">
           <ion-icon [name]="slot.status === 'Blocked' ? 'lock-closed-outline' : (slot.status === 'Free' ? 'lock-open-outline' : 'pencil-outline')"></ion-icon>
         </button>
         
-        <!-- Danger/Trash Delete Button -->
         <button class="icon-utility-action-btn interaction-delete-trigger" (click)="deleteSlot(slot.id)">
           <ion-icon name="trash-outline"></ion-icon>
         </button>

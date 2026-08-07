@@ -12,7 +12,14 @@
 
   <!-- Active Evaluation Form Question Sheets Workspace -->
   <main class="scrollable-content-area assignment-active-body">
-    <div class="step-indicator-text">Step 1 of 10</div>
+    <div class="step-indicator-wrapper">
+      <div class="step-indicator-text">{{ stepIndicatorText }}</div>
+      
+      <!-- Dynamic Progress Bar Container -->
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" [style.width.%]="calculateProgressPercentage()"></div>
+      </div>
+    </div>
 
     <!-- Mint Informational Box Banner Container -->
     <div class="mint-info-alert-banner">
@@ -28,25 +35,24 @@
 
     <!-- Questions Block Listing Array -->
     <div class="assessment-questions-container">
-      <div class="question-structural-card" *ngFor="let q of generalQuestions; let i = index">
+      <div class="question-structural-card" *ngFor="let q of activeQuestionsList; let i = index">
         <p class="question-prompt-label">{{ q.questionText }}</p>
         
         <!-- Toggle Binary Selections Action Bar Row -->
         <div class="binary-selection-grid">
-          <!-- NO OPTION ELEMENT -->
-         <!-- NO OPTION BUTTON PILL -->
-<button class="choice-action-node choice-no" 
-        [class.node-selected-no]="q.userAnswer === false"
-        (click)="answerQuestion(i, false)">
-  <span class="btn-icon-symbol">✕</span> No
-</button>
+          <!-- NO OPTION BUTTON PILL -->
+          <button class="choice-action-node choice-no" 
+                  [class.node-selected-no]="q.userAnswer === false"
+                  (click)="answerQuestion(i, false)">
+            <span class="btn-icon-symbol">✕</span> No
+          </button>
 
-<!-- YES OPTION BUTTON PILL -->
-<button class="choice-action-node choice-yes" 
-        [class.node-selected-yes]="q.userAnswer === true"
-        (click)="answerQuestion(i, true)">
-  <span class="btn-icon-symbol">✓</span> Yes
-</button>
+          <!-- YES OPTION BUTTON PILL -->
+          <button class="choice-action-node choice-yes" 
+                  [class.node-selected-yes]="q.userAnswer === true"
+                  (click)="answerQuestion(i, true)">
+            <span class="btn-icon-symbol">✓</span> Yes
+          </button>
         </div>
       </div>
     </div>

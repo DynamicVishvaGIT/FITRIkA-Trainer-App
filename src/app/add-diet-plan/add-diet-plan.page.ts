@@ -1,5 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, HostListener, ElementRef, Input } from '@angular/core';
 import { DietPlanItem } from '../diet-plan/diet-plan.page';
 import { ModalController } from '@ionic/angular';
 
@@ -11,39 +10,63 @@ import { ModalController } from '@ionic/angular';
 })
 export class AddDietPlanPage implements OnInit {
 
+  @Input() editingPlan: DietPlanItem | null = null;
+
   isEditing: boolean = false;
   editingPlanId: string | null = null;
 
   planName: string = '';
   planDescription: string = '';
   
-  // Searchable dropdown state managers
-  selectedTags: string[] = []; // Intentionally left empty at initialization per user requirements
+  selectedTags: string[] = [];
   tagSearchQuery: string = '';
   isDropdownMenuVisible: boolean = false;
   
-  masterDatasetTagOptions: string[] = ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg', 'Advanced Bodybuilding', 'Keto Diet', '6 weeks plan', 'Full Body Split'];
+  masterDatasetTagOptions: string[] = [
+    'Fat loss', 
+    'Beginner', 
+    '4 weeks', 
+    'push, pull, leg', 
+    'Advanced Bodybuilding', 
+    'Keto Diet', 
+    '6 weeks plan', 
+    'Full Body Split'
+  ];
   filteredTagOptions: string[] = [];
 
-  constructor(private router: Router, private elementRef: ElementRef, private modalCtrl: ModalController) {
-    // Populate working array filter datasets initially
+  constructor(
+    private elementRef: ElementRef, 
+    private modalCtrl: ModalController
+  ) {}
+
+  ngOnInit() {
     this.filteredTagOptions = [...this.masterDatasetTagOptions];
 
-    // Check for incoming editing states safely from the router state
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state && navigation.extras.state['editingPlan']) {
-      const plan = navigation.extras.state['editingPlan'] as DietPlanItem;
+    if (this.editingPlan) {
       this.isEditing = true;
-      this.editingPlanId = plan.id;
-      this.planName = plan.name;
-      this.planDescription = plan.description;
-      this.selectedTags = [...plan.tags];
+      this.editingPlanId = this.editingPlan.id;
+      this.planName = this.editingPlan.name;
+      this.planDescription = this.editingPlan.description;
+      this.selectedTags = [...(this.editingPlan.tags || [])];
+      
+      // Put the last tag into the input box if tags exist
+      if (this.selectedTags.length > 0) {
+        this.tagSearchQuery = this.selectedTags[this.selectedTags.length - 1];
+      }
+    } else {
+      this.resetForm();
     }
   }
 
-  ngOnInit() {}
+  resetForm() {
+    this.isEditing = false;
+    this.editingPlanId = null;
+    this.planName = '';
+    this.planDescription = '';
+    this.selectedTags = [];
+    this.tagSearchQuery = '';
+  }
 
-  // Automatically close searchable layout if a user taps anywhere outside the component box element
   @HostListener('document:click', ['$event'])
   interceptOutsideTaps(event: Event) {
     if (!this.elementRef.nativeElement.querySelector('.searchable-tags-dropdown-anchor')?.contains(event.target)) {
@@ -60,56 +83,45 @@ export class AddDietPlanPage implements OnInit {
     this.executeTagFiltering();
   }
 
-  toggleDropdownMenu(event:Event){
-
-   event.stopPropagation();
-
-   this.isDropdownMenuVisible=!this.isDropdownMenuVisible;
-
-   if(this.isDropdownMenuVisible){
+  toggleDropdownMenu(event: Event) {
+    event.stopPropagation();
+    this.isDropdownMenuVisible = !this.isDropdownMenuVisible;
+    if (this.isDropdownMenuVisible) {
       this.executeTagFiltering();
-   }
-
-}
-
-  executeTagFiltering(){
-
- const query=this.tagSearchQuery.toLowerCase();
-
- this.filteredTagOptions=this.masterDatasetTagOptions.filter(tag=>{
-
-   const match=tag.toLowerCase().includes(query);
-
-   const alreadySelected=this.selectedTags.includes(tag);
-
-   return match && !alreadySelected;
-
- });
-
-
+    }
   }
 
- addNewTagToSelection(tag:string){
+  executeTagFiltering() {
+    const query = this.tagSearchQuery.toLowerCase();
+    this.filteredTagOptions = this.masterDatasetTagOptions.filter(tag => {
+      const match = tag.toLowerCase().includes(query);
+      const alreadySelected = this.selectedTags.includes(tag);
+      return match && !alreadySelected;
+    });
+  }
 
-    if(tag && !this.selectedTags.includes(tag)){
-
-        this.selectedTags=[
-            ...this.selectedTags,
-            tag
-        ];
-
+  addNewTagToSelection(tag: string) {
+    if (tag && !this.selectedTags.includes(tag)) {
+      this.selectedTags.push(tag);
     }
-
-    this.tagSearchQuery= tag;
-    this.isDropdownMenuVisible=false;
-    this.filteredTagOptions=[
-   ...this.masterDatasetTagOptions
-];
-}
+    
+    // Display the newly selected tag inside the input box
+    this.tagSearchQuery = tag;
+    this.isDropdownMenuVisible = false;
+    this.executeTagFiltering();
+  }
 
   removeTagFromSelection(tagToRemove: string) {
     this.selectedTags = this.selectedTags.filter(item => item !== tagToRemove);
-     this.executeTagFiltering();
+    
+    // Update input box value to the last available tag (or empty if none remain)
+    if (this.selectedTags.length > 0) {
+      this.tagSearchQuery = this.selectedTags[this.selectedTags.length - 1];
+    } else {
+      this.tagSearchQuery = '';
+    }
+    
+    this.executeTagFiltering();
   }
 
   handleFormSubmission() {
@@ -127,12 +139,7 @@ export class AddDietPlanPage implements OnInit {
       tags: this.selectedTags,
       isExpanded: false
     };
-     this.modalCtrl.dismiss(payloadData);
 
-    if (this.isEditing) {
-      this.router.navigate(['/diet-plan'], { state: { updatedPlan: payloadData } });
-    } else {
-      this.router.navigate(['/diet-plan'], { state: { newPlan: payloadData } });
-    }
+    this.modalCtrl.dismiss(payloadData);
   }
 }

@@ -10,7 +10,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
- profileData = {
+  profileData = {
     name: 'Astha Dhaliwal',
     phone: '+91 9876543210',
     email: 'asthadhaliwal@gmail.com',
@@ -31,30 +31,30 @@ export class ProfilePage implements OnInit {
   ];
 
   trackingMetrics = [
-    { name: 'Strength Score', score: 75, color: '#ef4444' },
-    { name: 'Muscular Strength', score: 70, color: '#10b981' },
-    { name: 'Cardiovascular Endurance', score: 75, color: '#3b82f6' },
-    { name: 'Body Composition', score: 70, color: '#a3e635' },
-    { name: 'Flexibility', score: 75, color: '#ec4899' }
+    { name: 'Strength Score', score: 15, color: '#ff3b30' },
+    { name: 'Muscular Strength', score: 75, color: '#00d689' },
+    { name: 'Cardiovascular Endurance', score: 15, color: '#2196f3' },
+    { name: 'Body Composition', score: 30, color: '#a2e000' },
+    { name: 'Flexibility', score: 10, color: '#e91e63' }
   ];
 
   assignedWorkout = {
     programName: 'Beginner weight loss program',
-    dateRange: '12/02/2025 - 12/05/2025',
+    dateRange: '12/02/2026 - 12/05/2026',
     completed: 60,
     total: 90
   };
 
   assignedDiet = {
     programName: 'Calorie control program..',
-    dateRange: '12/02/2025 - 12/05/2025',
+    dateRange: '12/02/2026 - 12/05/2026',
     completed: 20,
     total: 100
   };
 
   assignedPackage = {
     programName: 'Muscle Gain Pro',
-    dateRange: '12/02/2025 - 12/05/2025',
+    dateRange: '12/02/2026 - 12/05/2026',
     completed: 60,
     total: 90
   };
@@ -75,7 +75,6 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private toastController: ToastController
   ) {
-    // Captures dynamic state parameters from the client page selection
     const currentNav = this.router.getCurrentNavigation();
     if (currentNav?.extras?.state?.['clientData']) {
       const client = currentNav.extras.state['clientData'];
@@ -86,28 +85,28 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  ngOnInit(
-    
-  ) {
-
-    
-  }
+  ngOnInit() {}
 
   goBack() {
     this.router.navigate(['/clients']);
   }
 
-  // Navigates to Workout Log page with context payload
   goToWorkoutLog(contextData?: any) {
     this.router.navigate(['/workout-log'], {
       state: { data: contextData, user: this.profileData.name }
     });
   }
 
-  // Navigates to Diet Log page with context payload
   goToDietLog(contextData?: any) {
     this.router.navigate(['/diet-log'], {
       state: { data: contextData, user: this.profileData.name }
+    });
+  }
+
+  // Navigate to Tracking Metrics Page
+  goToTrackingMetrics() {
+    this.router.navigate(['/tracking-metrics'], {
+      state: { user: this.profileData.name }
     });
   }
 
@@ -129,12 +128,4 @@ export class ProfilePage implements OnInit {
     });
     await toast.present();
   }
-
-//   // Bottom Navigation Footer Router Pagers
-//   goHome() { this.router.navigate(['/dashboard']); }
-//   goSchedule() { this.router.navigate(['/schedule']); }
-//   goWorkout() { this.router.navigate(['/workout-plans']); }
-//   goDiet() { this.router.navigate(['/diet-plans']); }
-//   goProfile() { this.router.navigate(['/profile']); }
-// 
 }

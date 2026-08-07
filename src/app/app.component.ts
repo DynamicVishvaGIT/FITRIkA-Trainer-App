@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {  ViewChild } from '@angular/core';
+import { IonTabs,  } from '@ionic/angular';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,14 +8,33 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
+ public selectedIndex = 0;
+  selectedPath = '';
+  selected:boolean = false;
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    {
+      title: 'Dashboard',
+      url: '/home',
+      icon: 'home-outline'
+    },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  @ViewChild('myTabs',{ static: false }) tabs!: IonTabs;
+  selectedTab: string = '';
+  activeTabName: string | undefined = '';
+  tab_name: any;
+  userstatus_data: any;
+  userstatus: any;
+  loginStatus: boolean = false;
+  displayProfileData = {first_name: '', last_name: '', email: '', avatar: ''};
+  currentUser:any;
   constructor() {}
+
+   getSelectedTab(): void {
+    if (this.tabs) {
+      this.selected = true;
+      this.activeTabName = this.tabs.getSelected() || '';
+      this.tab_name = this.activeTabName;
+    }
+  }
+
 }

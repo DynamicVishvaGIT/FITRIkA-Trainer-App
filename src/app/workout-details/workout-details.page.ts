@@ -12,13 +12,11 @@ import { AddWorkoutPage } from '../add-workout/add-workout.page';
 })
 export class WorkoutDetailsPage implements OnInit {
 
-  // Current working template data sets
-  planId: number | null = null;
+  planId: number | string | null = null;
   planName: string = 'Beginner weight loss program..';
   description: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pretium tellus quis arcu mollis, in sodales dui volutpat.';
   tags: string[] = ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg', 'gym', 'Low'];
 
-  // Array storing row components
   workoutDays = [
     { title: 'Upper Body', exerciseCount: 4, dayNumber: 'Day 1' }
   ];
@@ -34,7 +32,7 @@ export class WorkoutDetailsPage implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
-        this.planId = +params['id'];
+        this.planId = params['id'];
       }
       if (params['name']) {
         this.planName = params['name'];
@@ -56,33 +54,49 @@ export class WorkoutDetailsPage implements OnInit {
      this.router.navigate(['/workout-plans']);
   }
 
-  // FIXED: Launch AddWorkoutPage modal overlay on clicking edit icon instead of navigation
+  // Matches the exact edit configuration and modal parameters used in workout-plans.page.ts
   async editWorkoutPlan(event: Event) {
     event.stopPropagation();
+
+    const currentPlanObject = {
+      id: this.planId || 1,
+      name: this.planName,
+      description: this.description,
+      tags: this.tags,
+      isCopyable: true
+    };
 
     const modal = await this.modalController.create({
       component: AddWorkoutPage,
       cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.75,
-      breakpoints: [0, 0.75, 1],
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.92, 1],
       backdropDismiss: true,
       handle: false,
       componentProps: {
-        selectedPlan: {
-          id: this.planId,
-          name: this.planName,
-          description: this.description,
-          tags: this.tags,
-          isCopyable: true
-        },
-        isEditMode: true
+        editingPlan: currentPlanObject // Matches workout-plans page structure precisely
       }
     });
 
     await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data) {
+      this.planName = data.name || 'New Workout Plan';
+      this.description = data.description || '';
+      this.tags = data.tags || [];
+
+      const toast = await this.toastController.create({
+        message: 'Workout Details Updated Successfully',
+        duration: 1800,
+        color: 'success',
+        position: 'top'
+      });
+      await toast.present();
+    }
   }
 
-  // Dynamic async engine to load the AddDayPlanPage sheet controller
   async addNewWorkoutDay() {
     const modal = await this.modalController.create({
       component: AddDayPlanPage,

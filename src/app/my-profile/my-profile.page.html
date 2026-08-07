@@ -1,10 +1,17 @@
 <ion-content [fullscreen]="true">
   <div class="app-screen-container">
     
-    <!-- Top Dark Header Block -->
-    <header class="dark-profile-card">
-      <div class="top-nav-label">My Profile</div>
-      
+    <!-- HEADER CONTROLLER WITH BACK BUTTON -->
+    <header class="main-header">
+      <button class="menu-btn" (click)="goBack()" aria-label="Back">
+        <ion-icon name="arrow-back" class="ion-back-icon"></ion-icon>
+      </button>
+      <h1 class="header-title">My Profile</h1>
+      <div class="header-spacer"></div>
+    </header>
+
+    <!-- Top Dark Profile Card Block -->
+    <div class="dark-profile-card">
       <div class="user-profile-row">
         <div class="profile-avatar-frame">
           <img [src]="profileData.avatar" alt="User Headshot">
@@ -30,8 +37,8 @@
         </div>
       </div>
 
-      <!-- Navigation Buttons Section -->
-      <div class="profile-nav-actions-row">
+      <!-- Navigation Buttons Section (Hidden when isEditing is true) -->
+      <div class="profile-nav-actions-row" *ngIf="!isEditing">
         <button class="nav-outline-action-btn" (click)="navigateToSlots()">
           <ion-icon name="calendar-outline" class="btn-lead-icon"></ion-icon>
           <span class="btn-text-label">My Slots</span>
@@ -41,7 +48,7 @@
           <span class="btn-text-label">Packages</span>
         </button>
       </div>
-    </header>
+    </div>
 
     <!-- Lower Light Details Body -->
     <main class="light-profile-body">
@@ -110,7 +117,7 @@
         </div>
       </div>
 
-      <!-- Specialty Row (Styled exactly like your new light-mode screenshot layout) -->
+      <!-- Specialty Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
           <ion-icon name="create" class="mint-icon"></ion-icon>
@@ -118,20 +125,42 @@
         <div class="content-column">
           <label class="input-header">Specialty</label>
           
-          <!-- Unified list for both states to maintain structural integrity -->
-          <ul class="read-only-specialty-list visual-capsule-mode">
+          <!-- READ-ONLY MODE -->
+          <ul *ngIf="!isEditing" class="read-only-specialty-list">
             <li *ngFor="let spec of profileData.specialties" class="specialty-capsule-item">
               <ion-icon name="checkmark-circle-outline" class="item-check-bullet"></ion-icon>
               <span class="spec-text">{{ spec }}</span>
-              <!-- Clear cross icon visible only during Edit state -->
-              <ion-icon *ngIf="isEditing" name="close-outline" class="remove-capsule-x" (click)="deleteSpecialty(spec)"></ion-icon>
             </li>
           </ul>
 
-          <!-- Add Input Field visible during Edit state -->
-          <div *ngIf="isEditing" class="tag-append-input-wrapper no-margin-top">
-            <input type="text" placeholder="Add new specialty" class="light-mode-text-input text-field-rounded" (keyup.enter)="appendNewSpecialtyValue($event)">
+          <!-- EDITING MODE -->
+          <div *ngIf="isEditing" class="editing-specialty-container">
+            <div *ngFor="let spec of profileData.specialties; let i = index; trackBy: trackByIndex" class="edit-specialty-row">
+              <ion-icon name="checkmark-circle-outline" class="item-check-bullet outside-icon"></ion-icon>
+              <div class="input-capsule-box">
+                <input 
+                  type="text" 
+                  [(ngModel)]="profileData.specialties[i]" 
+                  class="light-mode-text-input no-border-radius">
+                <ion-icon name="close-outline" class="remove-capsule-x" (click)="deleteSpecialty(i)"></ion-icon>
+              </div>
+            </div>
+
+            <div class="edit-specialty-row add-new-row">
+              <ion-icon name="checkmark-circle-outline" class="item-check-bullet outside-icon muted-bullet"></ion-icon>
+              <div class="input-capsule-box">
+                <input 
+                  type="text" 
+                  #newSpecialtyInput
+                  placeholder="Add new specialty" 
+                  class="light-mode-text-input no-border-radius" 
+                  (keyup.enter)="appendNewSpecialtyValue($event); newSpecialtyInput.value=''"
+                  (keydown.enter)="$event.preventDefault()"
+                  (blur)="appendNewSpecialtyValue($event); newSpecialtyInput.value=''">
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -154,7 +183,7 @@
         </div>
       </div>
 
-      <!-- Interactive Tags Row (Pills left perfectly matching screenshot 1) -->
+      <!-- Interactive Tags Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
           <ion-icon name="pricetag" class="mint-icon"></ion-icon>
@@ -170,7 +199,14 @@
           </div>
 
           <div *ngIf="isEditing" class="tag-append-input-wrapper">
-            <input type="text" placeholder="Add New Tag" class="light-mode-text-input text-field-rounded" (keyup.enter)="appendNewTagValue($event)">
+            <input 
+              type="text" 
+              #newTagInput
+              placeholder="Add New Tag" 
+              class="light-mode-text-input text-field-rounded" 
+              (keyup.enter)="appendNewTagValue($event); newTagInput.value=''"
+              (keydown.enter)="$event.preventDefault()"
+              (blur)="appendNewTagValue($event); newTagInput.value=''">
           </div>
         </div>
       </div>

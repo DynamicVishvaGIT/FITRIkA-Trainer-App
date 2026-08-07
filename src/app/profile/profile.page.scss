@@ -31,7 +31,7 @@
   }
 
   .header-title {
-    font-size: 19px;
+    font-size: 20px;
     font-weight: 700;
     color: #191c21;
     margin: 0;
@@ -134,7 +134,7 @@
     margin-bottom: 12px;
     
     h3 {
-      font-size: 14.5px;
+      font-size: 16px;
       font-weight: 700;
       color: #191c21;
       margin: 0;
@@ -143,7 +143,7 @@
     .view-all-btn {
       background: none;
       border: none;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       color: #00d689;
       cursor: pointer;
@@ -306,7 +306,7 @@
     min-width: 0;
     h4 {
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 500;
       color: #191c21;
       margin: 0 0 3px 0;
       white-space: nowrap;
@@ -314,10 +314,10 @@
       text-overflow: ellipsis;
     }
     p {
-      font-size: 10px;
-      color: #8c9099;
+      font-size: 11px;
+      color: #1c1c1c;
       margin: 0;
-      font-weight: 500;
+      font-weight: 700;
     }
   }
 
@@ -382,7 +382,7 @@
     justify-content: center;
     background-color: #fcfdfe;
     cursor: pointer;
-    height: 68px;
+    height: 75px;
     flex-shrink: 0;
   }
 
@@ -396,7 +396,7 @@
   }
 
   .dashed-document-card {
-    flex-basis: 110px;
+    flex-basis: 84px;
     gap: 4px;
     
     .doc-icon-container {

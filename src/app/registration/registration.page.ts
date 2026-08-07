@@ -10,12 +10,11 @@ import { Location } from '@angular/common';
 })
 export class RegistrationPage implements OnInit {
 
-  email: string = '';
+  mobile: string = '';
   emailAddress: string = '';
-
   name: string = '';
-
   termsAccepted: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -23,36 +22,25 @@ export class RegistrationPage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.route.queryParams.subscribe(params => {
-
       if (params['email']) {
-        this.email = params['email'];
+        this.emailAddress = params['email'];
       }
 
       if (params['mobile']) {
-        this.email = params['mobile'];
+        this.mobile = params['mobile'];
       }
-
     });
-
   }
 
   back(): void {
-
     this.location.back();
-
   }
 
- 
   continue(): void {
-
-    if (this.email.trim() === '') {
-
+    if (!this.mobile || this.mobile.trim() === '') {
       alert('Mobile Number is required');
-
       return;
-
     }
 
     if (!this.emailAddress || this.emailAddress.trim() === '') {
@@ -74,12 +62,12 @@ export class RegistrationPage implements OnInit {
       ['/dashboard'],
       {
         queryParams: {
-          email: this.email,
+          mobile: this.mobile,
+          email: this.emailAddress,
           name: this.name
         }
       }
     );
-
   }
 
 }

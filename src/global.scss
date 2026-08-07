@@ -147,10 +147,10 @@ ion-modal.bottom-sheet-modal {
     overflow: visible;
   }
   // Status Bar Fix
-ion-app {
-    padding-top: constant(safe-area-inset-top); // iOS 11.0
-    padding-top: env(safe-area-inset-top); // iOS 11.2+
-  }
+// ion-app {
+//     padding-top: constant(safe-area-inset-top); // iOS 11.0
+//     padding-top: env(safe-area-inset-top); // iOS 11.2+
+//   }
   
   // Ensure proper header display
   ion-header {
@@ -160,14 +160,14 @@ ion-app {
   }
   
   // Fix for notched devices (iPhone X, etc.)
-  @supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) {
-    ion-header {
-      ion-toolbar {
-        --padding-top: constant(safe-area-inset-top);
-        --padding-top: env(safe-area-inset-top);
-      }
-    }
-  }
+  // @supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) {
+  //   ion-header {
+  //     ion-toolbar {
+  //       --padding-top: constant(safe-area-inset-top);
+  //       --padding-top: env(safe-area-inset-top);
+  //     }
+  //   }
+  // }
   
   // Android status bar fix
   .md ion-header {
@@ -211,6 +211,34 @@ ion-app {
     align-items: center;
   }
   
+  
+/* Target selected ion-tab-button to highlight your custom icon */
+ion-tab-button.tab-selected {
+  --color: #00D07E !important;
+  --color-selected: #00D07E !important;
+
+  ion-icon {
+    color: #00D07E !important;
+  }
+  .footer-icon {
+    /* Option A: If your images are pure black/grey and you want to tint them green */
+    filter: brightness(0) saturate(100%) invert(56%) sepia(94%) saturate(497%) hue-rotate(115deg) brightness(96%) contrast(98%);
+    
+   ion-tab-button {
+  --color: #8E8E93;
+  --color-selected: #00D07E;
+  
+  .footer-icon {
+    opacity: 0.6;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+  }
+
+  &.tab-selected .footer-icon {
+    opacity: 1;
+  }
+}
+}
+  
   .dynamic-header-title {
     margin-left: 14px;
     font-family: 'Manrope', sans-serif;
@@ -219,4 +247,5 @@ ion-app {
     line-height: 24px;
     color: #002b57;
   }
+}
 }

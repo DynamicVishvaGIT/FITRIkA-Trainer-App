@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { StaticFoodItem } from '../diet-plan-details/diet-plan-details.page';
-
-// import { DietDataService, FoodItem } from '../diet-data.service';
 
 @Component({
   selector: 'app-add-diet-plan-details',
@@ -12,14 +10,14 @@ import { StaticFoodItem } from '../diet-plan-details/diet-plan-details.page';
 })
 export class AddDietPlanDetailsPage implements OnInit {
 
- mealId!: string;
-  mealName: string = 'Breakfast'; // Default fallback matched to design mock
+  mealId: string = 'breakfast';
+  mealName: string = 'Breakfast';
+  isEditingMealName: boolean = false;
   currentItems: StaticFoodItem[] = [];
   dropdownOpen: boolean = false;
   selectedDropdownFood: any = null;
   parentPlanMeta: any = null;
 
-  // Master Static Food Dictionary Options
   availableFoodsMaster = [
     { name: 'Apple', servingSize: '1 Piece', calories: 50, protein: 0.4, fats: 0.9, carbs: 24.4 },
     { name: 'Oatmeal with Milk', servingSize: '1 Cup', calories: 238, protein: 10.1, fats: 9.9, carbs: 27.3 },
@@ -39,10 +37,7 @@ export class AddDietPlanDetailsPage implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    // Populate mock fallback entries with precise ID bindings matching the image layout
-    
-  }
+  ngOnInit(): void {}
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
@@ -50,6 +45,7 @@ export class AddDietPlanDetailsPage implements OnInit {
 
   selectFoodFromDropdown(food: any, event: Event): void {
     event.stopPropagation();
+    this.selectedDropdownFood = food;
     
     const itemReference: StaticFoodItem = {
       id: 'food_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
@@ -64,6 +60,20 @@ export class AddDietPlanDetailsPage implements OnInit {
     
     this.currentItems.push(itemReference);
     this.dropdownOpen = false;
+  }
+
+  enableMealNameEdit(): void {
+    this.isEditingMealName = !this.isEditingMealName;
+    if (!this.isEditingMealName) {
+      this.saveMealName();
+    }
+  }
+
+  saveMealName(): void {
+    if (!this.mealName || this.mealName.trim() === '') {
+      this.mealName = 'Meal';
+    }
+    this.isEditingMealName = false;
   }
 
   updateQuantity(itemId: string, change: number): void {
@@ -83,11 +93,13 @@ export class AddDietPlanDetailsPage implements OnInit {
   }
 
   submitDietDetails(): void {
-    // Deliver modifications back to the parent component using the navigation pipeline
+    this.saveMealName(); // Guarantees title edits are finalized on submit click
+    
     this.router.navigate(['/diet-plan-details'], {
       state: {
         selectedPlan: this.parentPlanMeta,
         updatedMealId: this.mealId,
+        updatedMealName: this.mealName,
         updatedItems: this.currentItems
       }
     });

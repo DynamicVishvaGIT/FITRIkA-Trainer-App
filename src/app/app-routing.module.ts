@@ -142,6 +142,10 @@ const routes: Routes = [
     path: 'submit-form',
     loadChildren: () => import('./submit-form/submit-form.module').then( m => m.SubmitFormPageModule)
   },
+  {
+    path: 'tracking-metrics',
+    loadChildren: () => import('./tracking-metrics/tracking-metrics.module').then( m => m.TrackingMetricsPageModule)
+  },
   
   
   

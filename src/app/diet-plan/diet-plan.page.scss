@@ -2,52 +2,79 @@
   display: block;
   background: #FFFFFF;
 }
-ion-modal.bottom-sheet-modal{
 
-  --background:#fff;
+ion-modal.bottom-sheet-modal {
+  --background: #fff;
+  --border-radius: 32px 32px 0 0;
+}
 
-  --border-radius:32px 32px 0 0;
-
+.core-header-wrapper {
+  background: #FFFFFF;
 }
 
 .custom-toolbar {
   --background: #FFFFFF;
   --border-width: 0px !important;
-  padding-top: 12px;
+  --min-height: 48px;
+  padding-top: 0px; 
+}
+
+.header-inner-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 16px 4px 16px;
+  box-sizing: border-box;
+}
+
+.header-spacer {
+  width: 36px;
 }
 
 .menu-burger-btn {
-  --background: transparent;
-  --box-shadow: none;
-  margin-left: 8px;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 4px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
 
   .custom-menu-icon {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px;
+    width: 24px;
     
     span {
       display: block;
-      width: 20px;
-      height: 2.5px;
-      background-color: #00DA8B;
+      height: 3px;
+      background-color: #00D07E;
       border-radius: 4px;
-      
+
+      &:nth-child(1) {
+        width: 18px;
+      }
       &:nth-child(2) {
-        width: 14px;
+        width: 12px;
       }
     }
   }
 }
 
 .page-main-heading {
-  font-family: "SF Pro Display", sans-serif;
-  font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 20px;
   font-weight: 700;
   color: #000000;
   text-align: center;
-  padding-right: 60px;
-  
+  margin: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .diet-page-content-bg {
@@ -55,13 +82,17 @@ ion-modal.bottom-sheet-modal{
 }
 
 .main-layout-container {
-  padding: 8px 20px 140px;
+  padding: 16px 16px calc(140px + env(safe-area-inset-bottom, 0px));
+  max-width: 480px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .search-box-wrapper {
   position: relative;
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .search-magnifier-icon {
@@ -72,24 +103,24 @@ ion-modal.bottom-sheet-modal{
   font-size: 20px;
   color: #8E8E93;
   z-index: 2;
+  pointer-events: none;
 }
 
 .custom-search-input {
   width: 100%;
-  height: 48px;
-  background: #F2F2F7;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  padding: 0 16px 0 48px;
-  font-family: "SF Pro Text", sans-serif;
-  font-size: 16px;
+  height: 46px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5EA;
+  border-radius: 14px;
+  padding: 0 16px 0 46px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
   color: #000000;
   outline: none;
-  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
 
-  &:focus {
-    border-color: #00DA8B;
-    background: #FFFFFF;
+  &::placeholder {
+    color: #8E8E93;
   }
 }
 
@@ -98,14 +129,14 @@ ion-modal.bottom-sheet-modal{
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .toggle-label-text {
-  font-family: "SF Pro Text", sans-serif;
-  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
   font-weight: 500;
-  color: #000000;
+  color: #1C1C1E;
 }
 
 .ios-switch-toggle {
@@ -113,6 +144,7 @@ ion-modal.bottom-sheet-modal{
   display: inline-block;
   width: 44px;
   height: 24px;
+  flex-shrink: 0;
 
   input {
     opacity: 0;
@@ -120,7 +152,7 @@ ion-modal.bottom-sheet-modal{
     height: 0;
 
     &:checked + .switch-slider-track {
-      background-color: #00DA8B;
+      background-color: #00D07E;
     }
 
     &:checked + .switch-slider-track:before {
@@ -147,7 +179,7 @@ ion-modal.bottom-sheet-modal{
     background-color: white;
     transition: .25s ease-in-out;
     border-radius: 50%;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -155,22 +187,28 @@ ion-modal.bottom-sheet-modal{
   display: flex;
   flex-direction: column;
   gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .blueprint-card-item {
   background: #FFFFFF;
   border: 1px solid #E5E5EA;
   border-radius: 16px;
-  padding: 16px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 .card-summary-top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
+  width: 100%;
 }
 
 .left-title-group {
@@ -178,42 +216,54 @@ ion-modal.bottom-sheet-modal{
   align-items: center;
   gap: 8px;
   flex: 1;
+  min-width: 0;
 }
 
 .blueprint-heading-title {
   margin: 0;
-  font-family: "SF Pro Text", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
 }
 
 .system-badge-pill {
-  background: rgba(255, 149, 0, 0.15);
-  color: #FF9500;
-  font-family: "SF Pro Text", sans-serif;
+  background: #FF9F2A;
+  color: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 11px;
   font-weight: 600;
   padding: 3px 8px;
-  border-radius: 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .right-actions-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .action-utility-btn {
   background: transparent;
   border: none;
   outline: none;
-  padding: 4px;
+  padding: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
 
   ion-icon {
-    font-size: 20px;
-    color: #000000;
+    font-size: 19px;
+    color: #1C1C1E;
   }
 }
 
@@ -222,28 +272,31 @@ ion-modal.bottom-sheet-modal{
   opacity: 0;
   overflow: hidden;
   transition: all 0.25s ease-out;
-  margin-top: 0;
 
   &.is-expanded {
-    max-height: 200px;
+    max-height: 250px;
     opacity: 1;
-    margin-top: 12px;
+    margin-top: 10px;
+    margin-bottom: 4px;
   }
 }
 
 .description-paragraph-text {
   margin: 0;
-  font-family: "SF Pro Text", sans-serif;
-  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13.5px;
   line-height: 20px;
   color: #636366;
+  word-break: break-word;
 }
 
 .card-footer-ribbon-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 14px;
+  margin-top: 12px;
+  gap: 8px;
+  width: 100%;
 }
 
 .horizontal-tags-scroller {
@@ -251,80 +304,91 @@ ion-modal.bottom-sheet-modal{
   gap: 6px;
   overflow-x: auto;
   flex: 1;
+  min-width: 0;
+  padding-right: 4px;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar { display: none; }
 }
 
 .feature-tag-pill {
-  background: rgba(0, 218, 139, 0.05);
-  border: 1px solid rgba(0, 218, 139, 0.3);
-  color: #00DA8B;
-  font-family: "SF Pro Text", sans-serif;
-  font-size: 12px;
+  background: #E8FCF3;
+  border: 1px solid #7DE1B5;
+  color: #00D07E;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11.5px;
   font-weight: 500;
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 4px 10px;
+  border-radius: 16px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .expansion-chevron-trigger {
   background: transparent;
   border: none;
   outline: none;
-  padding: 4px;
+  padding: 6px;
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   ion-icon {
     font-size: 18px;
-    color: #8E8E93;
+    color: #3C3C43;
   }
 }
 
+/* Floating Bottom CTA — perfectly pinned right above the bottom tab navigation */
 .fixed-bottom-action-anchor {
-  position: fixed;
-  bottom: 68px; // Docked elegantly above navigation layout metrics
+  position: sticky;
+  bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 0));
-  padding: 16px 24px 24px;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 0.8) 100%);
+  backdrop-filter: blur(8px);
   z-index: 99;
+  max-width: 480px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
+.feature-icon-img {
+        width: 15px;
+        height: 15px;
+        object-fit: contain;
+        position: absolute;
+    left: 0;
+      }
 
 .core-create-cta-btn {
   width: 100%;
-  height: 54px;
-  background: #00DA8B;
+  height: 48px;
+  background: #00D07E;
   border: none;
   border-radius: 14px;
-  font-family: "SF Pro Text", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 16px;
   font-weight: 600;
   color: #FFFFFF;
   cursor: pointer;
-  box-shadow: 0px 6px 16px rgba(0, 218, 139, 0.25);
+  box-shadow: 0px 4px 12px rgba(0, 208, 126, 0.25);
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    opacity: 0.92;
+  }
 }
 
-.bottom-nav-bar-mock {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 68px;
-  background: #FFFFFF;
-  border-top: 1px solid #F2F2F7;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding-bottom: 12px;
-  z-index: 100;
-
-  .nav-tab-item {
-    color: #A9A9A9;
-    font-size: 24px;
-    
-    &.active {
-      color: #00DA8B;
-    }
+@media screen and (max-width: 360px) {
+  .main-layout-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  
+  .blueprint-card-item {
+    padding: 12px;
   }
 }

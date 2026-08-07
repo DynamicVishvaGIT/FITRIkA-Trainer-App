@@ -4,10 +4,22 @@ $ui-muted-gray: #94a3b8;
 $ui-border-color: #f1f5f9;
 $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
 
+* { 
+  box-sizing: border-box; 
+}
+
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 .mobile-container {
   width: 100%;
   max-width: 412px;
-  height: 892px;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 892px;
   margin: 0 auto;
   background-color: #ffffff;
   display: flex;
@@ -15,54 +27,148 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
 .main-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 20px 8px;
+  padding: max(16px, env(safe-area-inset-top)) 20px 8px;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
   
-  .header-title { font-size: 20px; font-weight: 700; color: $ui-dark-text; text-align: center; flex: 1; margin-right: -8px; }
-  .header-spacer { width: 24px; }
+  .header-title { 
+    font-size: 20px; 
+    font-weight: 700; 
+    color: $ui-dark-text; 
+    text-align: center; 
+    flex: 1; 
+    margin: 0;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+  }
+  
+  .header-spacer { 
+    width: 32px; 
+  }
   
   .menu-btn {
-    background: none; border: none; cursor: pointer; margin-top: 10px;
-    .custom-menu-icon {
-      display: flex; flex-direction: column; gap: 4px;
-      span { height: 2px; background-color: $ui-brand-color; border-radius: 2px; }
-      .line-1 { width: 18px; }
-      .line-2 { width: 12px; }
-      .line-3 { width: 16px; }
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    width: 32px;
+    height: 32px;
+    touch-action: manipulation;
+
+    /* Custom staggered multi-line design */
+    span {
+      display: block;
+      height: 2.5px;
+      background-color: $ui-brand-color;
+      border-radius: 2px;
+
+      &:nth-child(1) {
+        width: 18px;
+      }
+      &:nth-child(2) {
+        width: 12px;
+        transform: translateX(4px); /* Staggered offset look */
+      }
     }
   }
 }
 
 /* CALENDAR REGION */
 .calendar-section {
-  padding: 8px 20px 16px;
+  padding: 8px 20px 14px;
   border-bottom: 1px solid #f8fafc;
+  flex-shrink: 0;
 
   .month-selector {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
-    h2 { font-size: 14px; font-weight: 700; color: $ui-dark-text; }
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 12px;
+
+    h2 { 
+      font-size: 14px; 
+      font-weight: 700; 
+      color: $ui-dark-text; 
+      margin: 0; 
+    }
+
     .nav-arrows {
-      display: flex; gap: 10px;
+      display: flex; 
+      gap: 10px;
+
       .arrow-btn {
-        width: 32px; height: 32px; border-radius: 50%; background-color: #f8fafc; border: none; display: flex; align-items: center; justify-content: center; color: #475569; cursor: pointer;
+        width: 30px; 
+        height: 30px; 
+        border-radius: 50%; 
+        background-color: #f8fafc; 
+        border: none; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        color: #475569; 
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:active {
+          background-color: #f1f5f9;
+        }
       }
     }
   }
 
   .days-strip {
-    display: flex; justify-content: space-between;
+    display: flex; 
+    justify-content: space-between; 
+    gap: 4px;
   }
 
   .day-box {
-    display: flex; flex-direction: column; align-items: center; width: 46px; padding: 10px 0; border-radius: 14px; cursor: pointer; position: relative;
-    .day-name { font-size: 9px; color: $ui-muted-gray; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; }
-    .day-number { font-size: 15px; color: $ui-dark-text; font-weight: 700; }
-    .dot-indicator { width: 4px; height: 4px; background-color: $ui-brand-color; border-radius: 50%; position: absolute; bottom: 4px; }
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    flex: 1; 
+    padding: 8px 0; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    position: relative;
+    transition: background 0.2s;
+
+    .day-name { 
+      font-size: 8.5px; 
+      color: $ui-muted-gray; 
+      font-weight: 500; 
+      margin-bottom: 4px; 
+      text-transform: uppercase; 
+    }
+
+    .day-number { 
+      font-size: 14px; 
+      color: $ui-dark-text; 
+      font-weight: 700; 
+    }
+
+    .dot-indicator { 
+      width: 4px; 
+      height: 4px; 
+      background-color: #ffffff; 
+      border-radius: 50%; 
+      position: absolute; 
+      bottom: 4px; 
+    }
 
     &.active {
       background-color: $ui-brand-color;
@@ -74,72 +180,226 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
 
 /* TIMELINE AND FEED */
 .timeline-scroll-container {
-  flex: 1; overflow-y: auto; padding: 20px 16px 100px 0;
-  &::-webkit-scrollbar { display: none; }
+  flex: 1; 
+  overflow-y: auto; 
+  padding: 16px 16px calc(90px + env(safe-area-inset-bottom)); 
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar { 
+    display: none; 
+  }
+}
+
+.empty-schedule-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: $ui-muted-gray;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .timeline-item {
-  display: flex; margin-bottom: 16px; position: relative;
+  display: flex; 
+  margin-bottom: 16px; 
+  position: relative;
   
-  &:last-child .vertical-dash-line { display: none; }
+  &:last-child .vertical-dash-line { 
+    display: none; 
+  }
 
   .time-track-col {
-    width: 80px; display: flex; flex-direction: column; align-items: center; position: relative; flex-shrink: 0;
-    .time-stamp { font-size: 13px; font-weight: 700; color: $ui-dark-text; margin-bottom: 8px; margin-top: 4px; }
+    width: 60px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    position: relative; 
+    flex-shrink: 0;
+
+    .time-stamp { 
+      font-size: 11.5px; 
+      font-weight: 700; 
+      color: $ui-dark-text; 
+      margin-bottom: 10px; 
+      margin-top: 4px; 
+      white-space: nowrap; 
+    }
     
     .node-indicator {
-      width: 12px; height: 12px; border-radius: 50%; background-color: $ui-brand-color; z-index: 2;
-      &.hollow { background-color: #ffffff; border: 2px solid #cbd5e1; }
+      width: 10px; 
+      height: 10px; 
+      border-radius: 50%; 
+      background-color: #ffffff; 
+      border: 2px solid #cbd5e1; 
+      z-index: 2;
+      transition: all 0.2s ease;
+
+      &.checked-node { 
+        background-color: $ui-brand-color; 
+        border-color: $ui-brand-color; 
+        box-shadow: 0 0 0 3px rgba(0, 214, 137, 0.2); 
+      }
     }
 
     .vertical-dash-line {
-      position: absolute; top: 40px; bottom: -24px; width: 1px; border-left: 1px dashed #cbd5e1; z-index: 1;
+      position: absolute; 
+      top: 38px; 
+      bottom: -20px; 
+      width: 1px; 
+      border-left: 1px dashed #cbd5e1; 
+      z-index: 1;
     }
   }
 
   .card-outer-wrapper {
-    flex: 1; cursor: pointer;
+    flex: 1; 
+    cursor: pointer; 
+    min-width: 0;
   }
 }
 
 /* CARD DETAILS STYLE */
 .schedule-card {
-  background: #ffffff; border: 1px solid #f1f5f9; border-radius: 18px; padding: 12px; box-shadow: $ui-card-shadow; transition: transform 0.2s;
-  &:active { transform: scale(0.99); }
+  background: #ffffff; 
+  border: 1px solid #f1f5f9; 
+  border-left: 4px solid $ui-brand-color;
+  border-radius: 12px; 
+  padding: 12px; 
+  box-shadow: $ui-card-shadow; 
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:active { 
+    transform: scale(0.99); 
+  }
+  
+  &.card-checked-in {
+    border-color: rgba(0, 214, 137, 0.4);
+    border-left-color: $ui-brand-color;
+    background: linear-gradient(0deg, rgba(240, 253, 244, 0.4), #ffffff);
+  }
 
   .card-main-row {
-    display: flex; align-items: center; margin-bottom: 16px; position: relative;
-    .client-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; margin-right: 12px; }
-    .client-meta {
-      flex: 1;
-      h3 { font-size: 15px; font-weight: 700; color: $ui-dark-text; margin-bottom: 2px; }
-      p { font-size: 12px; color: $ui-muted-gray; font-weight: 500; }
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 12px; 
+    position: relative;
+
+    .client-avatar { 
+      width: 42px; 
+      height: 42px; 
+      border-radius: 50%; 
+      object-fit: cover; 
+      margin-right: 10px; 
+      flex-shrink: 0; 
     }
-    .options-menu-btn { background: none; border: none; color: $ui-brand-color; cursor: pointer; }
+
+    .client-meta {
+      flex: 1; 
+      min-width: 0;
+
+      h3 { 
+        font-size: 16px; 
+        font-weight: 700; 
+        color: $ui-dark-text; 
+        margin: 0 0 2px 0; 
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+      }
+
+      p { 
+        font-size: 11.5px; 
+        color: $ui-muted-gray; 
+        font-weight: 500; 
+        margin: 0; 
+      }
+    }
+
+    .options-menu-btn { 
+      background: none; 
+      border: none; 
+      color: $ui-brand-color; 
+      cursor: pointer; 
+      padding: 4px; 
+      flex-shrink: 0; 
+    }
   }
 
   .card-actions-row {
-    display: flex; gap: 10px;
+    display: flex; 
+    gap: 8px;
     
-    button { flex: 1; height: 38px; border-radius: 10px; font-size: 10px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; border: none; }
+    button { 
+      flex: 1; 
+      height: 36px; 
+      border-radius: 10px; 
+      font-size: 10px; 
+      font-weight: 600; 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 4px; 
+      cursor: pointer; 
+      border: none; 
+      transition: all 0.2s ease; 
+    }
     
     .action-outline-btn {
-      background: #ffffff; border: 1px solid #e2e8f0; color: $ui-dark-text;
-      svg { color: $ui-brand-color; }
+      background: #ffffff; 
+      border: 1px solid #e2e8f0; 
+      color: $ui-dark-text;
+
+      svg { 
+        color: $ui-brand-color; 
+        flex-shrink: 0; 
+      }
     }
 
     .status-action-btn {
-      background-color: $ui-brand-color; color: #ffffff;
-      &.checked-in { background-color: #e8fbf4; color: $ui-brand-color; border: 1px solid #bbf7d0; }
+      background-color: $ui-brand-color; 
+      color: #ffffff;
+
+      &.checked-in { 
+        background-color: #e8fbf4; 
+        color: $ui-brand-color; 
+        border: 1px solid #bbf7d0; 
+        font-weight: 700; 
+      }
     }
   }
 }
 
 /* NAVIGATION DOCK */
 .bottom-tab-bar {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 72px; background: #ffffff; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; align-items: center; padding-bottom: 12px; z-index: 10;
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  height: calc(64px + env(safe-area-inset-bottom, 8px)); 
+  background: #ffffff; 
+  border-top: 1px solid #f1f5f9; 
+  display: flex; 
+  justify-content: space-around; 
+  align-items: center; 
+  padding-bottom: env(safe-area-inset-bottom, 8px); 
+  z-index: 10;
+
   .tab-item {
-    background: none; border: none; color: #94a3b8; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center;
-    &.active { color: $ui-brand-color; }
+    background: none; 
+    border: none; 
+    color: #94a3b8; 
+    cursor: pointer; 
+    padding: 8px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    flex: 1;
+    transition: color 0.2s;
+
+    &.active { 
+      color: $ui-brand-color; 
+    }
   }
 }

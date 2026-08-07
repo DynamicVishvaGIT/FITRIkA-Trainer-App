@@ -1,94 +1,80 @@
-<ion-content class="add-workout-content">
-<div class="modal-wrapper">
-  
-  <div class="modal-header-container">
-    <h2 class="modal-heading">Add Workout Plans</h2>
-    <ion-icon name="close-circle-outline" class="modal-close-icon" (click)="dismiss()"></ion-icon>
-  </div>
+<ion-content class="workout-modal-overlay-bg" [fullscreen]="true">
+  <div class="modal-flex-alignment-viewport">
+    <div class="bottom-sheet-modal-card">
+      
+      <header class="sheet-modal-header">
+        <h2 class="sheet-modal-title">{{ isEditing ? 'Edit Workout Plan' : 'Add Workout Plans' }}</h2>
+        <button type="button" class="sheet-close-round-btn" (click)="dismiss()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </header>
 
-  <div class="modal-form-content">
-    
-    <label class="field-label">Workout Name</label>
-    <div class="input-box-wrapper">
-      <input type="text" [(ngModel)]="workoutName" placeholder="Enter Workout Name" class="custom-form-input">
+      <div class="sheet-scrollable-form-body">
+        
+        <div class="form-input-block">
+          <label class="form-field-label">Workout Name</label>
+          <input 
+            type="text" 
+            [(ngModel)]="workoutName" 
+            placeholder="Enter Workout Name" 
+            class="custom-form-input-element" />
+        </div>
+
+        <div class="form-input-block">
+          <label class="form-field-label">Description</label>
+          <textarea 
+            rows="4" 
+            [(ngModel)]="description" 
+            placeholder="Enter description..." 
+            class="custom-form-textarea-element"></textarea>
+        </div>
+
+        <div class="form-input-block searchable-tags-dropdown-anchor">
+          <label class="form-field-label">Select Tag</label>
+          <div class="input-dropdown-field-wrapper">
+            <input 
+              type="text" 
+              placeholder="Select Tag" 
+              [(ngModel)]="tagSearchQuery" 
+              (click)="openDropdownMenu()"
+              (focus)="openDropdownMenu()"
+              (input)="executeTagFiltering()"
+              class="custom-form-input-element select-search-input" />
+            <ion-icon 
+              [name]="isDropdownMenuVisible ? 'chevron-up-outline' : 'chevron-down-outline'" 
+              class="input-dropdown-trailing-chevron"
+              (click)="toggleDropdownMenu($event)">
+            </ion-icon>
+          </div>
+
+          <div class="floating-dropdown-results-card" *ngIf="isDropdownMenuVisible">
+            <div 
+              class="dropdown-selectable-row" 
+              *ngFor="let option of filteredTagOptions" 
+              (click)="addNewTagToSelection(option)">
+              {{ option }}
+            </div>
+            <div class="dropdown-selectable-row no-matches-found" *ngIf="filteredTagOptions.length === 0">
+              No matching tags found
+            </div>
+          </div>
+        </div>
+
+        <div class="form-active-chips-grid-row" *ngIf="selectedTags.length > 0">
+          <span class="dismissable-tag-pill" *ngFor="let tag of selectedTags">
+            {{ tag }}
+            <ion-icon name="close-outline" class="pill-dismiss-action-icon" (click)="removeTag(tag)"></ion-icon>
+          </span>
+        </div>
+
+      </div>
+
+      <div class="sheet-action-footer-anchor">
+        <button type="button" class="sheet-submit-primary-btn" (click)="submitAndProceed()">
+          {{ isEditing ? 'Save Changes' : 'Next' }}
+        </button>
+      </div>
+
     </div>
-
-    <label class="field-label mt-18">Description</label>
-    <div class="input-box-wrapper textarea-box-wrapper">
-      <textarea [(ngModel)]="description" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pretium tellus quis arcu mollis, in sodales dui volutpat." class="custom-form-textarea"></textarea>
-    </div>
-
-    <label class="field-label mt-18">Select Tag</label>
-
-<div class="searchable-tags-dropdown-anchor">
-
-  <div class="input-box-wrapper select-box-wrapper">
-
-    <input
-      type="text"
-      class="custom-form-input"
-      placeholder="Select Tag"
-      [(ngModel)]="tagSearchQuery"
-      (focus)="openDropdownMenu()"
-      (input)="executeTagFiltering()">
-
-    <ion-icon
-      [name]="isDropdownMenuVisible ? 'chevron-up-outline' : 'chevron-down-outline'"
-      class="dropdown-icon"
-      (click)="toggleDropdownMenu($event)">
-    </ion-icon>
-
   </div>
-
-  <div
-    class="dropdown-card"
-    *ngIf="isDropdownMenuVisible">
-
-    <div
-      class="dropdown-item"
-      *ngFor="let tag of filteredTagOptions"
-      (click)="addNewTagToSelection(tag)">
-
-      {{tag}}
-
-    </div>
-
-    <div
-      class="dropdown-item no-data"
-      *ngIf="filteredTagOptions.length==0">
-
-      No matching tags
-
-    </div>
-
-  </div>
-
-</div>
-
-    <div
-  class="active-tags-matrix"
-  *ngIf="selectedTags.length>0">
-
-  <div
-    class="removable-pill"
-    *ngFor="let tag of selectedTags">
-
-    {{tag}}
-
-    <ion-icon
-      name="close-outline"
-      class="remove-tag-icon"
-      (click)="removeTag(tag)">
-    </ion-icon>
-
-  </div>
-
-</div>
-
-    <ion-button expand="block" class="modal-action-next-btn" (click)="submitAndProceed()">
-      Next
-    </ion-button>
-
-  </div>
-</div>
 </ion-content>

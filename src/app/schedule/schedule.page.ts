@@ -5,13 +5,15 @@ import { ToastController, ActionSheetController } from '@ionic/angular';
 interface CalendarDay {
   label: string;
   dateNum: number;
-  fullDateString: string;
+  fullDateString: string; // Format: 'YYYY-MM-DD'
   isActive: boolean;
 }
 
 interface AppointmentItem {
   id: number;
-  time: string;
+  dateKey: string; // Matches fullDateString
+  time: string;     // e.g., '1:00 PM'
+  endTime: string;  // e.g., '2:30 PM'
   clientName: string;
   type: string;
   avatar: string;
@@ -26,21 +28,24 @@ interface AppointmentItem {
 })
 export class SchedulePage implements OnInit {
 
+  currentYear: number = 2026;
+  currentMonthIndex: number = 0; // 0 = January
   currentMonthYear: string = 'January 2026';
   
-  calendarDays: CalendarDay[] = [
-    { label: 'MON', dateNum: 16, fullDateString: '2026-01-16', isActive: false },
-    { label: 'TUE', dateNum: 17, fullDateString: '2026-01-17', isActive: true },
-    { label: 'WED', dateNum: 18, fullDateString: '2026-01-18', isActive: false },
-    { label: 'THU', dateNum: 19, fullDateString: '2026-01-19', isActive: false },
-    { label: 'FRI', dateNum: 20, fullDateString: '2026-01-20', isActive: false },
-    { label: 'SAT', dateNum: 21, fullDateString: '2026-01-21', isActive: false }
+  monthsList: string[] = [
+    'January 2026', 'February 2026', 'March 2026', 'April 2026', 
+    'May 2026', 'June 2026', 'July 2026', 'August 2026', 
+    'September 2026', 'October 2026', 'November 2026', 'December 2026'
   ];
 
-  appointments: AppointmentItem[] = [
+  calendarDays: CalendarDay[] = [];
+  
+  allAppointments: AppointmentItem[] = [
     {
       id: 101,
+      dateKey: '2026-01-17',
       time: '1:00 PM',
+      endTime: '2:30 PM',
       clientName: 'Astha Dhaliwal',
       type: 'Personal Training',
       avatar: 'assets/images/astha.png',
@@ -48,7 +53,9 @@ export class SchedulePage implements OnInit {
     },
     {
       id: 102,
+      dateKey: '2026-01-17',
       time: '2:30 PM',
+      endTime: '3:30 PM',
       clientName: 'Vikas Kumar',
       type: 'Personal Training',
       avatar: 'assets/images/vikas.png',
@@ -56,13 +63,27 @@ export class SchedulePage implements OnInit {
     },
     {
       id: 103,
+      dateKey: '2026-01-17',
       time: '3:00 PM',
+      endTime: '4:00 PM',
       clientName: 'Nivan S',
       type: 'Personal Training',
       avatar: 'assets/images/nivan.png',
       isCheckedIn: true
+    },
+    {
+      id: 104,
+      dateKey: '2026-01-20',
+      time: '10:00 AM',
+      endTime: '11:15 AM',
+      clientName: 'Rohit Sharma',
+      type: 'Strength & Conditioning',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150',
+      isCheckedIn: false
     }
   ];
+
+  filteredAppointments: AppointmentItem[] = [];
 
   constructor(
     private router: Router,
@@ -70,27 +91,83 @@ export class SchedulePage implements OnInit {
     private actionSheetController: ActionSheetController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.generateCalendarDaysForMonth(this.currentMonthIndex, 16);
+    this.updateAppointmentsForSelectedDay();
+  }
+
+  generateCalendarDaysForMonth(monthIdx: number, startDayNum: number) {
+    this.currentMonthYear = this.monthsList[monthIdx];
+    const monthStr = (monthIdx + 1 < 10 ? '0' + (monthIdx + 1) : (monthIdx + 1));
+    const dayLabels = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+    this.calendarDays = [];
+    for (let i = 0; i < 6; i++) {
+      let dNum = startDayNum + i;
+      if (dNum > 31) dNum = dNum - 31;
+      
+      const dayFormatted = dNum < 10 ? '0' + dNum : '' + dNum;
+      const dateString = `${this.currentYear}-${monthStr}-${dayFormatted}`;
+      const dayOfWeekIndex = (i + 1) % 7; 
+
+      this.calendarDays.push({
+        label: dayLabels[dayOfWeekIndex],
+        dateNum: dNum,
+        fullDateString: dateString,
+        isActive: i === 1
+      });
+    }
+  }
 
   goBack() {
     this.router.navigate(['/dashboard']);
   }
 
   selectDay(selectedDay: CalendarDay) {
-    this.calendarDays.forEach(day => day.isActive = (day.dateNum === selectedDay.dateNum));
-    this.presentToast(`Showing schedule for Jan ${selectedDay.dateNum}`);
+    this.calendarDays.forEach(day => day.isActive = (day.dateNum === selectedDay.dateNum && day.fullDateString === selectedDay.fullDateString));
+    this.updateAppointmentsForSelectedDay();
+    this.presentToast(`Loaded schedule for ${selectedDay.fullDateString}`);
+  }
+
+  updateAppointmentsForSelectedDay() {
+    const activeDay = this.calendarDays.find(d => d.isActive);
+    if (activeDay) {
+      this.filteredAppointments = this.allAppointments.filter(app => app.dateKey === activeDay.fullDateString);
+    } else {
+      this.filteredAppointments = [];
+    }
   }
 
   previousMonth() {
-    this.presentToast('Previous week loaded');
+    if (this.currentMonthIndex > 0) {
+      this.currentMonthIndex--;
+      this.generateCalendarDaysForMonth(this.currentMonthIndex, 1);
+      this.updateAppointmentsForSelectedDay();
+      this.presentToast(`Switched to ${this.monthsList[this.currentMonthIndex]}`);
+    } else {
+      this.presentToast('Beginning of calendar year');
+    }
   }
 
   nextMonth() {
-    this.presentToast('Next week loaded');
+    if (this.currentMonthIndex < this.monthsList.length - 1) {
+      this.currentMonthIndex++;
+      this.generateCalendarDaysForMonth(this.currentMonthIndex, 1);
+      this.updateAppointmentsForSelectedDay();
+      this.presentToast(`Switched to ${this.monthsList[this.currentMonthIndex]}`);
+    } else {
+      this.presentToast('End of calendar year');
+    }
   }
 
   async toggleCheckIn(appointment: AppointmentItem) {
     appointment.isCheckedIn = !appointment.isCheckedIn;
+    
+    const masterIndex = this.allAppointments.findIndex(a => a.id === appointment.id);
+    if (masterIndex !== -1) {
+      this.allAppointments[masterIndex].isCheckedIn = appointment.isCheckedIn;
+    }
+
     const message = appointment.isCheckedIn 
       ? `Checked in ${appointment.clientName} successfully.` 
       : `Cancelled check-in for ${appointment.clientName}.`;
@@ -106,10 +183,29 @@ export class SchedulePage implements OnInit {
 
   async openMoreOptions(appointment: AppointmentItem) {
     const actionSheet = await this.actionSheetController.create({
-      header: `Manage Session: ${appointment.clientName}`,
+      header: `Manage Session: ${appointment.clientName} (${appointment.time})`,
+      cssClass: 'custom-manage-sheet',
       buttons: [
-        { text: 'Reschedule Session', icon: 'time-outline', handler: () => this.presentToast('Reschedule clicked') },
-        { text: 'Cancel Appointment', role: 'destructive', icon: 'trash-outline', handler: () => this.presentToast('Cancel clicked') },
+        { 
+          text: 'Reschedule Session', 
+          icon: 'time-outline', 
+          handler: () => this.presentToast('Reschedule option selected') 
+        },
+        { 
+          text: 'View Client Profile', 
+          icon: 'person-outline', 
+          handler: () => this.router.navigate(['/profile']) 
+        },
+        { 
+          text: 'Cancel Appointment', 
+          role: 'destructive', 
+          icon: 'trash-outline', 
+          handler: () => {
+            this.allAppointments = this.allAppointments.filter(a => a.id !== appointment.id);
+            this.updateAppointmentsForSelectedDay();
+            this.presentToast('Appointment cancelled', 'danger');
+          } 
+        },
         { text: 'Close', role: 'cancel', icon: 'close-outline' }
       ]
     });
@@ -126,12 +222,9 @@ export class SchedulePage implements OnInit {
     await toast.present();
   }
 
-  // Footer Navigation Tabs
   goHome() { this.router.navigate(['/dashboard']); }
   goSchedule() { this.router.navigate(['/schedule']); }
   goWorkout() { this.router.navigate(['/workout-plans']); }
   goDiet() { this.router.navigate(['/diet-plan']); }
- 
-   goProfile()
-    { this.router.navigate(['/profile']); }
+  goProfile() { this.router.navigate(['/profile']); }
 }

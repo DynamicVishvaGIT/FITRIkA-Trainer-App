@@ -21,8 +21,7 @@ interface Slot {
 })
 export class SlotPage implements OnInit {
 
-  showProfile: boolean = true;
-  selectedDate: number = 17; // Synchronized initialization default to TUE 17
+  selectedDate: number = 17;
 
   days = [
     { name: 'Mon', date: 16 },

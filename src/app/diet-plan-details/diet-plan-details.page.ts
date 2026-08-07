@@ -35,30 +35,27 @@ export class DietPlanDetailsPage implements OnInit {
     { short: 'Fri', full: 'Friday' },
     { short: 'Sat', full: 'Saturday' }
   ];
-  selectedDayIndex: number = 1; // Defaults to Monday
-  totalDayCalories: number = 2000; 
+
+  selectedDayIndex: number = 1; // Default to Monday
+  selectedWeek: number = 1;     // Active week index
+  availableWeeks: number[] = [1]; // Dynamic list of week indices
+
+  totalDayCalories: number = 0;
 
   planName: string = 'Calorie control program..';
   planDescription: string = 'A balanced nutrition plan focused on managing daily calorie intake without sacrificing essential nutrients. It helps support healthy weight loss.';
-  
-  // Master tracking data structure separated by day index (0-6)
-  dayMealsTracker: { [key: number]: StaticMealSlot[] } = {
-    0: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-    1: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-    2: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-    3: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-    4: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-    5: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-    6: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ]
-  };
 
-  // Active viewing template array reference
+  // Deep map: weekNum -> dayIdx -> meals
+  weekMealsTracker: { 
+    [weekNum: number]: { [dayIdx: number]: StaticMealSlot[] } 
+  } = {};
+
   meals: StaticMealSlot[] = [];
 
   constructor(private router: Router) {
+    this.initializeDefaultWeek1();
     this.checkForReturnedData();
 
-    // Listen to router navigation events to check for state updates when navigating backwards
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -70,6 +67,81 @@ export class DietPlanDetailsPage implements OnInit {
     this.syncActiveMeals();
   }
 
+  private initializeDefaultWeek1(): void {
+    if (!this.weekMealsTracker[1]) {
+      this.weekMealsTracker[1] = {
+        0: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
+        1: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
+        2: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
+        3: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
+        4: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
+        5: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
+        6: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ]
+      };
+    }
+  }
+
+  /**
+   * Adds new week and repeats current week content
+   */
+  addNewWeek(): void {
+    const currentWeekNum = this.selectedWeek;
+    const nextWeekNum = this.availableWeeks.length + 1;
+    
+    // Deep clone current week content to duplicate it
+    const clonedWeekContent = JSON.parse(JSON.stringify(this.weekMealsTracker[currentWeekNum]));
+
+    this.weekMealsTracker[nextWeekNum] = clonedWeekContent;
+    this.availableWeeks.push(nextWeekNum);
+
+    this.selectWeek(nextWeekNum);
+  }
+
+  /**
+   * Deletes a week and re-indexes remaining weeks
+   */
+  deleteWeek(weekNumber: number, event: Event): void {
+    event.stopPropagation();
+
+    // Prevent deleting if only 1 week exists
+    if (this.availableWeeks.length <= 1) {
+      return;
+    }
+
+    delete this.weekMealsTracker[weekNumber];
+    
+    // Re-index remaining weeks sequentially
+    const remainingTracker: { [weekNum: number]: { [dayIdx: number]: StaticMealSlot[] } } = {};
+    const updatedWeeksList: number[] = [];
+
+    const existingWeekKeys = Object.keys(this.weekMealsTracker)
+      .map(k => Number(k))
+      .sort((a, b) => a - b);
+
+    existingWeekKeys.forEach((oldKey, index) => {
+      const newKey = index + 1;
+      remainingTracker[newKey] = this.weekMealsTracker[oldKey];
+      updatedWeeksList.push(newKey);
+    });
+
+    this.weekMealsTracker = remainingTracker;
+    this.availableWeeks = updatedWeeksList;
+
+    // Adjust selected week safely
+    if (this.selectedWeek > this.availableWeeks.length) {
+      this.selectedWeek = this.availableWeeks.length;
+    } else if (this.selectedWeek === weekNumber) {
+      this.selectedWeek = Math.max(1, weekNumber - 1);
+    }
+
+    this.syncActiveMeals();
+  }
+
+  selectWeek(weekNumber: number): void {
+    this.selectedWeek = weekNumber;
+    this.syncActiveMeals();
+  }
+
   checkForReturnedData(): void {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
@@ -77,13 +149,20 @@ export class DietPlanDetailsPage implements OnInit {
       
       if (state['updatedMealId']) {
         const mid = state['updatedMealId'];
+        const mname = state['updatedMealName'];
         const mitems = state['updatedItems'] || [];
         
-        // Save the modifications to our master day matrix tracker
-        const targetedDayMeals = this.dayMealsTracker[this.selectedDayIndex];
-        const index = targetedDayMeals.findIndex(m => m.id === mid);
-        if (index !== -1) {
-          targetedDayMeals[index].items = mitems;
+        const currentWeekDays = this.weekMealsTracker[this.selectedWeek];
+        if (currentWeekDays) {
+          const targetedDayMeals = currentWeekDays[this.selectedDayIndex];
+          const index = targetedDayMeals.findIndex(m => m.id === mid);
+          
+          if (index !== -1) {
+            targetedDayMeals[index].items = [...mitems];
+            if (mname) {
+              targetedDayMeals[index].name = mname;
+            }
+          }
         }
         
         this.syncActiveMeals();
@@ -92,7 +171,11 @@ export class DietPlanDetailsPage implements OnInit {
   }
 
   syncActiveMeals(): void {
-    this.meals = this.dayMealsTracker[this.selectedDayIndex];
+    if (this.weekMealsTracker[this.selectedWeek]) {
+      this.meals = this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex];
+    } else {
+      this.meals = [];
+    }
     this.calculateTotalCalories();
   }
 
@@ -105,10 +188,10 @@ export class DietPlanDetailsPage implements OnInit {
     const calculatedSum = this.meals.reduce((total, meal) => {
       return total + meal.items.reduce((sum, item) => sum + (item.calories * item.quantity), 0);
     }, 0);
-    
-    // Fallback to layout default 2000 if empty, otherwise show dynamic calculation sum
-    this.totalDayCalories = calculatedSum ;
+
+    this.totalDayCalories = calculatedSum;
   }
+
   getMealCalories(meal: StaticMealSlot): number {
     return meal.items.reduce((total, item) => {
       return total + (item.calories * item.quantity);
@@ -140,8 +223,8 @@ export class DietPlanDetailsPage implements OnInit {
   navigateToEditPlan(): void {
     this.router.navigate(['/add-diet-plan-details'], {
       state: {
-        mealId: 'entire_plan',
-        mealName: this.planName,
+        mealId: 'breakfast',
+        mealName: 'Breakfast',
         existingItems: []
       }
     });

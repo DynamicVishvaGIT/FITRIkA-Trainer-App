@@ -2,29 +2,103 @@ $canvas-dark-theme: #111613;
 $canvas-light-sheet: #FFFFFF;
 $text-muted-gray: #8A928E;
 $action-mint-green: #00DF9A;
+$color-primary: #00d689;
+$color-primary-pale: #e6fbf3;
+$color-text-dark: #000000;
+$color-text-muted: #999999;
+$font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-.app-screen-container {
+* { 
+  box-sizing: border-box; 
+}
+
+:host {
+  display: block;
+  height: 100%;
   width: 100%;
-  background-color: $canvas-light-sheet;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.mobile-container {
+  width: 100%;
+  max-width: 480px; /* Adapts flexibly up to standard mobile breakpoint */
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for modern mobile browsers */
+  margin: 0 auto;
+  background: $canvas-light-sheet;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: $font-stack;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+/* HEADER CONTROLLER STYLING */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $canvas-dark-theme;
+  padding: max(10px, env(safe-area-inset-top)) 16px 10px 16px;
+  min-height: 54px;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 10;
+  
+  .header-title { 
+    font-size: 20px; 
+    font-weight: 600; 
+    color: #ffffff; 
+    text-align: center; 
+    flex: 1; 
+    margin: 0;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+  }
+  
+  .header-spacer { 
+    width: 32px; 
+  }
+  
+  .menu-btn {
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+
+    .ion-back-icon {
+      font-size: 22px;
+      color: $action-mint-green;
+    }
+  }
+}
+
+.scrollable-content { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding: 0 0 calc(80px + env(safe-area-inset-bottom)) 0; 
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar { 
+    display: none; 
+  } 
 }
 
 .dark-profile-card {
   background-color: $canvas-dark-theme;
   color: #FFFFFF;
-  padding: 40px 20px 24px 20px;
-
-  .top-nav-label {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: 24px;
-    letter-spacing: 0.5px;
-  }
+  padding: 16px 20px 24px 20px;
 
   .user-profile-row {
     display: flex;
     align-items: center;
+    margin-top: 12px;
     margin-bottom: 28px;
 
     .profile-avatar-frame {
@@ -33,6 +107,7 @@ $action-mint-green: #00DF9A;
       border-radius: 50%;
       overflow: hidden;
       margin-right: 20px;
+      flex-shrink: 0;
 
       img {
         width: 100%;
@@ -42,16 +117,25 @@ $action-mint-green: #00DF9A;
     }
 
     .user-core-details {
+      flex: 1;
+      min-width: 0;
+
       .display-name {
         margin: 0 0 4px 0;
         font-size: 22px;
         font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .display-email {
         margin: 0 0 12px 0;
         color: rgba(255, 255, 255, 0.4);
         font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .action-toggle-btn {
@@ -83,7 +167,7 @@ $action-mint-green: #00DF9A;
       }
 
       .value {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 500;
       }
     }
@@ -114,11 +198,6 @@ $action-mint-green: #00DF9A;
     gap: 8px;
     padding: 12px 0;
     cursor: pointer;
-    transition: border-color 0.2s;
-
-    &:active, &:focus {
-      border-color: $action-mint-green;
-    }
 
     .btn-lead-icon {
       color: $action-mint-green;
@@ -127,18 +206,21 @@ $action-mint-green: #00DF9A;
 
     .btn-text-label {
       color: #FFFFFF;
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 400;
     }
   }
 }
 
 .light-profile-body {
+  padding: 0;
+
   .profile-meta-row {
     display: flex;
     align-items: center;
     padding: 16px 20px;
     border-bottom: 1px solid #ECEFEF;
+    box-sizing: border-box;
 
     &.align-items-start {
       align-items: flex-start;
@@ -149,29 +231,36 @@ $action-mint-green: #00DF9A;
     }
 
     .icon-column {
-      width: 40px;
+      width: 36px;
+      min-width: 36px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
 
+      &.push-down-icon {
+        padding-top: 2px;
+      }
+
       .mint-icon {
         color: $action-mint-green;
-        font-size: 24px;
+        font-size: 22px;
       }
     }
 
     .content-column {
       flex: 1;
+      width: 100%;
+      min-width: 0;
 
       .input-header {
         display: block;
         color: $text-muted-gray;
-        font-size: 13px;
+        font-size: 14px;
         margin-bottom: 6px;
       }
 
       .static-text-value {
-        font-size: 16px;
+        font-size: 18px;
         color: #1F2421;
       }
     }
@@ -179,34 +268,41 @@ $action-mint-green: #00DF9A;
 }
 
 /* ==========================================================================
-   NEW TINTED LIGHT MODE INPUT STYLING (Matches Screenshot 2 Perfectly)
+   INPUT STYLING & LEFT ALIGNMENT
    ========================================================================== */
 
 .light-mode-text-input {
   width: 100%;
-  max-width: 340px;
-  background-color: #f4f5f7 !important; /* Perfect soft light grey tint background */
-  color: #1a1a1a !important;             /* Dark sharp text */
+  background-color: #f4f5f7 !important;
+  color: #1a1a1a !important;
   border: none;
-  border-radius: 10px;                   /* Smooth rounded capsule appearance */
-  padding: 12px 16px;
-  font-size: 15px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 18px;
   outline: none;
   box-sizing: border-box;
 
   &::placeholder {
     color: #9ca3af;
   }
+
+  &:focus {
+    background-color: #ededef !important;
+  }
 }
 
 .text-field-rounded {
-  border-radius: 12px !important;
-  margin-top: 8px;
+  border-radius: 10px !important;
+}
+
+.about-paragraph-view {
+  font-size: 18px;
+  color: #2a2a2a;
+  line-height: 1.5;
 }
 
 .about-textarea-frame {
   width: 100%;
-  max-width: 340px;
   margin-top: 6px;
 
   .embedded-light-textarea {
@@ -214,9 +310,9 @@ $action-mint-green: #00DF9A;
     background-color: #f4f5f7 !important;
     color: #1a1a1a !important;
     border: none;
-    border-radius: 12px;
-    padding: 14px;
-    font-size: 15px;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 18px;
     outline: none;
     resize: none;
     box-sizing: border-box;
@@ -224,68 +320,110 @@ $action-mint-green: #00DF9A;
 }
 
 /* ==========================================================================
-   NEW SPECIALTY CAPSULE ROW VISUALS (From Screenshot 2)
+   SPECIALTY FIELD: READ-ONLY & SLIGHTLY LEFT ALIGNED EDIT MODE
    ========================================================================== */
 
-.read-only-specialty-list.visual-capsule-mode {
+.read-only-specialty-list {
   list-style: none;
   padding: 0;
   margin: 4px 0 0 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 
   .specialty-capsule-item {
     display: flex;
-    align-items: center;
-    background-color: #f4f5f7;       /* Identical tinted rows from SS 2 */
-    padding: 12px 16px;
-    border-radius: 12px;
+    align-items: flex-start;
+    padding: 2px 0;
     width: 100%;
-    max-width: 340px;
-    box-sizing: border-box;
-    position: relative;
 
     .item-check-bullet {
       color: $action-mint-green;
       font-size: 18px;
-      margin-right: 12px;
+      margin-right: 10px;
+      margin-top: 2px;
       flex-shrink: 0;
     }
 
     .spec-text {
-      font-size: 14.5px;
-      color: #333333;
+      font-size: 18px;
+      color: #2b2b2b;
       flex: 1;
-      line-height: 1.3;
+      line-height: 1.35;
+    }
+  }
+}
+
+.editing-specialty-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+  width: 100%;
+
+  .edit-specialty-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .outside-icon {
+      color: $action-mint-green;
+      font-size: 20px;
+      margin-right: 8px;
+      margin-left: -4px;
+      flex-shrink: 0;
+
+      &.muted-bullet {
+        color: #a3e6cd;
+      }
     }
 
-    .remove-capsule-x {
-      font-size: 18px;
-      color: #9ca3af;
-      cursor: pointer;
-      margin-left: 8px;
-      transition: color 0.2s;
+    .input-capsule-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background-color: #f4f5f7;
+      border-radius: 10px;
+      padding-right: 12px;
+      overflow: hidden;
 
-      &:hover {
-        color: #ef4444;
+      .light-mode-text-input {
+        background-color: transparent !important;
+        border: none;
+        padding: 10px 8px;
+        font-size: 16px;
+        color: #1a1a1a;
+        width: 100%;
+        outline: none;
+      }
+
+      .remove-capsule-x {
+        font-size: 20px;
+        color: #9ca3af;
+        cursor: pointer;
+        margin-left: 6px;
+
+        &:hover {
+          color: #ef4444;
+        }
       }
     }
   }
 }
 
-.tag-append-input-wrapper.no-margin-top {
-  margin-top: 4px;
+.tag-append-input-wrapper {
+  margin-top: 10px;
+  width: 100%;
 }
 
 /* ==========================================================================
-   GENDER DROPDOWN COMPONENT
+   GENDER DROPDOWN
    ========================================================================== */
 
 .app-custom-select-container {
   position: relative;
   width: 100%;
-  max-width: 340px;
 
   .select-header-box {
     display: flex;
@@ -297,6 +435,7 @@ $action-mint-green: #00DF9A;
     cursor: pointer;
     font-size: 16px;
     color: #1F2421;
+    width: 100%;
 
     .dropdown-arrow-icon {
       font-size: 16px;
@@ -326,31 +465,28 @@ $action-mint-green: #00DF9A;
       &:last-child {
         border-bottom: none;
       }
-
-      &:hover {
-        background-color: #f8fafc;
-      }
     }
   }
 }
 
 /* ==========================================================================
-   TAGS DESIGN BLOCK (Maintained perfectly from Screenshot 1)
+   TAGS DESIGN BLOCK
    ========================================================================== */
 
 .solid-green-tags-flex {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 6px;
+  width: 100%;
 }
 
 .profile-pill-tag {
-  background-color: #7a9587 !important; /* Perfect dusty sage shade */
+  background-color: #7a9587 !important;
   color: #ffffff !important;
   padding: 6px 14px !important;
   border-radius: 4px !important;
-  font-size: 14px !important;
+  font-size: 20px !important;
   font-weight: 500 !important;
   display: inline-flex !important;
   align-items: center;
@@ -361,15 +497,7 @@ $action-mint-green: #00DF9A;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
-    
-    &:hover {
-      color: #ffffff;
-    }
   }
-}
-
-.tag-append-input-wrapper {
-  margin-top: 8px;
 }
 
 /* ==========================================================================
@@ -380,7 +508,7 @@ $action-mint-green: #00DF9A;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 6px;
 
   .red-border-cert-frame {
     width: 70px;
@@ -423,6 +551,41 @@ $action-mint-green: #00DF9A;
       text-align: center;
       line-height: 1.1;
       font-weight: 500;
+    }
+  }
+}
+
+/* NAVIGATION BAR FOOTER */
+.bottom-nav {
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  height: calc(64px + env(safe-area-inset-bottom)); 
+  background: $canvas-light-sheet; 
+  border-top: 1px solid #f2f2f2; 
+  display: flex; 
+  justify-content: space-around; 
+  align-items: center; 
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+
+  .nav-item { 
+    background: none; 
+    border: none; 
+    color: #cccccc; 
+    cursor: pointer; 
+    padding: 10px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.active { 
+      color: $action-mint-green; 
+    } 
+
+    &:active {
+      opacity: 0.7;
     }
   }
 }

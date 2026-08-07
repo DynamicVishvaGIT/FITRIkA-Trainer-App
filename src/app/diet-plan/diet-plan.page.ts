@@ -50,45 +50,17 @@ export class DietPlanPage implements OnInit {
       isSystemPlan: true,
       isUserCreated: false,
       tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg'],
-      isExpanded: true // Render expanded initially to fit layout specifications
+      isExpanded: true
     }
   ];
 
   filteredPlans: DietPlanItem[] = [];
 
   constructor(
-  private router: Router,
-  private modalController: ModalController,
-  private toastController: ToastController
-) {
-
-  const navigation = this.router.getCurrentNavigation();
-
-  if (navigation?.extras?.state) {
-
-    if (navigation.extras.state['newPlan']) {
-      this.masterDietPlans.unshift(
-        navigation.extras.state['newPlan']
-      );
-    }
-
-    if (navigation.extras.state['updatedPlan']) {
-
-      const updated = navigation.extras.state['updatedPlan'];
-
-      const index = this.masterDietPlans.findIndex(
-        x => x.id === updated.id
-      );
-
-      if (index !== -1) {
-        this.masterDietPlans[index] = updated;
-      }
-
-    }
-
-  }
-
-}
+    private router: Router,
+    private modalController: ModalController,
+    private toastController: ToastController
+  ) {}
 
   ngOnInit() {
     this.filterDietPlans();
@@ -116,6 +88,7 @@ export class DietPlanPage implements OnInit {
   toggleCardExpansion(index: number) {
     this.filteredPlans[index].isExpanded = !this.filteredPlans[index].isExpanded;
   }
+
   navigateToDetails(plan: DietPlanItem) {
     this.router.navigate(['/diet-plan-details'], {
       state: { selectedPlan: plan }
@@ -135,85 +108,82 @@ export class DietPlanPage implements OnInit {
     this.filterDietPlans();
   }
   
- async openAddDietPlanModal() {
-
-  const modal = await this.modalController.create({
-
-    component: AddDietPlanPage,
-
-    cssClass: 'bottom-sheet-modal',
-
-    initialBreakpoint: 1,
-
-    breakpoints: [0, 0.92, 1],
-
-    backdropDismiss: true,
-    
-
-    handle: false,
-
-    // showBackdrop: false
-
-  });
-
-  await modal.present();
-
-  const { data } = await modal.onWillDismiss();
-
-  if (data) {
-
-    this.masterDietPlans = [
-
-      {
-        id: 'plan_' + Date.now(),
-
-        name: data.name || 'New Diet Plan',
-
-        description: data.description || '',
-
-        tags: data.tags || [],
-
-        isSystemPlan: false,
-
-        isUserCreated: true,
-
-        isExpanded: false
-      },
-
-      ...this.masterDietPlans
-
-    ];
-
-    this.filterDietPlans();
-
-    const toast = await this.toastController.create({
-
-      message: 'Diet Plan Added Successfully',
-
-      duration: 1800,
-
-      color: 'success',
-
-      position: 'top'
-
+  async openAddDietPlanModal() {
+    const modal = await this.modalController.create({
+      component: AddDietPlanPage,
+      cssClass: 'bottom-sheet-modal',
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.92, 1],
+      backdropDismiss: true,
+      handle: false,
+      componentProps: {
+        editingPlan: null // Passes null so the form opens completely EMPTY
+      }
     });
 
-    await toast.present();
+    await modal.present();
 
+    const { data } = await modal.onWillDismiss();
+
+    if (data) {
+      this.masterDietPlans.unshift({
+        id: 'plan_' + Date.now(),
+        name: data.name || 'New Diet Plan',
+        description: data.description || '',
+        tags: data.tags || [],
+        isSystemPlan: false,
+        isUserCreated: true,
+        isExpanded: false
+      });
+
+      this.filterDietPlans();
+
+      const toast = await this.toastController.create({
+        message: 'Diet Plan Added Successfully',
+        duration: 1800,
+        color: 'success',
+        position: 'top'
+      });
+      await toast.present();
+    }
   }
 
-}
-
-  editDietPlan(plan: DietPlanItem) {
-
-  this.router.navigate(
-    ['/add-diet-plan'],
-    {
-      state: {
-        editingPlan: plan
+  async editDietPlan(plan: DietPlanItem) {
+    const modal = await this.modalController.create({
+      component: AddDietPlanPage,
+      cssClass: 'bottom-sheet-modal',
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.92, 1],
+      backdropDismiss: true,
+      handle: false,
+      componentProps: {
+        editingPlan: plan // Pass existing plan to populate modal for editing
       }
-    }
-  );
+    });
 
-}
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data) {
+      const index = this.masterDietPlans.findIndex(x => x.id === data.id);
+      if (index !== -1) {
+        this.masterDietPlans[index] = {
+          ...this.masterDietPlans[index],
+          name: data.name,
+          description: data.description,
+          tags: data.tags
+        };
+      }
+      this.filterDietPlans();
+
+      const toast = await this.toastController.create({
+        message: 'Diet Plan Updated Successfully',
+        duration: 1800,
+        color: 'success',
+        position: 'top'
+      });
+      await toast.present();
+    }
+  }
 }
