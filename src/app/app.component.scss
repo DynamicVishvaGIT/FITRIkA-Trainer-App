@@ -123,3 +123,15 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+// ion-tab-button.tab-selected::part(native) {
+//   background: #e8fbf4;
+//   border: 1px solid #bbf7d0;
+//   border-radius: 12px;
+// }
+
+ion-tab-button.tab-selected .footer-icon {
+  filter: brightness(0) saturate(100%)
+          invert(59%) sepia(98%) saturate(1668%)
+          hue-rotate(126deg) brightness(95%) contrast(101%);
+}
