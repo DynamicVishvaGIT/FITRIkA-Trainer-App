@@ -20,9 +20,9 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
 
 .mobile-container {
   width: 100%;
-  max-width: 480px; /* Adapts flexibly up to standard mobile breakpoint */
+  max-width: 480px;
   height: 100vh;
-  height: 100dvh; /* Dynamic viewport height for modern mobile browsers */
+  height: 100dvh;
   margin: 0 auto;
   background: $canvas-light-sheet;
   display: flex;
@@ -162,8 +162,9 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
       gap: 12px;
 
       .label {
-        color: #4C5551;
-        font-size: 15px;
+        color: #7E7E7E;
+        font-size: 17px;
+        font-weight: 500;
       }
 
       .value {
@@ -260,17 +261,14 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
       }
 
       .static-text-value {
-        font-size: 18px;
+        font-size: 16px;
         color: #1F2421;
       }
     }
   }
 }
 
-/* ==========================================================================
-   INPUT STYLING & LEFT ALIGNMENT
-   ========================================================================== */
-
+/* INPUT STYLING & LEFT ALIGNMENT */
 .light-mode-text-input {
   width: 100%;
   background-color: #f4f5f7 !important;
@@ -278,7 +276,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   border: none;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 18px;
+  font-size: 15px;
   outline: none;
   box-sizing: border-box;
 
@@ -296,7 +294,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
 }
 
 .about-paragraph-view {
-  font-size: 18px;
+  font-size: 15px;
   color: #2a2a2a;
   line-height: 1.5;
 }
@@ -312,7 +310,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     border: none;
     border-radius: 10px;
     padding: 12px;
-    font-size: 18px;
+    font-size: 15px;
     outline: none;
     resize: none;
     box-sizing: border-box;
@@ -320,30 +318,31 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
 }
 
 /* ==========================================================================
-   SPECIALTY FIELD: READ-ONLY & SLIGHTLY LEFT ALIGNED EDIT MODE
+   SPECIALTY SECTION: READ-ONLY & EDIT MODE ALIGNMENT FIXES
    ========================================================================== */
 
 .read-only-specialty-list {
   list-style: none;
   padding: 0;
-  margin: 4px 0 0 0;
+  margin: 6px 0 0 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
 
   .specialty-capsule-item {
     display: flex;
-    align-items: flex-start;
-    padding: 2px 0;
+    align-items: center;
+    padding: 0;
     width: 100%;
 
     .item-check-bullet {
       color: $action-mint-green;
       font-size: 18px;
       margin-right: 10px;
-      margin-top: 2px;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
     }
 
     .spec-text {
@@ -358,21 +357,27 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
 .editing-specialty-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 6px;
+  gap: 8px;
+  margin-top: 8px;
   width: 100%;
 
   .edit-specialty-row {
     display: flex;
     align-items: center;
     width: 100%;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 6px 12px;
+    box-sizing: border-box;
 
     .outside-icon {
       color: $action-mint-green;
-      font-size: 20px;
-      margin-right: 8px;
-      margin-left: -4px;
+      font-size: 18px;
+      margin-right: 10px;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
 
       &.muted-bullet {
         color: #a3e6cd;
@@ -383,26 +388,25 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
       flex: 1;
       display: flex;
       align-items: center;
-      background-color: #f4f5f7;
-      border-radius: 10px;
-      padding-right: 12px;
+      background-color: transparent;
       overflow: hidden;
 
       .light-mode-text-input {
         background-color: transparent !important;
         border: none;
-        padding: 10px 8px;
-        font-size: 16px;
+        padding: 6px 0;
+        font-size: 15px;
         color: #1a1a1a;
         width: 100%;
         outline: none;
       }
 
       .remove-capsule-x {
-        font-size: 20px;
+        font-size: 18px;
         color: #9ca3af;
         cursor: pointer;
-        margin-left: 6px;
+        margin-left: 8px;
+        padding: 4px;
 
         &:hover {
           color: #ef4444;
@@ -413,8 +417,15 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
 }
 
 .tag-append-input-wrapper {
-  margin-top: 10px;
+  margin-top: 8px;
   width: 100%;
+
+  .light-mode-text-input {
+    background-color: #f8fafc !important;
+    border: 1px dashed #cbd5e1;
+    font-size: 14px;
+    padding: 10px 14px;
+  }
 }
 
 /* ==========================================================================
@@ -431,7 +442,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     align-items: center;
     background-color: transparent;
     border: none;
-    padding: 6px 0;
+    padding: 0;
     cursor: pointer;
     font-size: 16px;
     color: #1F2421;
@@ -470,23 +481,23 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
 }
 
 /* ==========================================================================
-   TAGS DESIGN BLOCK
+   TAGS DESIGN BLOCK (PROPERLY ALIGNED & PADDED)
    ========================================================================== */
 
 .solid-green-tags-flex {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 3px;
+  margin-top: 8px;
   width: 100%;
 }
 
 .profile-pill-tag {
-  background-color: #7a9587 !important;
+  background-color: #647c6e !important;
   color: #ffffff !important;
-  padding: 6px 14px !important;
-  border-radius: 4px !important;
-  font-size: 20px !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
   display: inline-flex !important;
   align-items: center;

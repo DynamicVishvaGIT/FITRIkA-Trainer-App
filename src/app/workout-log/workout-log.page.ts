@@ -61,8 +61,8 @@ export class WorkoutLogPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: AddWorkoutLogPage,
       cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.45,
-      breakpoints: [0, 0.45],
+      initialBreakpoint: 0.38,
+      breakpoints: [0, 0.35],
       handle: false
     });
 

@@ -55,7 +55,9 @@
               *ngIf="plan.isCopyable"
               (click)="copyPlan(plan, $event)"
               aria-label="Duplicate plan">
-              <ion-icon name="copy" class="action-icon copy-icon"></ion-icon>
+              <!-- <ion-icon name="copy" class="action-icon copy-icon"></ion-icon> -->
+                <img src="assets/images/copy.png" alt="Swap Task"  style="width:19px !important; height: 19px !important; display: block; object-fit: contain; background: #fff;"/>
+
             </button>
 
             <!-- Edit Icon -->
@@ -64,7 +66,9 @@
               class="icon-action-btn"
               (click)="editPlan(plan, $event)"
               aria-label="Edit plan">
-              <ion-icon name="create-outline" class="action-icon"></ion-icon>
+              <!-- <ion-icon name="create-outline" class="action-icon"></ion-icon> -->
+                <img src="assets/images/edit.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block;  object-fit: contain; background: #fff;"/>
+
             </button>
           </div>
         </div>

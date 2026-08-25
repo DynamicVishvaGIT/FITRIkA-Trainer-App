@@ -27,7 +27,7 @@ export class DietPlanPage implements OnInit {
   masterDietPlans: DietPlanItem[] = [
     {
       id: 'plan_1',
-      name: 'Calorie control program..',
+      name: 'Calorie control program',
       description: 'Tailored macro splits designed to manage daily caloric intake efficiently.',
       isSystemPlan: true,
       isUserCreated: false,
@@ -36,7 +36,7 @@ export class DietPlanPage implements OnInit {
     },
     {
       id: 'plan_2',
-      name: 'Lean muscle fuel plan..',
+      name: 'Lean muscle fuel plan',
       description: 'High protein distribution profile engineered for supporting hypertrophy adaptations.',
       isSystemPlan: true,
       isUserCreated: false,
@@ -45,7 +45,7 @@ export class DietPlanPage implements OnInit {
     },
     {
       id: 'plan_3',
-      name: 'Fat burn formula..',
+      name: 'Fat burn formula',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pretium tellus quis arcu mollis, in sodales dui volutpat.',
       isSystemPlan: true,
       isUserCreated: false,

@@ -127,7 +127,7 @@ Exercise Card & Layout Alignment
   
   ion-icon {
     font-size: 20px;
-    color: #8E8E93; /* Soft standard gray for systemic utility arrows */
+    color: #8E8E93;
   }
 }
 
@@ -145,8 +145,9 @@ Rows, Sets, and Video Content
   flex: 1;
   padding: 14px 20px;
   
+  /* Vertical border removed here */
   &:first-child {
-    border-right: 1px solid #E5E5EA;
+    border-right: none;
   }
 }
 

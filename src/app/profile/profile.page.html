@@ -27,12 +27,16 @@
       </div>
     </section>
 
-    <!-- SECTION 1: WORKOUT LOG LIST (Fixed Typo Here) -->
+    <!-- SECTION 1: WORKOUT LOG LIST -->
     <section class="dashboard-card clickable-card" (click)="goToWorkoutLog(workoutLogs)">
       <div class="card-header">
         <h3>Workout Log</h3>
-        <button class="view-all-btn">View All &rarr;</button>
+       <img src="assets/images/viewall.png" class="view-all-icon" alt="View All" style="cursor: pointer; height:14px !important; width: 60px !important ; object-fit: contain;" />
       </div>
+
+      
+      
+      <div class="card-divider"></div>
 
       <div class="workout-log-list">
         <div class="workout-item">
@@ -69,8 +73,12 @@
     <section class="dashboard-card clickable-card" (click)="goToWorkoutLog(workoutLogs)">
       <div class="card-header">
         <h3>Workout Log</h3>
-        <button class="view-all-btn">View All &rarr;</button>
+        <img src="assets/images/viewall.png" class="view-all-icon" alt="View All" style="cursor: pointer; height:14px !important; width: 60px !important ; object-fit: contain;" />
       </div>
+
+      
+      
+      <div class="card-divider"></div>
       
       <div class="heatmaps-container">
         <div class="heatmap-grid">
@@ -83,24 +91,38 @@
     </section>
 
     <!-- SECTION 3: PROGRESS TRACKING METRICS -->
-   <!-- SECTION 3: PROGRESS TRACKING METRICS -->
-<section class="dashboard-card clickable-card" (click)="goToTrackingMetrics()">
+  <section class="dashboard-card clickable-card" (click)="goToTrackingMetrics()">
   <div class="card-header">
     <h3>Progress Tracking Metrics</h3>
-    <button class="view-all-btn" (click)="goToTrackingMetrics(); $event.stopPropagation()">View All &rarr;</button>
+    <img src="assets/images/viewall.png" class="view-all-icon" alt="View All" (click)="goToTrackingMetrics(); $event.stopPropagation()" style="cursor: pointer; height:14px !important; width: 60px !important ; object-fit: contain;" />
   </div>
 
   <div class="metrics-list">
+
     <div class="metric-item" *ngFor="let m of trackingMetrics">
-      <div class="metric-meta">
-        <span class="metric-name">{{ m.name }}</span>
-        <span class="metric-value">{{ m.score }}/100</span>
+
+      <span class="metric-name">
+        {{ m.name }}
+      </span>
+
+      <div class="metric-progress">
+
+        <span class="metric-value">78/100</span>
+
+        <div class="progress-track">
+          <div
+            class="progress-fill"
+            [style.width.%]="78"
+            [style.background-color]="m.color">
+          </div>
+        </div>
+
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" [style.width.%]="m.score" [style.background-color]="m.color"></div>
-      </div>
+
     </div>
+
   </div>
+
 </section>
 
     <!-- SECTION 4: ASSIGNED WORKOUT -->
@@ -108,6 +130,7 @@
       <div class="card-header no-border">
         <h3>Assigned Workout</h3>
       </div>
+      <div class="card-divider"></div>
       <div class="program-progress-layout">
         <div class="program-details">
           <h4>Beginner weight loss program</h4>
@@ -130,9 +153,10 @@
       <div class="card-header no-border">
         <h3>Diet</h3>
       </div>
+      <div class="card-divider"></div>
       <div class="program-progress-layout">
         <div class="program-details">
-          <h4>Calorie control program..</h4>
+          <h4>Calorie control program</h4>
           <p>12/02/2026 - 12/05/2026</p>
         </div>
         <div class="progress-counter-block">
@@ -152,6 +176,7 @@
       <div class="card-header no-border">
         <h3>Assigned Package</h3>
       </div>
+      <div class="card-divider"></div>
       <div class="program-progress-layout">
         <div class="program-details">
           <h4>Muscle Gain Pro</h4>
@@ -174,6 +199,7 @@
       <div class="card-header no-border">
         <h3>Assessments & Forms</h3>
       </div>
+      <div class="card-divider"></div>
       <div class="horizontal-scrollable-row">
         <div class="dashed-form-card" *ngFor="let formNum of [1, 2, 3, 4]">
           <span class="form-title">Form {{ formNum }}</span>
@@ -186,21 +212,29 @@
       <div class="card-header no-border">
         <h3>Files and Document</h3>
       </div>
+      <div class="card-divider"></div>
       <div class="horizontal-scrollable-row">
-        <div class="dashed-document-card" *ngFor="let docNum of [1, 2]">
+        <!-- Document 1 with #1D9DE2 color -->
+        <div class="dashed-document-card">
           <div class="doc-icon-container">
-            <svg class="file-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2196F3" stroke-width="2.5">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
+          <img src="assets/images/docu1.png" class="view-all-icon" alt="View All" style="cursor: pointer; height:21px !important; width: 21px !important ; object-fit: contain;" />
+
+            
           </div>
-          <span class="doc-title">Document {{ docNum }}</span>
+          <span class="doc-title">Document 1</span>
+        </div>
+
+        <!-- Document 2 with #7500F3 color -->
+        <div class="dashed-document-card">
+          <div class="doc-icon-container">
+          <img src="assets/images/docu2.png" class="view-all-icon" alt="View All" style="cursor: pointer; height:21px !important; width: 21px !important ; object-fit: contain;" />
+
+            
+          </div>
+          <span class="doc-title">Document 2</span>
         </div>
       </div>
     </section>
 
   </main>
-
-  <!-- BOTTOM NAVIGATION BAR -->
+</div>

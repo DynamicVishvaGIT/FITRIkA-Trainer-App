@@ -19,6 +19,13 @@ export interface StaticMealSlot {
   items: StaticFoodItem[];
 }
 
+export interface MacroLabel {
+  key: string;
+  value: number;
+  left: number;
+  top: number;
+}
+
 @Component({
   selector: 'app-diet-plan-details',
   templateUrl: './diet-plan-details.page.html',
@@ -36,60 +43,62 @@ export class DietPlanDetailsPage implements OnInit {
     { short: 'Sat', full: 'Saturday' }
   ];
 
-  selectedDayIndex: number = 1; // Default to Monday
-  selectedWeek: number = 1;     // Active week index
-  availableWeeks: number[] = [1]; // Dynamic list of week indices
+  selectedDayIndex: number = 1;
+  selectedWeek: number = 1;
+  availableWeeks: number[] = [1];
 
   totalDayCalories: number = 0;
 
-  planName: string = 'Calorie control program..';
+  planName: string = 'Calorie control program';
   planDescription: string = 'A balanced nutrition plan focused on managing daily calorie intake without sacrificing essential nutrients. It helps support healthy weight loss.';
 
-  // Deep map: weekNum -> dayIdx -> meals
-  weekMealsTracker: { 
-    [weekNum: number]: { [dayIdx: number]: StaticMealSlot[] } 
+  weekMealsTracker: {
+    [weekNum: number]: { [dayIdx: number]: StaticMealSlot[] }
   } = {};
 
   meals: StaticMealSlot[] = [];
 
   constructor(private router: Router) {
-    this.initializeDefaultWeek1();
-    this.checkForReturnedData();
+    this.initializeDefaultTracker();
 
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      this.checkForReturnedData();
+      this.applyReturnedState();
     });
   }
 
   ngOnInit(): void {
+    this.applyReturnedState();
     this.syncActiveMeals();
   }
 
-  private initializeDefaultWeek1(): void {
+  ionViewWillEnter(): void {
+    this.applyReturnedState();
+    this.syncActiveMeals();
+  }
+
+  private initializeDefaultTracker(): void {
     if (!this.weekMealsTracker[1]) {
-      this.weekMealsTracker[1] = {
-        0: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-        1: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-        2: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-        3: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-        4: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-        5: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ],
-        6: [ { id: 'breakfast', name: 'Breakfast', items: [] }, { id: 'lunch', name: 'Lunch', items: [] }, { id: 'dinner', name: 'Dinner', items: [] } ]
-      };
+      this.weekMealsTracker[1] = {};
+    }
+    for (let i = 0; i < 7; i++) {
+      if (!this.weekMealsTracker[1][i]) {
+        // Enforce strictly 3 unique default slots: breakfast, lunch, dinner
+        this.weekMealsTracker[1][i] = [
+          { id: 'breakfast', name: 'Breakfast', items: [] },
+          { id: 'lunch', name: 'Lunch', items: [] },
+          { id: 'dinner', name: 'Dinner', items: [] }
+        ];
+      }
     }
   }
 
-  /**
-   * Adds new week and repeats current week content
-   */
   addNewWeek(): void {
     const currentWeekNum = this.selectedWeek;
     const nextWeekNum = this.availableWeeks.length + 1;
-    
-    // Deep clone current week content to duplicate it
-    const clonedWeekContent = JSON.parse(JSON.stringify(this.weekMealsTracker[currentWeekNum]));
+
+    const clonedWeekContent = JSON.parse(JSON.stringify(this.weekMealsTracker[currentWeekNum] || {}));
 
     this.weekMealsTracker[nextWeekNum] = clonedWeekContent;
     this.availableWeeks.push(nextWeekNum);
@@ -97,20 +106,15 @@ export class DietPlanDetailsPage implements OnInit {
     this.selectWeek(nextWeekNum);
   }
 
-  /**
-   * Deletes a week and re-indexes remaining weeks
-   */
   deleteWeek(weekNumber: number, event: Event): void {
     event.stopPropagation();
 
-    // Prevent deleting if only 1 week exists
     if (this.availableWeeks.length <= 1) {
       return;
     }
 
     delete this.weekMealsTracker[weekNumber];
-    
-    // Re-index remaining weeks sequentially
+
     const remainingTracker: { [weekNum: number]: { [dayIdx: number]: StaticMealSlot[] } } = {};
     const updatedWeeksList: number[] = [];
 
@@ -127,7 +131,6 @@ export class DietPlanDetailsPage implements OnInit {
     this.weekMealsTracker = remainingTracker;
     this.availableWeeks = updatedWeeksList;
 
-    // Adjust selected week safely
     if (this.selectedWeek > this.availableWeeks.length) {
       this.selectedWeek = this.availableWeeks.length;
     } else if (this.selectedWeek === weekNumber) {
@@ -142,40 +145,64 @@ export class DietPlanDetailsPage implements OnInit {
     this.syncActiveMeals();
   }
 
-  checkForReturnedData(): void {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state) {
-      const state = navigation.extras.state;
-      
-      if (state['updatedMealId']) {
-        const mid = state['updatedMealId'];
-        const mname = state['updatedMealName'];
-        const mitems = state['updatedItems'] || [];
-        
-        const currentWeekDays = this.weekMealsTracker[this.selectedWeek];
-        if (currentWeekDays) {
-          const targetedDayMeals = currentWeekDays[this.selectedDayIndex];
-          const index = targetedDayMeals.findIndex(m => m.id === mid);
-          
-          if (index !== -1) {
-            targetedDayMeals[index].items = [...mitems];
-            if (mname) {
-              targetedDayMeals[index].name = mname;
-            }
-          }
-        }
-        
-        this.syncActiveMeals();
-      }
+  private applyReturnedState(): void {
+    const state = history.state;
+    if (!state || !state['updatedMealId']) {
+      return;
     }
+
+    const mid = state['updatedMealId'];
+    const mname = state['updatedMealName'];
+    const mitems = state['updatedItems'] || [];
+
+    if (!this.weekMealsTracker[this.selectedWeek]) {
+      this.weekMealsTracker[this.selectedWeek] = {};
+    }
+    if (!this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex]) {
+      this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex] = [
+        { id: 'breakfast', name: 'Breakfast', items: [] },
+        { id: 'lunch', name: 'Lunch', items: [] },
+        { id: 'dinner', name: 'Dinner', items: [] }
+      ];
+    }
+
+    const targetedDayMeals = this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex];
+    
+    // Find slot by ID to update its specific items and name cleanly
+    let targetMeal = targetedDayMeals.find(m => m.id === mid);
+    
+    if (targetMeal) {
+      targetMeal.items = [...mitems];
+      if (mname) {
+        targetMeal.name = mname;
+      }
+    } else {
+      // Fallback safeguard: if slot doesn't exist yet, ensure we only add if it doesn't duplicate existing IDs
+      targetedDayMeals.push({ id: mid, name: mname || 'Meal', items: [...mitems] });
+    }
+
+    // Clear history state to avoid loops
+    history.replaceState(
+      { ...history.state, updatedMealId: null, updatedMealName: null, updatedItems: null },
+      ''
+    );
+
+    this.syncActiveMeals();
   }
 
   syncActiveMeals(): void {
-    if (this.weekMealsTracker[this.selectedWeek]) {
-      this.meals = this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex];
-    } else {
-      this.meals = [];
+    if (!this.weekMealsTracker[this.selectedWeek]) {
+      this.weekMealsTracker[this.selectedWeek] = {};
     }
+    if (!this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex]) {
+      this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex] = [
+        { id: 'breakfast', name: 'Breakfast', items: [] },
+        { id: 'lunch', name: 'Lunch', items: [] },
+        { id: 'dinner', name: 'Dinner', items: [] }
+      ];
+    }
+
+    this.meals = this.weekMealsTracker[this.selectedWeek][this.selectedDayIndex];
     this.calculateTotalCalories();
   }
 
@@ -204,6 +231,72 @@ export class DietPlanDetailsPage implements OnInit {
       this.meals[index].items = [];
     }
     this.calculateTotalCalories();
+  }
+
+  getMealMacroPercents(meal: StaticMealSlot): { protein: number; fats: number; carbs: number } {
+    const totals = meal.items.reduce((acc, item) => {
+      acc.protein += item.protein * item.quantity;
+      acc.fats += item.fats * item.quantity;
+      acc.carbs += item.carbs * item.quantity;
+      return acc;
+    }, { protein: 0, fats: 0, carbs: 0 });
+
+    const sum = totals.protein + totals.fats + totals.carbs;
+    if (sum === 0) {
+      return { protein: 0, fats: 0, carbs: 0 };
+    }
+
+    const protein = Math.round((totals.protein / sum) * 100);
+    const fats = Math.round((totals.fats / sum) * 100);
+    const carbs = 100 - protein - fats;
+
+    return { protein, fats, carbs };
+  }
+
+  getDonutGradient(meal: StaticMealSlot): string {
+    const p = this.getMealMacroPercents(meal);
+
+    if (p.protein + p.fats + p.carbs === 0) {
+      return '#e2e8f0';
+    }
+
+    const proteinDeg = p.protein * 3.6;
+    const fatsDeg = p.fats * 3.6;
+
+    return `conic-gradient(from 0deg,
+      #9b51e0 0deg ${proteinDeg}deg,
+      #ff6b00 ${proteinDeg}deg ${proteinDeg + fatsDeg}deg,
+      #ffbd00 ${proteinDeg + fatsDeg}deg 360deg)`;
+  }
+
+  getMacroLabels(meal: StaticMealSlot): MacroLabel[] {
+    const p = this.getMealMacroPercents(meal);
+    const radius = 36;
+    const labels: MacroLabel[] = [];
+
+    const segments = [
+      { key: 'protein', value: p.protein },
+      { key: 'fats', value: p.fats },
+      { key: 'carbs', value: p.carbs }
+    ];
+
+    let cumulativeDeg = 0;
+
+    segments.forEach(seg => {
+      const segDeg = seg.value * 3.6;
+      if (seg.value > 0) {
+        const midDeg = cumulativeDeg + segDeg / 2;
+        const rad = (midDeg * Math.PI) / 180;
+
+        const left = 50 + radius * Math.sin(rad);
+        const top = 50 - radius * Math.cos(rad);
+
+        labels.push({ key: seg.key, value: seg.value, left, top });
+      }
+      cumulativeDeg += segDeg;
+    });
+
+    return labels;
   }
 
   navigateToAddDetails(meal: StaticMealSlot): void {

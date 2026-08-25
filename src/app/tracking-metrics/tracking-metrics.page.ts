@@ -19,6 +19,7 @@ interface MetricCategory {
   standalone:false,
 })
 export class TrackingMetricsPage {
+  graphImageSrc: string = 'assets/images/progress-line-graph.png';
   selectedTab: 'basic' | 'advanced' = 'basic';
   months: string[] = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
@@ -183,6 +184,23 @@ export class TrackingMetricsPage {
       return idx === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`;
     }, '');
   }
+  updateGraphImage() {
+  if (this.activeVariables.length === 0) {
+    // Show placeholder or default state image if needed
+    this.graphImageSrc = 'assets/images/default-placeholder.png';
+  } else {
+    // Load your custom green line graph when variables are active
+    this.graphImageSrc = 'assets/images/progress-line-graph.png';
+  }
+}
+switchTab(tab: 'basic' | 'advanced') {
+  this.selectedTab = tab;
+  if (tab === 'basic') {
+    this.graphImageSrc = 'assets/images/basic-progress-graph.png';
+  } else {
+    this.graphImageSrc = 'assets/images/advanced-progress-graph.png';
+  }
+}
 
   openBottomSheet(category?: MetricCategory): void {
     this.newMetric = {

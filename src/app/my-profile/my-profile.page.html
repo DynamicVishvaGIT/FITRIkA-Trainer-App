@@ -56,7 +56,7 @@
       <!-- Mobile Number Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-          <ion-icon name="call" class="mint-icon"></ion-icon>
+      <img src="assets/images/call.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; "/>
         </div>
         <div class="content-column">
           <label class="input-header">Mobile Number</label>
@@ -68,7 +68,8 @@
       <!-- Location Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-          <ion-icon name="location" class="mint-icon"></ion-icon>
+        <img src="assets/images/loca.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
+
         </div>
         <div class="content-column">
           <label class="input-header">Location</label>
@@ -80,7 +81,8 @@
       <!-- Birthdate Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-          <ion-icon name="calendar" class="mint-icon"></ion-icon>
+                <img src="assets/images/cale.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
+
         </div>
         <div class="content-column">
           <label class="input-header">Birthdate</label>
@@ -92,7 +94,8 @@
       <!-- Gender Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-          <ion-icon name="transgender" class="mint-icon"></ion-icon>
+               <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
+
         </div>
         <div class="content-column">
           <label class="input-header">Gender</label>
@@ -120,7 +123,8 @@
       <!-- Specialty Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
-          <ion-icon name="create" class="mint-icon"></ion-icon>
+      <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
+
         </div>
         <div class="content-column">
           <label class="input-header">Specialty</label>
@@ -128,7 +132,8 @@
           <!-- READ-ONLY MODE -->
           <ul *ngIf="!isEditing" class="read-only-specialty-list">
             <li *ngFor="let spec of profileData.specialties" class="specialty-capsule-item">
-              <ion-icon name="checkmark-circle-outline" class="item-check-bullet"></ion-icon>
+            <img src="assets/images/right.png" alt="Swap Task" style="width:12px !important; height: 12px !important;    margin-right: 8px; margin-left: -20px; display: block; object-fit: contain; "/>
+
               <span class="spec-text">{{ spec }}</span>
             </li>
           </ul>
@@ -136,7 +141,7 @@
           <!-- EDITING MODE -->
           <div *ngIf="isEditing" class="editing-specialty-container">
             <div *ngFor="let spec of profileData.specialties; let i = index; trackBy: trackByIndex" class="edit-specialty-row">
-              <ion-icon name="checkmark-circle-outline" class="item-check-bullet outside-icon"></ion-icon>
+            <img src="assets/images/right.png" alt="Swap Task" style="width:12px !important; height: 12px !important;    margin-right: 13px; margin-left: -31px; display: block; object-fit: contain; "/>
               <div class="input-capsule-box">
                 <input 
                   type="text" 
@@ -147,7 +152,7 @@
             </div>
 
             <div class="edit-specialty-row add-new-row">
-              <ion-icon name="checkmark-circle-outline" class="item-check-bullet outside-icon muted-bullet"></ion-icon>
+             
               <div class="input-capsule-box">
                 <input 
                   type="text" 
@@ -167,7 +172,8 @@
       <!-- Certificate Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
-          <ion-icon name="ribbon" class="mint-icon"></ion-icon>
+        <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
+
         </div>
         <div class="content-column">
           <label class="input-header">Certificate</label>
@@ -186,7 +192,8 @@
       <!-- Interactive Tags Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
-          <ion-icon name="pricetag" class="mint-icon"></ion-icon>
+      <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
+
         </div>
         <div class="content-column">
           <label class="input-header">Tags</label>
@@ -214,7 +221,8 @@
       <!-- About Us Section -->
       <div class="profile-meta-row align-items-start no-border-bottom">
         <div class="icon-column push-down-icon">
-          <ion-icon name="person" class="mint-icon"></ion-icon>
+        <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; "/>
+
         </div>
         <div class="content-column">
           <label class="input-header">About Us</label>

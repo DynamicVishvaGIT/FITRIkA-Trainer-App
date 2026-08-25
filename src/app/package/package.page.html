@@ -1,6 +1,5 @@
 <div class="app-container package-view">
-  
-  <!-- Header Section -->
+
   <header class="app-header">
     <button class="back-btn" (click)="goBack()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00c48c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8,7 +7,9 @@
         <polyline points="12 19 5 12 12 5"></polyline>
       </svg>
     </button>
-    <h1 class="header-title">Package</h1>
+
+  <h1 class="header-title" style="margin-top: 3px;">Package</h1>
+
     <button class="add-btn-circle" (click)="navigateToAddPackage()">
       <span class="plus-icon">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
@@ -19,78 +20,147 @@
       <span class="add-text">Add</span>
     </button>
   </header>
-  
-  <!-- Scrollable Card Content -->
+
   <main class="content-scroll">
-    <div 
-      *ngFor="let pkg of packages" 
-      class="package-card" 
-      [class.active]="selectedPackageId === pkg.id">
-      
-      <!-- Green Accent Strip rendered on ALL cards unconditionally -->
+
+    <div
+      *ngFor="let pkg of packages"
+      class="package-card"
+      [class.active]="selectedPackageId === pkg.id"
+      [class.is-expanded]="pkg.isExpanded"
+      [class.is-collapsed]="!pkg.isExpanded"
+    >
+
       <div class="accent-strip"></div>
 
-      <!-- Card Top Main Row (Handles Selection & Expansion) -->
       <div class="card-header" (click)="handleCardSelect(pkg)">
+
         <div class="header-left">
-          <!-- Custom Radio Indicator Component -->
-          <div class="custom-radio" [class.checked]="selectedPackageId === pkg.id">
-            <div class="radio-inner" *ngIf="selectedPackageId === pkg.id"></div>
+
+          <div
+            class="custom-radio"
+            [class.checked]="selectedPackageId === pkg.id"
+          >
+            <div
+              class="radio-inner"
+              *ngIf="selectedPackageId === pkg.id"
+            ></div>
           </div>
 
-          <!-- Package Name Title -->
-          <span class="package-name">{{ pkg.name }}</span>
+          <span
+            class="package-name"
+            [title]="pkg.name"
+          >
+            {{ pkg.name }}
+          </span>
 
-          <!-- Uniform Edit Button -->
-          <button class="edit-icon-btn" (click)="navigateToEditPackage($event, pkg.id)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V13" 
-                    stroke="#00c48c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" 
-                    stroke="#00c48c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <button
+            class="edit-icon-btn"
+            (click)="navigateToEditPackage($event, pkg.id)"
+            type="button"
+          >
+            <img
+              src="assets/images/pack.png"
+              alt="Edit"
+            />
           </button>
+
         </div>
 
         <div class="header-right">
-          <!-- Pricing Structure -->
+
           <div class="price-container">
             <span class="price-amount">₹{{ pkg.price | number }}</span>
             <span class="price-period">per month</span>
           </div>
 
-          <!-- Dynamic Chevron Arrow Toggle -->
           <div class="chevron-indicator">
-            <svg *ngIf="!pkg.isExpanded" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+            <svg
+              *ngIf="!pkg.isExpanded"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#94a3b8"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-            <svg *ngIf="pkg.isExpanded" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+            <svg
+              *ngIf="pkg.isExpanded"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#94a3b8"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
+
           </div>
+
         </div>
+
       </div>
 
-      <!-- Expandable Feature List Grid Container -->
-      <div class="card-details" *ngIf="pkg.isExpanded">
+      <div
+        class="card-details"
+        *ngIf="pkg.isExpanded"
+      >
+
         <div class="details-divider"></div>
+
         <ul class="inclusions-list">
+
           <li *ngFor="let item of pkg.inclusions">
+
             <span class="check-dot">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00c48c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#00c48c"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </span>
-            <span class="inclusion-text">{{ item }}</span>
+
+            <span
+              class="inclusion-text"
+              [title]="item"
+            >
+              {{ item }}
+            </span>
+
           </li>
+
         </ul>
+
       </div>
 
     </div>
+
   </main>
 
-  <!-- Absolute Positioned Select Footer Box -->
   <footer class="sticky-footer">
-    <button class="primary-select-btn" (click)="confirmSelection()">Select</button>
+    <button
+      class="primary-select-btn"
+      (click)="confirmSelection()"
+      type="button"
+    >
+      Select
+    </button>
   </footer>
+
 </div>

@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border global-slot-header">
   <ion-toolbar class="slot-toolbar-container">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/my-profile" text="" class="back-navigation-btn"></ion-back-button>
+      <ion-back-button defaultHref="/my-profile" text="" icon="arrow-back-outline" class="back-navigation-btn" (click)="goBack()"></ion-back-button>
     </ion-buttons>
     <ion-title class="slot-centered-title">Slot Sheet</ion-title>
   </ion-toolbar>
@@ -19,15 +19,26 @@
       
       <div class="profile-meta-row">
         <span class="meta-inline-item">
-          <ion-icon name="call-outline"></ion-icon> +91 9876543210
+          <!-- Phone Call Icon in Green -->
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#00C853" style="color: #00C853;">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg> +91 9876543210
         </span>
         <span class="meta-inline-item">
-          <ion-icon name="person-outline"></ion-icon> Female
+          <!-- Previous style Gender Icon in Green -->
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #00C853;">
+            <circle cx="10" cy="14" r="5"></circle>
+            <path d="M19 5l-5.4 5.4"></path>
+            <path d="M15 5h4v4"></path>
+          </svg> Female
         </span>
       </div>
       
       <p class="profile-email-line">
-        <ion-icon name="mail-outline"></ion-icon> asthadhaliwal@gmail.com
+        <!-- Mail Envelope Icon in Green -->
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#00C853" style="color: #00C853;">
+          <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg> asthadhaliwal@gmail.com
       </p>
     </div>
   </div>
@@ -42,14 +53,15 @@
     >
       <span class="node-day-label">{{ day.name }}</span>
       <span class="node-date-numeric">{{ day.date }}</span>
+      <div class="active-dot" *ngIf="day.date !== selectedDate"></div>
     </div>
   </div>
 
-  <!-- Action Row: Add New Slot Button aligned right underneath calendar strip -->
+  <!-- Action Row: Add New Slot Button aligned right -->
   <div class="action-row-container">
-    <button class="add-btn-circle" (click)="openAddSlotModal()">
+    <button class="add-btn-text-style" (click)="openAddSlotModal()" type="button">
       <span class="plus-icon">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
@@ -60,13 +72,13 @@
 
   <!-- Dynamic Content Slots List View Container -->
   <div class="slots-vertical-feed-stack">
-    <div class="time-slot-display-card" *ngFor="let slot of filteredSlots">
+    <div class="time-slot-display-card" *ngFor="let slot of filteredSlots" [ngClass]="{'is-blocked': slot.status === 'Blocked'}">
       
       <div class="slot-left-details">
         <h3 class="slot-duration-headline">{{ slot.startTime }} - {{ slot.endTime }}</h3>
         
         <div class="slot-badges-inline-row">
-          <span class="pill-status-badge" [ngClass]="slot.status.toLowerCase()">
+          <span class="pill-status-badge" [ngClass]="slot.status.toLowerCase() + (slot.statusLabel === 'Tej / Deepika' || slot.statusLabel === 'Rohan S.' ? ' user-booked' : '')">
             {{ slot.statusLabel }}
           </span>
           <span class="pill-sub-context-type" *ngIf="slot.type">{{ slot.type }}</span>
@@ -74,12 +86,16 @@
       </div>
 
       <div class="slot-right-actions">
-        <button class="icon-utility-action-btn interaction-edit-trigger" (click)="openEditModal(slot)">
-          <ion-icon [name]="slot.status === 'Blocked' ? 'lock-closed-outline' : (slot.status === 'Free' ? 'lock-open-outline' : 'pencil-outline')"></ion-icon>
+        <!-- Edit / Lock / Unlock Dynamic Icons -->
+        <button class="icon-utility-action-btn interaction-edit-trigger" (click)="openEditModal(slot)" type="button">
+          <img *ngIf="slot.status === 'Blocked'" src="assets/images/lock.png" alt="Lock" class="feature-icon-img icon-lock" />
+          <img *ngIf="slot.status === 'Free'" src="assets/images/unlock.png" alt="Unlock" class="feature-icon-img icon-unlock" />
+          <img *ngIf="slot.status !== 'Blocked' && slot.status !== 'Free'" src="assets/images/pen.png" alt="Edit" class="feature-icon-img icon-pen" />
         </button>
         
-        <button class="icon-utility-action-btn interaction-delete-trigger" (click)="deleteSlot(slot.id)">
-          <ion-icon name="trash-outline"></ion-icon>
+        <!-- Trash Icon -->
+        <button class="icon-utility-action-btn interaction-delete-trigger" (click)="deleteSlot(slot.id)" type="button">
+          <img src="assets/images/trash.png" alt="Trash" class="feature-icon-img icon-trash" />
         </button>
       </div>
 

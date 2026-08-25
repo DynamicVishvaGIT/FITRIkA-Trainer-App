@@ -215,6 +215,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
         align-items: center; 
         gap: 6px; 
         font-size: 12px; 
+        font-weight: 400;
         color: #64748b;
         
         &.full-width { 
@@ -225,6 +226,9 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
         .icon-green { 
           color: $color-primary; 
           flex-shrink: 0;
+    
+    height: 17px;
+    width: 17px;
         }
         
         .info-text { 

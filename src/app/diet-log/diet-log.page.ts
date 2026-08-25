@@ -61,7 +61,7 @@ export class DietLogPage implements OnInit {
       component: AddDietLogPage,
       cssClass: 'bottom-sheet-modal',
       breakpoints: [0, 0.45], 
-      initialBreakpoint: 0.45,
+      initialBreakpoint: 0.38,
       handle: false
     });
 

@@ -44,8 +44,8 @@ export class SchedulePage implements OnInit {
     {
       id: 101,
       dateKey: '2026-01-17',
-      time: '1:00 PM',
-      endTime: '2:30 PM',
+      time: '1:00 ',
+      endTime: '2:30 ',
       clientName: 'Astha Dhaliwal',
       type: 'Personal Training',
       avatar: 'assets/images/astha.png',
@@ -54,8 +54,8 @@ export class SchedulePage implements OnInit {
     {
       id: 102,
       dateKey: '2026-01-17',
-      time: '2:30 PM',
-      endTime: '3:30 PM',
+      time: '2:30 ',
+      endTime: '3:30 ',
       clientName: 'Vikas Kumar',
       type: 'Personal Training',
       avatar: 'assets/images/vikas.png',
@@ -64,8 +64,8 @@ export class SchedulePage implements OnInit {
     {
       id: 103,
       dateKey: '2026-01-17',
-      time: '3:00 PM',
-      endTime: '4:00 PM',
+      time: '3:00 ',
+      endTime: '4:00 ',
       clientName: 'Nivan S',
       type: 'Personal Training',
       avatar: 'assets/images/nivan.png',
@@ -74,8 +74,8 @@ export class SchedulePage implements OnInit {
     {
       id: 104,
       dateKey: '2026-01-20',
-      time: '10:00 AM',
-      endTime: '11:15 AM',
+      time: '10:00 ',
+      endTime: '11:15 ',
       clientName: 'Rohit Sharma',
       type: 'Strength & Conditioning',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150',

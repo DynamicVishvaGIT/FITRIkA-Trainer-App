@@ -184,31 +184,32 @@
   }
 }
 
-.action-icons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
 
-  .icon-action-btn {
-    background: transparent;
-    border: none;
-    padding: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    -webkit-tap-highlight-color: transparent;
+// .action-icons {
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+//   flex-shrink: 0;
 
-    .action-icon {
-      font-size: clamp(18px, 5vw, 20px);
-      color: #000000;
+//   .icon-action-btn {
+//     background: transparent;
+//     border: none;
+//     padding: 4px;
+//     cursor: pointer;
+//     display: flex;
+//     align-items: center;
+//     -webkit-tap-highlight-color: transparent;
 
-      &.copy-icon {
-        font-size: clamp(16px, 4.5vw, 18px);
-      }
-    }
-  }
-}
+//     // .action-icon {
+//     //   font-size: clamp(18px, 5vw, 20px);
+//     //   color: #000000;
+
+//     //   &.copy-icon {
+//     //     font-size: clamp(16px, 4.5vw, 18px);
+//     //   }
+//     // }
+//   }
+// }
 
 .plan-description {
   font-family: "Satoshi", sans-serif;

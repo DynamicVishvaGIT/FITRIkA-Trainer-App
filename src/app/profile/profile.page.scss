@@ -9,12 +9,12 @@
   position: relative;
 }
 
-/* MAIN HEADER: Dynamically accounts for device status bars and notches */
+/* MAIN HEADER */
 .main-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px; /* Pulls header safely down away from icons */
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
   background-color: #fcfdfe;
   border-bottom: 1px solid rgba(0, 0, 0, 0.02);
   flex-shrink: 0;
@@ -29,6 +29,12 @@
     align-items: center;
     justify-content: center;
   }
+    .view-all-icon {
+      height: 14px;
+      width: 60px;
+      object-fit: contain;
+      cursor: pointer;
+    }
 
   .header-title {
     font-size: 20px;
@@ -37,7 +43,7 @@
     margin: 0;
     text-align: center;
     flex: 1;
-    margin-right: 36px; /* Offsets back button space to remain strictly centered */
+    margin-right: 36px;
   }
   
   .header-spacer {
@@ -45,11 +51,11 @@
   }
 }
 
-/* SCROLLABLE WRAPPER: Responsive scroll region */
+/* SCROLLABLE WRAPPER */
 .scrollable-content {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 16px calc(80px + env(safe-area-inset-bottom, 0px)); /* Leaves room for bottom-nav handles */
+  padding: 16px 16px calc(80px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -92,7 +98,7 @@
 
   .client-brand-info {
     color: #ffffff;
-    min-width: 0; /* Prevents text overflow breaking layout layout container */
+    min-width: 0;
     
     .client-name {
       font-size: 17.5px;
@@ -107,7 +113,7 @@
       font-size: 11.5px;
       margin: 2px 0;
       opacity: 0.95;
-      font-weight: 500;
+      font-weight: 400;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -140,27 +146,43 @@
       margin: 0;
     }
     
+    /* Enhanced View All Visibility */
     .view-all-btn {
       background: none;
       border: none;
-      font-size: 10px;
-      font-weight: 600;
-      color: #00d689;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #00b46c;
       cursor: pointer;
-      padding: 2px 0;
+      padding: 2px 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
     }
     
     &.no-border {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
+    
+    .arrow-icon {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: -7px;
+    }
+  }
+
+  /* Full-length card divider spanning edge-to-edge inside padding */
+  .card-divider {
+    height: 1px;
+    background-color: #f2f4f7;
+    margin: 0 -16px 14px -16px;
   }
 }
 
-/* WORKOUT LOG ITEMS */
+/* WORKOUT LOG ITEMS WITH DIVIDERS */
 .workout-log-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 
   .workout-item {
     display: flex;
@@ -168,6 +190,11 @@
     border-radius: 12px;
     overflow: hidden;
     background-color: #fafbfc;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
     
     .green-accent-line {
       width: 4px;
@@ -254,44 +281,137 @@
   }
 }
 
-/* TRACKING PROGRESS METRICS */
+/* TRACKING PROGRESS METRICS WITH DIVIDERS */
+.metrics-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 28px 34px 34px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, .08);
+}
+
+.metrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  h3 {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 600;
+    color: #111;
+  }
+}
+
+.view-all-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #00c989;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .metrics-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 30px;
+}
+
+.metric-item {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  column-gap: 20px;
+  align-items: start;
+}
+
+.metric-name {
+  margin-top: 26px;
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 600;
+  color: #111;
+
+}
+
+.metric-progress {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.metric-value {
+  display: block;
+  width: 100%;
+  height: 15px;
+  text-align: right;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 500;
+  color: #858585;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: #eeeeee;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 78%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+@media (max-width: 600px) {
+
+  .metrics-card {
+    padding: 22px 20px 26px;
+    border-radius: 18px;
+  }
+
+  .metrics-header {
+    margin-bottom: 22px;
+
+    h3 {
+      font-size: 21px;
+    }
+  }
+
+  .view-all-btn {
+    font-size: 14px;
+  }
+
+  .metrics-list {
+    gap: 17px;
+  }
 
   .metric-item {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    
-    .metric-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      font-weight: 600;
-      
-      .metric-name { color: #3a3d42; }
-      .metric-value { color: #7d828c; }
-    }
-    
-    .progress-track {
-      height: 5px;
-      background-color: #f1f3f6;
-      border-radius: 10px;
-      overflow: hidden;
-      
-      .progress-fill {
-        height: 100%;
-        border-radius: 10px;
-        
-        &.bg-red { background-color: #ff3b30; }
-        &.bg-teal { background-color: #00d689; }
-        &.bg-blue { background-color: #2196f3; }
-        &.bg-lime { background-color: #a2e000; }
-        &.bg-pink { background-color: #e91e63; }
-      }
-    }
+    grid-template-columns: 44% 56%;
+    column-gap: 12px;
+  }
+
+  .metric-name {
+    margin-top: 14px;
+    font-size: 13px;
+  }
+
+  .metric-value {
+    height: 12px;
+    font-size: 11px;
+    line-height: 12px;
+  }
+
+  .progress-track {
+    height: 7px;
   }
 }
 
@@ -335,14 +455,18 @@
       margin-bottom: 1px;
     }
     .score-display {
-      font-size: 12px;
+      font-size: 20px;
       font-weight: 700;
       
       .current-value.highlight-green {
         color: #00d689;
+        font-size: 20px !important;
+        font-weight: 700 !important;
       }
       .total-value {
         color: #8c9099;
+        font-size: 14px !important;
+        font-weight: 600 !important;
       }
     }
   }
@@ -418,36 +542,5 @@
   &:active {
     transform: scale(0.99);
     background-color: #fafbfc;
-  }
-}
-
-/* BOTTOM NAVIGATION BAR: Adapts height matching home buttons */
-.bottom-nav {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: calc(56px + env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid #f2f4f7;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #ffffff;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  z-index: 11;
-
-  .nav-item {
-    background: none;
-    border: none;
-    color: #b0b5c1;
-    cursor: pointer;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    &.active {
-      color: #7d828c;
-    }
   }
 }

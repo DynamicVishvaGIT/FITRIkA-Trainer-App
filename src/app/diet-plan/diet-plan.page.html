@@ -1,12 +1,7 @@
 <ion-header class="ion-no-border core-header-wrapper">
   <ion-toolbar class="custom-toolbar">
     <div class="header-inner-row">
-      <button class="menu-burger-btn" (click)="goBack()" aria-label="Menu">
-        <div class="custom-menu-icon">
-          <span></span>
-          <span></span>
-        </div>
-      </button>
+       <img src="assets/images/menu.png" alt="Swap Task" class="feature-icon-img" />
       <h1 class="page-main-heading">Diet Plan</h1>
       <div class="header-spacer"></div>
     </div>
@@ -60,13 +55,14 @@
               *ngIf="plan.isUserCreated || plan.id === 'plan_2'" 
               (click)="duplicatePlan(plan); $event.stopPropagation()"
               aria-label="Duplicate">
-              <ion-icon name="copy-outline"></ion-icon>
+             <img src="assets/images/copy.png" alt="Swap Task"  style="width:19px !important; height: 19px !important; display: block; object-fit: contain; background: #fff;"/>
             </button>
             <button 
               class="action-utility-btn edit-btn" 
               (click)="editDietPlan(plan); $event.stopPropagation()"
               aria-label="Edit">
-              <ion-icon name="create-outline"></ion-icon>
+            <img src="assets/images/edit.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block;  object-fit: contain; background: #fff;"/>
+
             </button>
           </div>
         </div>

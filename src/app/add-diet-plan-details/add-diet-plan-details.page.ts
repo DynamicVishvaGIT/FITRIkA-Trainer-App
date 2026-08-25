@@ -93,7 +93,7 @@ export class AddDietPlanDetailsPage implements OnInit {
   }
 
   submitDietDetails(): void {
-    this.saveMealName(); // Guarantees title edits are finalized on submit click
+    this.saveMealName();
     
     this.router.navigate(['/diet-plan-details'], {
       state: {

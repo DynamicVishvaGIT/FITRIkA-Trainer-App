@@ -48,7 +48,7 @@ export class PackagePage implements OnInit {
     },
     {
       id: 'p2',
-      name: 'Expert coaching...',
+      name: 'Expert coaching',
       price: 25000,
       isExpanded: true, 
       validity: '3 Months',
@@ -68,7 +68,7 @@ export class PackagePage implements OnInit {
     },
     {
       id: 'p3',
-      name: 'Accountability coach...',
+      name: 'Accountability coaches',
       price: 35000,
       isExpanded: true, 
       validity: '3 Months',

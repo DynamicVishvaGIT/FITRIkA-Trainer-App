@@ -11,7 +11,7 @@ $orange-color: #ff9f29;
   max-width: 100%;
   background-color: #ffffff;
   height: 100vh;
-  height: 100dvh; /* Dynamic viewport height support for modern mobile browsers */
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 0 16px;
@@ -25,24 +25,24 @@ $orange-color: #ff9f29;
   justify-content: space-between;
   padding-bottom: 12px;
   flex-shrink: 0;
-  
-  .back-btn { 
-    background: none; 
-    border: none; 
-    color: $primary-color; 
-    cursor: pointer; 
-    padding: 4px; 
-    display: flex; 
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: $primary-color;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
     align-items: center;
     -webkit-tap-highlight-color: transparent;
-    ion-icon { font-size: 24px; } 
+    ion-icon { font-size: 24px; }
   }
-  
-  h1 { 
-    font-size: 20px; 
-    font-weight: 700; 
-    color: $text-dark; 
-    margin: 0; 
+
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: $text-dark;
+    margin: 0;
     letter-spacing: -0.2px;
     text-align: center;
     flex: 1;
@@ -50,7 +50,7 @@ $orange-color: #ff9f29;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
+
   .header-spacer { width: 32px; }
 }
 
@@ -65,82 +65,81 @@ $orange-color: #ff9f29;
 
 .plan-info {
   margin-bottom: 20px;
-  
+
   .title-row {
-    display: flex; 
-    align-items: center; 
-    flex-wrap: nowrap; 
-    gap: 8px; 
-    position: relative; 
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 8px;
+    position: relative;
     width: 100%;
-    
-    h2 { 
-      font-size: 18px; 
-      font-weight: 700; 
-      color: $text-dark; 
-      margin: 0; 
-      letter-spacing: -0.4px; 
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
+
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: $text-dark;
+      margin: 0;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       flex: 1;
       min-width: 0;
     }
-    
-    .badge.system { 
-      background-color: $orange-color; 
-      color: #ffffff; 
-      font-size: 11px; 
-      padding: 3px 8px; 
-      border-radius: 12px; 
-      font-weight: 500; 
-      flex-shrink: 0; 
+
+    .badge.system {
+      background-color: $orange-color;
+      color: #ffffff;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
     }
-    
-    .edit-btn { 
-      background: none; 
-      border: none; 
-      color: $text-dark; 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center; 
-      flex-shrink: 0; 
+
+    .edit-btn {
+      background: none;
+      border: none;
+      color: $text-dark;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
       padding: 4px;
       -webkit-tap-highlight-color: transparent;
-      ion-icon { font-size: 20px; } 
+      ion-icon { font-size: 20px; }
     }
   }
-  
-  .description { 
-    font-size: 13.5px; 
-    color: #555555; 
-    line-height: 1.45; 
-    margin: 10px 0; 
-    letter-spacing: -0.1px; 
+
+  .description {
+    font-size: 13.5px;
+    color: #555555;
+    line-height: 1.45;
+    margin: 10px 0;
+    letter-spacing: -0.1px;
   }
-  
+
   .tags-container {
-    display: flex; 
-    flex-wrap: wrap; 
+    display: flex;
+    flex-wrap: wrap;
     gap: 6px;
-    
-    .tag { 
-      border: 1px solid rgba($primary-color, 0.35); 
-      color: $primary-color; 
-      font-size: 11.5px; 
-      padding: 3px 10px; 
-      border-radius: 20px; 
-      background: #ffffff; 
-      white-space: nowrap; 
+
+    .tag {
+      border: 1px solid rgba($primary-color, 0.35);
+      color: $primary-color;
+      font-size: 11.5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: #ffffff;
+      white-space: nowrap;
     }
   }
 }
 
-/* Figma-Accurate Inline Week Tabs Bar */
 .weeks-tabs {
-  border-bottom: 2px solid $border-color; 
-  margin-bottom: 16px; 
-  display: flex; 
+  border-bottom: 2px solid $border-color;
+  margin-bottom: 16px;
+  display: flex;
   align-items: center;
   position: relative;
   width: 100%;
@@ -153,16 +152,16 @@ $orange-color: #ff9f29;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     width: 100%;
-    
+
     &::-webkit-scrollbar { display: none; }
 
     .tab {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 16px; 
-      font-weight: 600; 
-      color: #888888; 
+      font-size: 16px;
+      font-weight: 600;
+      color: #888888;
       cursor: pointer;
       white-space: nowrap;
       position: relative;
@@ -170,18 +169,18 @@ $orange-color: #ff9f29;
       transition: color 0.2s ease;
       flex-shrink: 0;
 
-      &.active { 
-        font-weight: 700; 
-        color: $text-dark; 
-        
-        &::after { 
-          content: ""; 
-          position: absolute; 
-          bottom: -2px; 
-          left: 0; 
-          width: 100%; 
-          height: 3px; 
-          background-color: $primary-color; 
+      &.active {
+        font-weight: 700;
+        color: $text-dark;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background-color: $primary-color;
           border-radius: 2px;
         }
       }
@@ -195,27 +194,22 @@ $orange-color: #ff9f29;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-
         ion-icon { font-size: 15px; }
-
         &:hover { color: #e53e3e; }
       }
     }
 
-    /* Placed inline right next to the active week tab */
-    .add-week-btn { 
-      background: none; 
-      border: none; 
-      color: $primary-color; 
-      padding: 0 0 8px 0; 
-      cursor: pointer; 
-      display: inline-flex; 
+    .add-week-btn {
+      background: none;
+      border: none;
+      color: $primary-color;
+      padding: 0 0 8px 0;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
       flex-shrink: 0;
       -webkit-tap-highlight-color: transparent;
-
-      ion-icon { font-size: 22px; } 
-
+      ion-icon { font-size: 22px; }
       &:active { transform: scale(0.92); }
     }
   }
@@ -223,139 +217,146 @@ $orange-color: #ff9f29;
 
 .days-carousel {
   margin-bottom: 16px;
-  
+
   .days-wrapper {
-    display: flex; 
-    justify-content: space-between; 
-    background-color: #ffffff; 
-    padding: 4px; 
-    border-radius: 12px; 
-    border: 1px solid $border-color; 
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid $border-color;
     box-shadow: 0 2px 6px rgba(0,0,0,0.01);
-    
+
     button {
-      flex: 1; 
-      background: none; 
-      border: none; 
-      padding: 8px 2px; 
-      font-size: 12.5px; 
-      color: #718096; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      transition: all 0.2s ease; 
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 8px 2px;
+      font-size: 12.5px;
+      color: #718096;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
       text-align: center;
       white-space: nowrap;
       -webkit-tap-highlight-color: transparent;
-      
-      &.active { 
-        background-color: $primary-color; 
-        color: #ffffff; 
-        font-weight: 600; 
+
+      &.active {
+        background-color: $primary-color;
+        color: #ffffff;
+        font-weight: 600;
       }
     }
   }
 }
 
 .day-tracker-summary {
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  margin-bottom: 14px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
   padding: 0 2px;
-  
+
   .current-day-label { font-size: 14px; color: #2d3748; font-weight: 600; letter-spacing: -0.1px; }
   .total-calories { font-size: 14px; color: $orange-color; font-weight: 600; strong { font-weight: 700; } }
 }
 
 .meals-list {
-  display: flex; 
+  display: flex;
   flex-direction: column;
-  
+
   .meal-wrapper { display: flex; flex-direction: column; position: relative; width: 100%; }
-  
+
   .meal-card {
-    display: flex; 
-    background: #ffffff; 
-    border: 1px solid $border-color; 
-    border-radius: 16px; 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02); 
-    overflow: hidden; 
-    position: relative; 
-    width: 100%; 
-    min-height: 76px; 
+    display: flex;
+    background: #ffffff;
+    border: 1px solid $border-color;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    min-height: 76px;
     box-sizing: border-box;
-    
+
     .meal-card-accent { width: 4px; background-color: $primary-color; flex-shrink: 0; }
-    
+
     .meal-card-content {
-      flex: 1; 
-      padding: 0 12px; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
+      flex: 1;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       min-width: 0;
-      
+
       .meal-main-row {
-        display: flex; 
-        width: 100%; 
-        align-items: center; 
-        min-height: 76px; 
-        justify-content: space-between; 
+        display: flex;
+        width: 100%;
+        align-items: center;
+        min-height: 76px;
+        justify-content: space-between;
         gap: 8px;
-        
-        .meal-title {
-          margin: 0; 
-          font-size: 16px; 
-          font-weight: 700; 
-          color: $text-dark; 
-          letter-spacing: -0.2px; 
-          flex-shrink: 0; 
-          min-width: 75px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        
-        .meal-center-slot {
-          flex: 1; 
-          display: flex; 
-          align-items: center; 
-          cursor: pointer; 
-          min-width: 0;
-          
-          .placeholder-text {
-            font-size: 14px; 
-            color: #a0aec0; 
-            font-weight: 400; 
-            white-space: nowrap; 
-            overflow: hidden; 
+
+        .meal-title-group {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex-shrink: 0;
+          min-width: 100px;
+
+          .meal-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: $text-dark;
+            letter-spacing: -0.2px;
+            white-space: nowrap;
+            overflow: hidden;
             text-overflow: ellipsis;
           }
-          
+
           .meal-total-calories-text {
-            font-size: 13px; 
-            color: #a0aec0; 
+            font-size: 13px;
+            color: #9c9c9c;
             font-weight: 500;
+            margin-top: 2px;
             white-space: nowrap;
           }
         }
-        
+
+        .meal-center-slot {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          min-width: 0;
+
+          .placeholder-text {
+            font-size: 14px;
+            color: #a0aec0;
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
         .meal-right-actions {
-          display: flex; 
-          align-items: center; 
-          gap: 8px; 
+          display: flex;
+          align-items: center;
+          gap: 8px;
           flex-shrink: 0;
-          
-          .clear-meal-btn { 
-            background: none; 
-            border: none; 
-            color: #2d3748; 
-            padding: 4px; 
-            cursor: pointer; 
-            display: flex; 
+
+          .clear-meal-btn {
+            background: none;
+            border: none;
+            color: #2d3748;
+            padding: 4px;
+            cursor: pointer;
+            display: flex;
             align-items: center;
             -webkit-tap-highlight-color: transparent;
-            ion-icon { font-size: 20px; } 
+            ion-icon { font-size: 20px; }
           }
         }
       }
@@ -363,29 +364,29 @@ $orange-color: #ff9f29;
   }
 
   .connective-container {
-    height: 40px; 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    z-index: 5; 
-    margin-top: -2px; 
-    margin-bottom: -2px; 
+    height: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    margin-top: -2px;
+    margin-bottom: -2px;
     width: 100%;
-    
+
     .connective-add-btn {
-      background-color: #ffffff; 
-      border: 1px solid $border-color; 
-      padding: 5px 16px; 
-      border-radius: 20px; 
-      display: flex; 
-      align-items: center; 
-      gap: 6px; 
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03); 
-      cursor: pointer; 
+      background-color: #ffffff;
+      border: 1px solid $border-color;
+      padding: 5px 16px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      cursor: pointer;
       transition: transform 0.15s ease;
       -webkit-tap-highlight-color: transparent;
-      
+
       &:active { transform: scale(0.96); }
       ion-icon { color: $primary-color; font-size: 18px; }
       span { font-size: 13px; color: $text-dark; font-weight: 600; }
@@ -394,62 +395,83 @@ $orange-color: #ff9f29;
 }
 
 .meal-items-expansion-panel {
-  display: flex; 
-  flex-direction: column; 
-  width: 100%; 
-  padding: 0 12px 12px 12px; 
-  border-top: 1px solid #f7fafc; 
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 12px 12px 12px;
+  border-top: 1px solid #f7fafc;
   margin-top: -6px;
   box-sizing: border-box;
-  
+
   .food-row {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 8px 0; 
-    font-size: 13.5px; 
-    color: $text-dark; 
-    border-bottom: 1px solid #f7fafc; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13.5px;
+    color: $text-dark;
+    border-bottom: 1px solid #f7fafc;
     width: 100%;
-    
+
     &:last-child { border-bottom: none; }
-    
-    .food-name-label { font-weight: 500; color: #1a202c; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%; }
+
+    .food-name-label { font-weight: 500; color: #1a202c; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%; margin-left: -12px; }
     .food-calorie-value { font-weight: 500; color: #718096; flex-shrink: 0; text-align: right; }
   }
 }
 
+/* =========================================================
+   MEAL DONUT CHART — dynamically driven via calculated 
+   trigonometric coordinates for proper label positioning.
+   ========================================================= */
+
 .meal-chart {
-  width: 40px; 
-  height: 40px; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  cursor: pointer; 
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  
+  position: relative;
+  cursor: pointer;
+
   .chart-circle {
-    width: 36px; 
-    height: 36px; 
-    border-radius: 50%; 
-    position: relative; 
-    overflow: hidden; 
-    display: flex; 
-    justify-content: center; 
+    width: 58px;
+    height: 58px;
+    position: relative;
+    border-radius: 50%;
+    display: flex;
     align-items: center;
-    background: conic-gradient(
-      #ffb703 0% 50%,
-      #8338ec 50% 60%,
-      #fb5607 60% 100%
-    );
-    
-    .center-hole {
-      width: 18px; 
-      height: 18px; 
-      background: #ffffff; 
-      border-radius: 50%; 
-      position: absolute; 
-      z-index: 3;
-    }
+    justify-content: center;
+    overflow: hidden;
+    transition: background 0.2s ease;
+  }
+
+  .center-hole {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    border-radius: 50%;
+    z-index: 10;
+  }
+
+  .pct-val {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    font-size: 6px;
+    line-height: 1;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    pointer-events: none;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6); // Enhances contrast over colors
   }
 }

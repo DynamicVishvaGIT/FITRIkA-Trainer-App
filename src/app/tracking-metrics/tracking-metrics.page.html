@@ -28,7 +28,7 @@
         <span class="legend-text">LINE</span>
       </div>
 
-      <!-- SVG LINE GRAPH -->
+      <!-- CHART WRAPPER WITH SVG AXES + STATIC IMAGE GRAPH -->
       <div class="chart-wrapper">
         <svg class="chart-svg" viewBox="0 0 320 200" preserveAspectRatio="none">
           <!-- Grid Lines -->
@@ -38,7 +38,7 @@
                   stroke="#f1f5f9" stroke-width="1" />
           </g>
 
-          <!-- Y-Axis Labels -->
+          <!-- Y-Axis Labels & Ticks -->
           <g class="y-labels">
             <text *ngFor="let yVal of [100, 90, 80, 70, 60, 50, 40, 30, 20, 10]"
                   x="28" [attr.y]="getGridY(yVal) + 3" text-anchor="end" class="axis-text">
@@ -46,19 +46,11 @@
             </text>
           </g>
 
+          <!-- Axis Lines -->
           <line x1="35" y1="170" x2="310" y2="170" stroke="#cbd5e1" stroke-width="1.5" />
           <line x1="35" y1="10" x2="35" y2="170" stroke="#cbd5e1" stroke-width="1.5" />
 
-          <!-- Graph Path -->
-          <path *ngIf="activeVariables.length > 0"
-                [attr.d]="chartPath" 
-                fill="none" 
-                stroke="#00cb82" 
-                stroke-width="2.5" 
-                stroke-linecap="round" 
-                stroke-linejoin="round" />
-
-          <!-- X-Axis Labels -->
+          <!-- X-Axis Labels & Ticks -->
           <g class="x-labels">
             <text *ngFor="let m of months; let i = index"
                   [attr.x]="getXPos(i)" y="188" text-anchor="middle" class="axis-text">
@@ -66,6 +58,12 @@
             </text>
           </g>
         </svg>
+
+        <!-- STATIC GRAPH IMAGE OVERLAY (Appears ONLY when variables are active) -->
+        <img *ngIf="activeVariables.length > 0" 
+             src="assets/images/progress-line-graph.png" 
+             alt="Progress Line Graph" 
+             class="chart-img-overlay" />
 
         <!-- EMPTY STATE TEXT -->
         <div class="empty-chart-msg" *ngIf="activeVariables.length === 0">
@@ -82,7 +80,7 @@
       </div>
     </section>
 
-    <!-- ACTIVE SELECTED TAGS ROW (Standalone layout block) -->
+    <!-- ACTIVE SELECTED TAGS ROW -->
     <section class="selected-chips-row" [class.has-active-chips]="activeVariables.length > 0">
       <ng-container *ngIf="activeVariables.length > 0; else emptyPlaceholder">
         <div class="active-chip" *ngFor="let varItem of activeVariables">

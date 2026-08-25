@@ -145,7 +145,7 @@ export class EditPackagePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: AddFieldPage,
       cssClass: 'oval-bottom-modal',
-      initialBreakpoint: 0.45,
+      initialBreakpoint: 0.38,
       breakpoints: [0, 0.45],
       handle: false,
       componentProps: { fieldTitle: title }
