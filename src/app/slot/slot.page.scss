@@ -19,6 +19,9 @@ $icon-color: #737685;
 
   position: relative;
   z-index: 10;
+  
+  /* Added safe area top padding to prevent mobile status bar overlap */
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 .slot-toolbar-container {
@@ -36,6 +39,8 @@ $icon-color: #737685;
   box-shadow: none;
 
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .back-navigation-btn {

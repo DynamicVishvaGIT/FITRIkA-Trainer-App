@@ -47,6 +47,13 @@ ion-menu.md ion-list#labels-list ion-list-header {
   height: 23px;
   margin-bottom: 4px;
 }
+.booter-icon{
+    width: 20px;
+  height: 20px;
+  margin-bottom: 4px;
+
+
+}
 
 
 ion-menu.md ion-item {
@@ -131,6 +138,11 @@ ion-item.selected {
 // }
 
 ion-tab-button.tab-selected .footer-icon {
+  filter: brightness(0) saturate(100%)
+          invert(59%) sepia(98%) saturate(1668%)
+          hue-rotate(126deg) brightness(95%) contrast(101%);
+}
+ion-tab-button.tab-selected .booter-icon {
   filter: brightness(0) saturate(100%)
           invert(59%) sepia(98%) saturate(1668%)
           hue-rotate(126deg) brightness(95%) contrast(101%);
