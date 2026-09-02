@@ -1,5 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
+
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
@@ -8,8 +9,19 @@
 
           @for (p of appPages; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
-              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-item
+                routerDirection="root"
+                [routerLink]="[p.url]"
+                lines="none"
+                detail="false"
+                routerLinkActive="selected"
+              >
+                <ion-icon
+                  slot="start"
+                  [ios]="p.icon + '-outline'"
+                  [md]="p.icon + '-sharp'"
+                ></ion-icon>
+
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
@@ -18,42 +30,77 @@
 
         <ion-list id="labels-list">
           <ion-list-header>Labels</ion-list-header>
-
-          <!-- @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          } -->
         </ion-list>
       </ion-content>
     </ion-menu>
+
     <ion-router-outlet id="main-content"></ion-router-outlet>
-    <ion-tabs  #myTabs (ionTabsDidChange)="getSelectedTab()">
-      <ion-tab-bar slot="bottom" selectedTab="{{tab_name}}" *ngIf="tab_name =='dashboard' || tab_name =='workout-plans' || tab_name =='add-workout' || tab_name =='diet-plan' || tab_name =='add-diet-plan' || tab_name =='clients' || tab_name =='profile' || tab_name =='schedule' || tab_name =='workout-log' || tab_name =='diet-log' || tab_name =='package' ">
+
+    <ion-tabs #myTabs (ionTabsDidChange)="getSelectedTab()">
+
+      <ion-tab-bar
+        slot="bottom"
+        [selectedTab]="tab_name"
+        *ngIf="
+          tab_name == 'dashboard' ||
+          tab_name == 'workout-plans' ||
+          tab_name == 'add-workout' ||
+          tab_name == 'diet-plan' ||
+          tab_name == 'add-diet-plan' ||
+          tab_name == 'clients' ||
+          tab_name == 'profile' ||
+          tab_name == 'schedule' ||
+          tab_name == 'workout-log' ||
+          tab_name == 'diet-log' ||
+          tab_name == 'package'
+        "
+      >
+
+        <!-- DASHBOARD -->
         <ion-tab-button tab="dashboard">
           <img src="assets/images/home.png" class="footer-icon">
-         
+
+          <span class="tab-tooltip">
+            Go to Dashboard
+          </span>
         </ion-tab-button>
 
+        <!-- SCHEDULE -->
         <ion-tab-button tab="schedule">
           <img src="assets/images/calendar.png" class="footer-icon">
-          <!-- <ion-label class="footer-label">REDEEM</ion-label> -->
+
+          <span class="tab-tooltip">
+            View your schedule
+          </span>
         </ion-tab-button>
 
+        <!-- WORKOUT PLANS -->
         <ion-tab-button tab="workout-plans">
           <img src="assets/images/barbel.png" class="booter-icon">
-          <!-- <ion-label class="footer-label">EARN POINTS</ion-label> -->
+
+          <span class="tab-tooltip">
+            Manage workout plans
+          </span>
         </ion-tab-button>
-    
+
+        <!-- DIET PLAN -->
         <ion-tab-button tab="diet-plan">
           <img src="assets/images/diet.png" class="footer-icon">
-          <!-- <ion-label class="footer-label">PROFILE</ion-label> -->
+
+          <span class="tab-tooltip">
+            Manage diet plans
+          </span>
         </ion-tab-button>
+
+        <!-- PROFILE -->
         <ion-tab-button tab="my-profile">
           <img src="assets/images/profile.png" class="footer-icon">
-          <!-- <ion-label class="footer-label">PROFILE</ion-label> -->
+
+          <span class="tab-tooltip">
+            View your profile
+          </span>
         </ion-tab-button>
+
       </ion-tab-bar>
     </ion-tabs>
 
