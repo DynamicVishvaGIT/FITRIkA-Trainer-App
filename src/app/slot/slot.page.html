@@ -1,10 +1,33 @@
-<ion-header class="ion-no-border global-slot-header">
+<!-- <ion-header class="ion-no-border global-slot-header">
   <ion-toolbar class="slot-toolbar-container">
     <ion-buttons slot="start">
-<ion-back-button defaultHref="/my-profile" text="" icon="arrow-back-outline" class="back-navigation-btn" (click)="goBack()" style="color: #00DA8B !important; --color: #00DA8B;"></ion-back-button>    </ion-buttons>
+<ion-back-button defaultHref="/my-profile" text="" icon="arrow-back-outline" class="back-navigation-btn" (click)="goBack()"></ion-back-button>    </ion-buttons>
     <ion-title class="slot-centered-title" style="margin-bottom: 5px !important; text-align: center; ">Slot Sheet</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
+<header class="global-slot-header">
+
+  <div class="slot-toolbar-container">
+
+    <button
+      class="back-navigation-btn"
+      type="button"
+      (click)="goBack()"
+      aria-label="Go back"
+    >
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+
+    <h1 class="slot-centered-title">
+      Slot Sheet
+    </h1>
+
+    <!-- Empty right space to keep title perfectly centered -->
+    <div class="header-right-spacer"></div>
+
+  </div>
+
+</header>
 
 <ion-content [fullscreen]="false" class="slot-page-content">
 

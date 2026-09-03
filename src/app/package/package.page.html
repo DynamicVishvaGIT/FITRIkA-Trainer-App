@@ -1,6 +1,54 @@
 <div class="app-container package-view">
-
   <header class="app-header">
+
+    <div class="header-row">
+
+      <button class="back-btn" (click)="goBack()" type="button">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#00c48c"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+
+      <h1 class="header-title">Package</h1>
+
+      <button
+        class="add-btn-circle"
+        (click)="navigateToAddPackage()"
+        type="button"
+      >
+        <span class="plus-icon">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </span>
+
+        <span class="add-text">Add</span>
+      </button>
+
+    </div>
+
+  </header>
+  <!-- <header class="app-header">
     <button class="back-btn" (click)="goBack()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00c48c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -19,7 +67,7 @@
       </span>
       <span class="add-text">Add</span>
     </button>
-  </header>
+  </header> -->
 
   <main class="content-scroll">
 
