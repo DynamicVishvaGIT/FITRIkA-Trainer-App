@@ -75,6 +75,7 @@ ion-modal.bottom-sheet-modal {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-left: 20px;
 }
 
 .diet-page-content-bg {
@@ -82,7 +83,11 @@ ion-modal.bottom-sheet-modal {
 }
 
 .main-layout-container {
-  padding: 16px 16px calc(140px + env(safe-area-inset-bottom, 0px));
+  /* was calc(140px + ...) — that reserved far more space than the CTA
+     button actually needs (button 48px + anchor's own 12px top/bottom
+     padding = 72px), which is what left a blank white gap above it.
+     84px gives the button a little breathing room without the excess. */
+  padding: 16px 16px calc(84px + env(safe-area-inset-bottom, 0px));
   max-width: 480px;
   margin: 0 auto;
   box-sizing: border-box;

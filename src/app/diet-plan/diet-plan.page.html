@@ -79,10 +79,10 @@
               {{ tag }}
             </span>
           </div>
-          
-          <button class="expansion-chevron-trigger" (click)="toggleCardExpansion(idx); $event.stopPropagation()" aria-label="Expand">
+          <ion-icon [name]="plan.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'" (click)="toggleCardExpansion(idx); $event.stopPropagation()"></ion-icon>
+          <!-- <button class="expansion-chevron-trigger" (click)="toggleCardExpansion(idx); $event.stopPropagation()" aria-label="Expand">
             <ion-icon [name]="plan.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'"></ion-icon>
-          </button>
+          </button> -->
         </div>
 
       </div>

@@ -26,7 +26,7 @@
     <!-- Pricing Selector -->
     <div class="form-section">
       <label class="section-title">Pricing (₹)</label>
-      <div class="chip-row">
+      <div class="chip-row" appEqualChipWidth>
         <button 
           *ngFor="let price of pricingOptions" 
           class="chip-item" 
@@ -45,7 +45,7 @@
     <!-- Validity Selector -->
     <div class="form-section">
       <label class="section-title">Validity</label>
-      <div class="chip-row">
+      <div class="chip-row" appEqualChipWidth>
         <button 
           *ngFor="let validity of validityOptions" 
           class="chip-item" 
@@ -64,7 +64,7 @@
     <!-- Number of Sessions Selector -->
     <div class="form-section">
       <label class="section-title">Number of Sessions</label>
-      <div class="chip-row">
+      <div class="chip-row" appEqualChipWidth>
         <button 
           *ngFor="let sessionCount of sessionOptions" 
           class="chip-item" 
@@ -83,7 +83,7 @@
     <!-- Session Duration Selector -->
     <div class="form-section">
       <label class="section-title">Session Duration</label>
-      <div class="chip-row">
+      <div class="chip-row" appEqualChipWidth>
         <button 
           *ngFor="let duration of durationOptions" 
           class="chip-item" 
@@ -102,7 +102,7 @@
     <!-- Program For Chips (With Add Trigger) -->
     <div class="form-section">
       <label class="section-title">Program For</label>
-      <div class="chip-row wrap-row">
+      <div class="chip-row wrap-row" appEqualChipWidth>
         <button 
           *ngFor="let pFor of programForOptions" 
           class="chip-item selectable" 
@@ -124,7 +124,7 @@
     <!-- Training Style Chips (With Add Trigger) -->
     <div class="form-section">
       <label class="section-title">Training Style</label>
-      <div class="chip-row wrap-row">
+      <div class="chip-row wrap-row" appEqualChipWidth>
         <button 
           *ngFor="let style of trainingStyleOptions" 
           class="chip-item selectable" 
@@ -146,7 +146,7 @@
     <!-- Level Chips (With Add Trigger) -->
     <div class="form-section">
       <label class="section-title">Level</label>
-      <div class="chip-row wrap-row">
+      <div class="chip-row wrap-row" appEqualChipWidth>
         <button 
           *ngFor="let lvl of levelOptions" 
           class="chip-item selectable" 
@@ -168,7 +168,7 @@
     <!-- Program Inclusions Selector List (With Green Circle Icon) -->
     <div class="form-section">
       <label class="section-title">Program Inclusions</label>
-      <div class="list-container">
+      <div class="list-container" appEqualChipWidth>
         <div 
           *ngFor="let inclusion of inclusionsOptions" 
           class="list-item" 
@@ -190,7 +190,7 @@
     <!-- Expected Results Selector List (With Green Circle Icon) -->
     <div class="form-section">
       <label class="section-title">Expected Results</label>
-      <div class="grid-list-container">
+      <div class="grid-list-container" appEqualChipWidth>
         <div 
           *ngFor="let result of expectedResultsOptions" 
           class="list-item" 

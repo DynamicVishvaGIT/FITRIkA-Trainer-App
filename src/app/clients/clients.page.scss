@@ -1,9 +1,10 @@
+/* VARIABLES */
 $color-primary: #00d689;
-$color-text-dark: #111111;
-$color-text-muted: #9f9f9f;
+$color-text-dark: #1e293b;
+$color-text-muted: #94a3b8;
 $color-bg-light: #ffffff;
-$color-border-light: #f1f5f9;
-$font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+$color-border: #f1f5f9;
+$font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
 * { 
   box-sizing: border-box; 
@@ -11,9 +12,10 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
   padding: 0; 
 }
 
+/* MAIN CONTAINER */
 .mobile-container {
   width: 100%;
-  height: 100vh; /* Takes full real-estate screen space natively */
+  height: 100vh;
   background-color: $color-bg-light;
   display: flex;
   flex-direction: column;
@@ -23,68 +25,59 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
   -webkit-font-smoothing: antialiased;
 }
 
+/* HEADER */
 .main-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(12px + env(safe-area-inset-top, 0px)) 20px 12px 20px; /* Adapts and offsets behind hardware notches */
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 20px 12px;
   background: $color-bg-light;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.02);
   flex-shrink: 0;
+
+  .feature-icon-img {
+    width: 16px;
+    height: 17px;
+    object-fit: contain;
+  }
 
   .header-title { 
     font-size: 20px; 
     font-weight: 700; 
-    color: $color-text-dark; 
+    color: #0f172a; 
     text-align: center; 
     flex: 1;
     margin: 0;
   }
   
   .header-spacer { 
-    width: 24px; 
-  }
-  
-  .menu-btn {
-    background: none; 
-    border: none; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    justify-content: flex-start;
-    width: 24px;
-    height: 24px;
-    
-    .custom-menu-icon {
-      display: flex; 
-      flex-direction: column; 
-      gap: 5px;
-      
-      .line-top { width: 18px; height: 2px; background-color: $color-primary; border-radius: 2px; }
-      .line-bottom { width: 12px; height: 2px; background-color: $color-primary; border-radius: 2px; }
-    }
+    width: 20px; 
   }
 }
 
+/* SEARCH BOX */
 .search-container {
-  padding: 14px 20px 8px;
+  padding: 8px 20px 12px;
   flex-shrink: 0;
   
   .search-box {
     display: flex; 
     align-items: center; 
-    border: 1px solid #f1f5f9; 
-    border-radius: 12px; 
-    padding: 12px 14px; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 14px; 
+    padding: 10px 14px; 
     gap: 10px; 
-    background: #f8fafc;
+    background: #ffffff;
     
+    .search-icon {
+      flex-shrink: 0;
+    }
+
     input { 
       border: none; 
       outline: none; 
       width: 100%; 
-      font-size: 16px; 
-      color: #1e293b;
+      font-size: 15px; 
+      color: #0f172a;
       background: transparent; 
       font-weight: 400; 
       
@@ -94,73 +87,93 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     }
   }
 }
-.feature-icon-img {
-        width: 15px;
-        height: 15px;
-        object-fit: contain;
-      }
 
+/* TABS & FILTER BAR */
 .filter-tabs-row {
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  padding: 10px 20px;
+  padding: 4px 20px 16px;
   flex-shrink: 0;
+  width: 100%;
+  gap: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
   
   .tabs-group { 
     display: flex; 
     gap: 6px; 
-    overflow-x: auto; /* Handles thin viewport screen sizes smoothly without breaking boundaries */
+    align-items: center;
+    overflow-x: auto;
+    flex-grow: 1;
+    min-width: 0;
     scrollbar-width: none;
-    &::-webkit-scrollbar { display: none; }
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   
   .tab-btn {
-    background: $color-bg-light; 
+    background: #ffffff; 
     border: 1px solid #e2e8f0; 
     border-radius: 8px; 
-    padding: 6px 12px; 
-    font-size: 12px; 
+    padding: 5px 8px; 
+    font-size: 11px; 
     font-weight: 500; 
-    color: #64748b; 
+    color: #94a3b8; 
     display: flex; 
     align-items: center; 
     gap: 5px; 
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.15s ease;
+    flex-shrink: 0;
     
     &.active { 
-      border-color: #bbf7d0; 
+      border-color: #86efac; 
       background-color: #f0fdf4; 
       color: #16a34a; 
       font-weight: 600; 
+
+      .badge {
+        background-color: #dcfce7;
+        color: #16a34a;
+      }
+    }
+
+    .badge { 
+      font-size: 10px; 
+      font-weight: 700;
+      background-color: #f1f5f9;
+      color: #94a3b8;
+      padding: 1px 5px;
+      border-radius: 10px;
+      display: inline-block;
+      line-height: 1.2;
     }
   }
-  
-  .badge { 
-    font-size: 11px; 
-    font-weight: 700; 
-  }
-  
+
   .filter-action-btn { 
     background: none; 
     border: none; 
-    font-size: 13px; 
-    font-weight: 600; 
-    color: #475569; 
+    font-size: 14px; 
+    font-weight: 500; 
+    color: #334155; 
     display: flex; 
     align-items: center; 
     gap: 6px; 
     cursor: pointer; 
-    padding-left: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 }
 
+/* SCROLLABLE LIST AREA */
 .scrollable-content { 
   flex: 1; 
   overflow-y: auto; 
-  padding: 10px 20px calc(85px + env(safe-area-inset-bottom, 0px)); 
+  padding: 0 20px calc(75px + env(safe-area-inset-bottom, 0px)); 
   -webkit-overflow-scrolling: touch;
   
   &::-webkit-scrollbar { 
@@ -168,19 +181,19 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
   } 
 }
 
+/* CLIENT CARD */
 .client-card {
   display: flex; 
   border: 1px solid #f1f5f9; 
-  border-radius: 16px; 
-  padding: 16px; 
+  border-radius: 18px; 
+  padding: 14px 16px; 
   margin-bottom: 12px; 
   background: $color-bg-light; 
   align-items: center; 
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -2px rgba(0, 0, 0, 0.01);
   
   .avatar-container { 
-    width: 64px; 
-    height: 64px; 
+    width: 62px; 
+    height: 62px; 
     border-radius: 50%; 
     overflow: hidden; 
     margin-right: 14px; 
@@ -195,20 +208,25 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
   
   .client-info {
     flex: 1;
-    min-width: 0; /* Prevents text overflow breaks */
+    min-width: 0;
     
     h3 { 
-      font-size: 16px; 
+      font-size: 15px; 
       font-weight: 700; 
-      color: $color-text-dark; 
+      color: #0f172a; 
       margin: 0 0 6px 0; 
     }
     
     .info-grid {
       display: flex; 
-      flex-wrap: wrap; 
-      row-gap: 4px; 
-      column-gap: 16px;
+      flex-direction: column;
+      gap: 5px;
+
+      .info-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
       
       .info-item {
         display: inline-flex; 
@@ -216,19 +234,13 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
         gap: 6px; 
         font-size: 12px; 
         font-weight: 400;
-        color: #64748b;
-        
-        &.full-width { 
-          width: 100%; 
-          margin-top: 2px; 
-        }
-        
-        .icon-green { 
-          color: $color-primary; 
+        color: #94a3b8;
+
+        .card-icon {
+          width: 14px;
+          height: 14px;
+          object-fit: contain;
           flex-shrink: 0;
-    
-    height: 17px;
-    width: 17px;
         }
         
         .info-text { 
@@ -238,7 +250,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
         }
         
         .muted-email { 
-          color: #64748b; 
+          color: #94a3b8; 
         }
       }
     }
@@ -255,12 +267,13 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
   }
 }
 
+/* BOTTOM NAVIGATION BAR */
 .bottom-nav {
   position: absolute; 
   bottom: 0; 
   left: 0; 
   right: 0; 
-  height: calc(64px + env(safe-area-inset-bottom, 0px)); /* Dynamically scales upward on layout screens like iPhone dynamic islands/bars */
+  height: calc(60px + env(safe-area-inset-bottom, 0px)); 
   background: $color-bg-light; 
   border-top: 1px solid #f1f5f9; 
   display: flex; 
@@ -268,14 +281,13 @@ $font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
   align-items: center; 
   padding-bottom: env(safe-area-inset-bottom, 0px); 
   z-index: 10;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
   
   .nav-item { 
     background: none; 
     border: none; 
-    color: #94a3b8; 
+    color: #cbd5e1; 
     cursor: pointer; 
-    padding: 12px; 
+    padding: 10px; 
     display: flex; 
     align-items: center; 
     justify-content: center; 

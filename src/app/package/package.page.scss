@@ -2,96 +2,54 @@ $primary-green: #00c48c;
 $text-dark: #1e293b;
 $slate-gray: #94a3b8;
 
-$primary-green: #00c48c;
-$text-dark: #1e293b;
-$slate-gray: #94a3b8;
-
 .app-container {
   display: flex;
   flex-direction: column;
-
   width: 100%;
   height: 100vh;
   height: 100dvh;
-
   background-color: #fafbfc;
-
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* =========================
-   HEADER
-   ========================= */
-
 .app-header {
   position: relative;
-
   flex: 0 0 auto;
-
   width: 100%;
-
-  /*
-   * Only the safe-area space is added above
-   * the actual 56px header row.
-   */
   padding-top: env(safe-area-inset-top, 0px);
-
   background: #ffffff;
-
   border-bottom: 1px solid #f1f5f9;
-
   z-index: 100;
-
   box-sizing: border-box;
 }
 
 .header-row {
   position: relative;
-
   width: 100%;
   height: 56px;
   min-height: 56px;
-
   padding: 0 16px;
-
   display: grid;
-
-  /*
-   * Back button | centered title | Add button
-   */
   grid-template-columns: 44px 1fr auto;
-
   align-items: center;
-
   box-sizing: border-box;
 }
-
-/* =========================
-   BACK BUTTON
-   ========================= */
 
 .back-btn {
   width: 40px;
   height: 40px;
-
   padding: 6px;
   margin: 0;
-
   background: transparent;
   border: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   cursor: pointer;
-
   -webkit-tap-highlight-color: transparent;
-
   grid-column: 1;
   justify-self: start;
 }
@@ -99,251 +57,94 @@ $slate-gray: #94a3b8;
 .back-btn svg {
   width: 24px;
   height: 24px;
-
   display: block;
-
   flex-shrink: 0;
 }
 
-/* =========================
-   CENTER TITLE
-   ========================= */
-
 .header-title {
   grid-column: 2;
-
   width: 100%;
-
   margin: 0;
   padding: 0;
-
   color: #111111;
-
   font-size: 20px;
   line-height: 24px;
-
   font-weight: 700;
-
   text-align: center;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  /*
-   * Important:
-   * Don't use position:absolute here.
-   */
+  margin-left: 12px;
   position: static;
-
   transform: none;
-
   pointer-events: none;
-
   box-sizing: border-box;
 }
-
-/* =========================
-   ADD BUTTON
-   ========================= */
 
 .add-btn-circle {
   grid-column: 3;
   justify-self: end;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 7px;
-
   height: 32px;
-
   padding: 3px 10px 3px 3px;
-
   margin: 0;
-
   background: #ffffff;
-
   border: 0;
   border-radius: 24px;
-
   color: #334155;
-
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
-
   flex-shrink: 0;
-
   transition: transform 0.15s ease;
-
   -webkit-tap-highlight-color: transparent;
-
   box-sizing: border-box;
+
+  .plus-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: $primary-green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .add-text {
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
-.add-btn-circle .plus-icon {
-  width: 26px;
-  height: 26px;
-
-  border-radius: 50%;
-
-  background: $primary-green;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-}
-
-.add-btn-circle .plus-icon svg {
-  display: block;
-
-  width: 14px;
-  height: 14px;
-}
-
-.add-btn-circle .add-text {
-  color: #334155;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  line-height: 1;
-
-  white-space: nowrap;
-}
-
-.add-btn-circle:active {
-  transform: scale(0.95);
-}
 .content-scroll {
   flex: 1 1 auto;
-
   min-height: 0;
-
   overflow-y: auto;
   overflow-x: hidden;
-
   padding: 16px 16px calc(110px + env(safe-area-inset-bottom, 0px));
-
   display: flex;
   flex-direction: column;
-
   gap: 16px;
-
   box-sizing: border-box;
-
   -webkit-overflow-scrolling: touch;
 }
-// .app-container {
-//   display: flex;
-//   flex-direction: column;
-//   height: 100vh;
-//   height: 100dvh;
-//   background-color: #fafbfc;
-//   position: relative;
-//   box-sizing: border-box;
-//   overflow: hidden;
-// }
-
-// .app-header {
-//   position: relative;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   flex: 0 0 auto;
-//   min-height: 58px;
-//   padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
-//   background: #ffffff;
-//   border-bottom: 1px solid #f1f5f9;
-//   z-index: 100;
-//   box-sizing: border-box;
-
-//   .back-btn {
-//     width: 32px;
-//     height: 32px;
-//     padding: 4px;
-//     margin: 0;
-//     background: transparent;
-//     border: 0;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     flex-shrink: 0;
-//     cursor: pointer;
-//   }
-
-//   .header-title {
-//     position: absolute;
-//     left: 50%;
-//     top: 50%;
-//     transform: translate(-50%, -50%);
-//     margin: 0;
-//     color: #111111;
-//     font-size: 20px;
-//     line-height: 1;
-//     font-weight: 700;
-//     white-space: nowrap;
-//     pointer-events: none;
-//   }
-
-//   .add-btn-circle {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     gap: 7px;
-//     padding: 3px 10px 3px 3px;
-//     margin: 0;
-//     background: #ffffff;
-//     border: 0;
-//     border-radius: 24px;
-//     color: #334155;
-//     font-size: 14px;
-//     font-weight: 600;
-//     cursor: pointer;
-//     flex-shrink: 0;
-//     transition: transform 0.15s ease;
-
-//     .plus-icon {
-//       width: 26px;
-//       height: 26px;
-//       border-radius: 50%;
-//       background: $primary-green;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       flex-shrink: 0;
-//     }
-
-//     .add-text {
-//       color: #334155;
-//       font-size: 14px;
-//       font-weight: 600;
-//       line-height: 1;
-//     }
-
-//     &:active {
-//       transform: scale(0.95);
-//     }
-//   }
-// }
-
-// .content-scroll {
-//   flex: 1 1 auto;
-//   min-height: 0;
-//   overflow-y: auto;
-//   overflow-x: hidden;
-//   padding: 16px 16px calc(110px + env(safe-area-inset-bottom, 0px));
-//   display: flex;
-//   flex-direction: column;
-//   gap: 16px;
-//   box-sizing: border-box;
-//   -webkit-overflow-scrolling: touch;
-// }
 
 .package-card {
   position: relative;
@@ -371,6 +172,25 @@ $slate-gray: #94a3b8;
     border-radius: 3px 0 0 3px;
     z-index: 2;
   }
+
+  &.is-collapsed,
+  &:not(.is-expanded) {
+    .edit-btn-left {
+      display: flex !important;
+    }
+    .edit-btn-right {
+      display: none !important;
+    }
+  }
+
+  &.is-expanded {
+    .edit-btn-left {
+      display: none !important;
+    }
+    .edit-btn-right {
+      display: flex !important;
+    }
+  }
 }
 
 .card-header {
@@ -390,7 +210,7 @@ $slate-gray: #94a3b8;
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -419,8 +239,8 @@ $slate-gray: #94a3b8;
 }
 
 .package-name {
+  flex: 0 1 auto;
   min-width: 0;
-  flex: 1 1 auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -443,6 +263,7 @@ $slate-gray: #94a3b8;
   flex: 0 0 auto;
   cursor: pointer;
   z-index: 5;
+  margin-top: -2px;
 
   img {
     width: 16px !important;
@@ -457,6 +278,11 @@ $slate-gray: #94a3b8;
   &:active {
     transform: scale(0.92);
   }
+}
+
+.edit-btn-left {
+  margin-left: 2px;
+  flex-shrink: 0;
 }
 
 .header-right {

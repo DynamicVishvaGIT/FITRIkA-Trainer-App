@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.fitrikatrainer.com" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>FITRIkA Trainer App</name>
+    <name>FITRIkA Trainer</name>
     <description>An awesome FITRIkA Trainer App by FITRIkA.</description>
     <author email="prasenjit@dynamicvishva.in" href="https://ionicframework.com/">Dynamic Vishva Technology Sollution Pvt. Ltd.</author>
     <content src="index.html" />

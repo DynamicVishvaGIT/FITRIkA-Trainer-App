@@ -1,27 +1,23 @@
 <ion-content [fullscreen]="true" class="workout-content">
 
   <div class="workout-main-wrapper">
-    <!-- Header -->
     <header class="workout-header">
-  <img src="assets/images/menu.png" alt="Swap Task" class="feature-icon-img" />
-  <h1 class="page-title">Workout Plans</h1>
-</header>
+      <img src="assets/images/menu.png" alt="Swap Task" class="feature-icon-img" />
+      <h1 class="page-title">Workout Plans</h1>
+    </header>
 
-    <!-- Search Bar -->
-   <!-- Search Bar (Clean HTML/Ionic Input) -->
-<div class="search-container">
-  <div class="search-input-box">
-    <ion-icon name="search-outline" class="search-icon" aria-hidden="true"></ion-icon>
-    <input 
-      type="text" 
-      [(ngModel)]="searchQuery" 
-      (input)="filterPlans()" 
-      placeholder="Search" 
-      class="custom-search-field" />
-  </div>
-</div>
+    <div class="search-container">
+      <div class="search-input-box">
+        <ion-icon name="search-outline" class="search-icon" aria-hidden="true"></ion-icon>
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          (input)="filterPlans()" 
+          placeholder="Search" 
+          class="custom-search-field" />
+      </div>
+    </div>
 
-    <!-- Filter Toggle Bar -->
     <div class="filter-toggle-row">
       <span class="toggle-label">My Plans</span>
       <ion-toggle
@@ -33,14 +29,12 @@
       </ion-toggle>
     </div>
 
-    <!-- Workout List Stack -->
     <main class="plans-list">
       <article
         class="plan-card"
         *ngFor="let plan of filteredPlans; let i = index"
         (click)="viewPlanDetails(plan)">
 
-        <!-- Top Row Inside Card -->
         <div class="card-top-row">
           <div class="title-heading-group">
             <h2 class="plan-name">{{ plan.name }}</h2>
@@ -48,37 +42,29 @@
           </div>
 
           <div class="action-icons">
-            <!-- Copy / Duplicate Icon -->
             <button 
               type="button"
               class="icon-action-btn"
               *ngIf="plan.isCopyable"
               (click)="copyPlan(plan, $event)"
               aria-label="Duplicate plan">
-              <!-- <ion-icon name="copy" class="action-icon copy-icon"></ion-icon> -->
-                <img src="assets/images/copy.png" alt="Swap Task"  style="width:19px !important; height: 19px !important; display: block; object-fit: contain; background: #fff;"/>
-
+                <img src="assets/images/copy.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block; object-fit: contain; background: #fff;"/>
             </button>
 
-            <!-- Edit Icon -->
             <button 
               type="button"
               class="icon-action-btn"
               (click)="editPlan(plan, $event)"
               aria-label="Edit plan">
-              <!-- <ion-icon name="create-outline" class="action-icon"></ion-icon> -->
-                <img src="assets/images/edit.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block;  object-fit: contain; background: #fff;"/>
-
+                <img src="assets/images/edit.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block; object-fit: contain; background: #fff;"/>
             </button>
           </div>
         </div>
 
-        <!-- Collapsible Description -->
         <p class="plan-description" *ngIf="expandedIndex === i">
           {{ plan.description }}
         </p>
 
-        <!-- Bottom Row (Tags + Chevron) -->
         <div class="card-bottom-row">
           <div class="badge-scroll-wrapper">
             <span class="tag-badge primary-badge" *ngFor="let tag of plan.tags">
@@ -88,7 +74,7 @@
 
           <div class="expand-chevron-btn" (click)="toggleExpand(i); $event.stopPropagation()">
             <ion-icon
-              [name]="expandedIndex === i ? 'chevron-up-outline' : 'chevron-forward-outline'"
+              [name]="expandedIndex === i ? 'chevron-down-outline' : 'chevron-forward-outline'"
               class="arrow-indicator">
             </ion-icon>
           </div>
@@ -96,7 +82,6 @@
 
       </article>
 
-      <!-- Empty State View -->
       <div class="empty-state" *ngIf="filteredPlans.length === 0">
         <ion-icon name="barbell-outline" class="empty-icon"></ion-icon>
         <p>No workout plans found.</p>
@@ -106,7 +91,6 @@
 
 </ion-content>
 
-<!-- Floating Create Action Button -->
 <div class="bottom-action-container">
   <ion-button
     expand="block"
@@ -115,4 +99,3 @@
     + Create New
   </ion-button>
 </div>
-

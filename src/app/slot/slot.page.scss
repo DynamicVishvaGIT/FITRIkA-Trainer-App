@@ -100,7 +100,7 @@ $icon-color: #737685;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
 
-  font-size: 18px;
+  font-size: 20px;
   line-height: 22px;
 
   font-weight: 700;
@@ -110,6 +110,7 @@ $icon-color: #737685;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+//  margin-left: 28px;
 
   /*
    * Important:
@@ -662,7 +663,7 @@ $icon-color: #737685;
   &.is-blocked {
     .slot-duration-headline {
       color: #5c5f60 !important;
-      font-weight:  700;
+      font-weight:  600;
     }
   }
 

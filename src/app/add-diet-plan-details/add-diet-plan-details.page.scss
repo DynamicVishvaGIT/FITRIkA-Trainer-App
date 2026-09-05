@@ -12,8 +12,8 @@ $primary-color: #00DA8B;
   padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 140px;
   background: white;
   box-sizing: border-box;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100%;
+  
   display: flex;
   flex-direction: column;
 }
@@ -306,6 +306,7 @@ $primary-color: #00DA8B;
   color: #a5a5a5;
   font-weight: 400;
   margin-bottom: 1px;
+  margin-right: 7px;
 }
 
 .calorie-value {

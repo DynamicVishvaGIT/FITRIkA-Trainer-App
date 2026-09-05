@@ -1,8 +1,6 @@
 <div class="app-container package-view">
   <header class="app-header">
-
     <div class="header-row">
-
       <button class="back-btn" (click)="goBack()" type="button">
         <svg
           width="24"
@@ -41,48 +39,23 @@
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
         </span>
-
         <span class="add-text">Add</span>
       </button>
-
     </div>
-
   </header>
-  <!-- <header class="app-header">
-    <button class="back-btn" (click)="goBack()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00c48c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-      </svg>
-    </button>
-
-    <h1 class="header-title" style="margin-top: 10px;">Package</h1>
-
-    <button class="add-btn-circle" (click)="navigateToAddPackage()">
-      <span class="plus-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-      </span>
-      <span class="add-text">Add</span>
-    </button>
-  </header> -->
 
   <main class="content-scroll">
-
     <div
       *ngFor="let pkg of packages"
       class="package-card"
       [class.active]="selectedPackageId === pkg.id"
+      [class.expanded]="pkg.isExpanded"
       [class.is-expanded]="pkg.isExpanded"
       [class.is-collapsed]="!pkg.isExpanded"
     >
-
-      <div class="accent-strip"></div>
+      <div class="accent-strip" *ngIf="selectedPackageId === pkg.id"></div>
 
       <div class="card-header" (click)="handleCardSelect(pkg)">
-
         <div class="header-left">
           <div
             class="custom-radio"
@@ -94,26 +67,30 @@
             ></div>
           </div>
 
-          <span
-            class="package-name"
-            [title]="pkg.name"
-          >
+          <span class="package-name" [title]="pkg.name">
             {{ pkg.name }}
           </span>
+
+          <!-- EDIT BUTTON (Left: Appears when card is CLOSED/COLLAPSED) -->
+          <button
+            class="edit-icon-btn edit-btn-left"
+            (click)="navigateToEditPackage($event, pkg.id)"
+            type="button"
+          >
+            <img src="assets/images/pack.png" alt="Edit" />
+          </button>
         </div>
 
-        <button
-          class="edit-icon-btn"
-          (click)="navigateToEditPackage($event, pkg.id)"
-          type="button"
-        >
-          <img
-            src="assets/images/pack.png"
-            alt="Edit"
-          />
-        </button>
-
         <div class="header-right">
+          <!-- EDIT BUTTON (Right: Appears next to price when card is OPEN/EXPANDED) -->
+          <button
+            class="edit-icon-btn edit-btn-right"
+            (click)="navigateToEditPackage($event, pkg.id)"
+            type="button"
+          >
+            <img src="assets/images/pack.png" alt="Edit" />
+          </button>
+
           <div class="price-container">
             <span class="price-amount">₹{{ pkg.price | number }}</span>
             <span class="price-period">per month</span>
@@ -149,13 +126,9 @@
             </svg>
           </div>
         </div>
-
       </div>
 
-      <div
-        class="card-details"
-        *ngIf="pkg.isExpanded"
-      >
+      <div class="card-details" *ngIf="pkg.isExpanded">
         <div class="details-divider"></div>
 
         <ul class="inclusions-list">
@@ -175,18 +148,13 @@
               </svg>
             </span>
 
-            <span
-              class="inclusion-text"
-              [title]="item"
-            >
+            <span class="inclusion-text" [title]="item">
               {{ item }}
             </span>
           </li>
         </ul>
       </div>
-
     </div>
-
   </main>
 
   <footer class="sticky-footer">
@@ -198,5 +166,4 @@
       Select
     </button>
   </footer>
-
 </div>

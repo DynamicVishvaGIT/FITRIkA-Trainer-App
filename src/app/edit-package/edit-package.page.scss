@@ -24,7 +24,7 @@ $border-color: #f1f5f9;
   border-bottom: 1px solid #f1f5f9;
   z-index: 100;
   position: relative;
-  
+
   .header-title {
     font-size: 20px;
     font-weight: 700;
@@ -36,7 +36,7 @@ $border-color: #f1f5f9;
     pointer-events: none;
     white-space: nowrap;
   }
-  
+
   .back-btn {
     background: none;
     border: none;
@@ -86,7 +86,7 @@ $border-color: #f1f5f9;
   font-weight: 600;
   outline: none;
   box-sizing: border-box;
-  
+
   &::placeholder {
     color: #a0aec0;
     font-weight: 400;
@@ -104,7 +104,7 @@ $border-color: #f1f5f9;
   gap: 10px;
   overflow-x: auto;
   padding: 2px 2px 6px 2px;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -126,13 +126,29 @@ $border-color: #f1f5f9;
     display: flex;
     align-items: center;
     gap: 6px;
-    transition: all 0.15s ease;
     white-space: nowrap;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transform: none;
+    justify-content: center;
+    flex-shrink: 0;
+
+    /* no transition/animation — state change is instant, no size shift */
+    /* width is set inline by appEqualChipWidth once rendered, so every
+       chip in the row matches the widest one regardless of label length */
 
     &.active {
       border-color: $primary-green;
       background-color: #e6faf4;
       color: $primary-green;
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+      transform: none;
+      box-shadow: none;
     }
   }
 
@@ -151,14 +167,24 @@ $border-color: #f1f5f9;
     cursor: pointer;
     font-weight: 600;
     flex-shrink: 0;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 
-    &:active {
-      transform: scale(0.92);
+    &:active,
+    &:focus {
+      outline: none;
+      transform: none;
     }
   }
 }
 
 /* Reusable Solid Green Circular Check Badge for Chips and Lists */
+/* Only rendered in the DOM when selected (see *ngIf in template).
+   The box itself no longer resizes because appEqualChipWidth already
+   fixed every chip's width in JS — so the icon can appear/disappear
+   freely and the whole (icon + text) group just recenters via
+   justify-content: center, without changing the button's size. */
 .check-circle {
   width: 18px;
   height: 18px;
@@ -188,12 +214,24 @@ $border-color: #f1f5f9;
     font-weight: 600;
     color: #334155;
     cursor: pointer;
-    transition: all 0.15s ease;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transform: none;
+
+    /* no transition/animation — state change is instant, no size shift */
 
     &.active {
       border-color: $primary-green;
       background-color: #e6faf4;
       color: #00966a;
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+      transform: none;
+      box-shadow: none;
     }
   }
 
@@ -209,8 +247,14 @@ $border-color: #f1f5f9;
     justify-content: center;
     font-size: 18px;
     cursor: pointer;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 
-    &:active {
+    &:active,
+    &:focus {
+      outline: none;
+      transform: none;
       background: rgba(0, 196, 140, 0.03);
     }
   }
@@ -248,7 +292,10 @@ $border-color: #f1f5f9;
     font-weight: 700;
     cursor: pointer;
     box-shadow: 0 4px 14px rgba(0, 196, 140, 0.25);
-    
+    box-sizing: border-box;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
     &:active {
       background: #00b07e;
     }
