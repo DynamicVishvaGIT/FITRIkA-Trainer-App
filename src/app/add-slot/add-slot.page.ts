@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+type Status =
+  | 'Free'
+  | 'Blocked'
+  | 'Tej'
+  | 'Rohan'
+  | '';
+
 @Component({
   selector: 'app-add-slot',
   templateUrl: './add-slot.page.html',
@@ -9,71 +16,208 @@ import { ModalController } from '@ionic/angular';
 })
 export class AddSlotPage {
 
-  // Change initial values to empty strings so placeholders display first
+  /* =========================================
+     FORM VALUES
+  ========================================= */
+
   startTime: string = '';
+
   endTime: string = '';
-  status: 'Free' | 'Blocked' | 'Tej' | 'Rohan' | '' = '';
-  
-  // Tracks which dropdown overlay is currently active
-  activeDropdown: string | null = null;
 
-  startTimeOptions: string[] = ['6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '11:00 AM'];
-  endTimeOptions: string[] = ['7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '12:00 PM'];
+  status: Status = '';
 
-  statusDisplayMap: { [key: string]: string } = {
-    'Free': 'Free',
-    'Blocked': 'Blocked',
-    'Tej': 'Tej / Deepika (Personal Training)',
-    'Rohan': 'Rohan S. (Trial Session)'
+
+  /* =========================================
+     ACTIVE DROPDOWN
+  ========================================= */
+
+  activeDropdown: 'start' | 'end' | 'status' | null = null;
+
+
+  /* =========================================
+     TIME OPTIONS
+  ========================================= */
+
+  startTimeOptions: string[] = [
+    '6:00 AM',
+    '7:00 AM',
+    '8:00 AM',
+    '9:00 AM',
+    '11:00 AM'
+  ];
+
+  endTimeOptions: string[] = [
+    '7:00 AM',
+    '8:00 AM',
+    '9:00 AM',
+    '10:00 AM',
+    '12:00 PM'
+  ];
+
+
+  /* =========================================
+     STATUS LABELS
+  ========================================= */
+
+  statusDisplayMap: Record<string, string> = {
+
+    Free: 'Free',
+
+    Blocked: 'Blocked',
+
+    Tej: 'Tej / Deepika (Personal Training)',
+
+    Rohan: 'Rohan S. (Trial Session)'
+
   };
 
-  constructor(private modalCtrl: ModalController) {}
 
-  toggleDropdown(dropdownType: string) {
+  /* =========================================
+     CONSTRUCTOR
+  ========================================= */
+
+  constructor(
+    private modalCtrl: ModalController
+  ) {}
+
+
+  /* =========================================
+     TOGGLE DROPDOWN
+  ========================================= */
+
+  toggleDropdown(
+    dropdownType: 'start' | 'end' | 'status'
+  ): void {
+
     if (this.activeDropdown === dropdownType) {
-      this.activeDropdown = null; 
+
+      this.activeDropdown = null;
+
     } else {
-      this.activeDropdown = dropdownType; 
+
+      this.activeDropdown = dropdownType;
+
     }
   }
 
-  selectStart(time: string) {
+
+  /* =========================================
+     CLOSE DROPDOWN
+  ========================================= */
+
+  closeDropdown(): void {
+
+    this.activeDropdown = null;
+
+  }
+
+
+  /* =========================================
+     SELECT START TIME
+  ========================================= */
+
+  selectStart(time: string): void {
+
     this.startTime = time;
+
     this.activeDropdown = null;
+
   }
 
-  selectEnd(time: string) {
+
+  /* =========================================
+     SELECT END TIME
+  ========================================= */
+
+  selectEnd(time: string): void {
+
     this.endTime = time;
+
     this.activeDropdown = null;
+
   }
 
-  selectStatus(optionValue: 'Free' | 'Blocked' | 'Tej' | 'Rohan') {
+
+  /* =========================================
+     SELECT STATUS
+  ========================================= */
+
+  selectStatus(
+    optionValue: Exclude<Status, ''>
+  ): void {
+
     this.status = optionValue;
+
     this.activeDropdown = null;
+
   }
 
-  dismiss() {
+
+  /* =========================================
+     CLOSE MODAL
+  ========================================= */
+
+  dismiss(): void {
+
     this.modalCtrl.dismiss();
+
   }
 
-  submit() {
-    // Basic validation guard to make sure values are chosen before submission
-    if (!this.startTime || !this.endTime || !this.status) {
-      alert('Please select all fields before submitting.');
+
+  /* =========================================
+     SUBMIT
+  ========================================= */
+
+  submit(): void {
+
+    if (
+      !this.startTime ||
+      !this.endTime ||
+      !this.status
+    ) {
+
+      alert(
+        'Please select all fields before submitting.'
+      );
+
       return;
     }
 
+
     this.modalCtrl.dismiss({
+
       slotData: {
+
         startTime: this.startTime,
+
         endTime: this.endTime,
+
         status: this.status
+
       }
+
     });
+
   }
 
+
+  /* =========================================
+     STATUS DISPLAY LABEL
+  ========================================= */
+
   get selectedStatusLabel(): string {
-    if (!this.status) return 'Select Initial Status';
-    return this.statusDisplayMap[this.status] || this.status;
+
+    if (!this.status) {
+
+      return 'Select Initial Status';
+
+    }
+
+    return (
+      this.statusDisplayMap[this.status]
+      || this.status
+    );
+
   }
+
 }

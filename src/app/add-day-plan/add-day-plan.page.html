@@ -33,7 +33,32 @@
       <div class="exercise-repeater-node" *ngFor="let exercise of exercisesList; let idx=index">
 
         <!-- Header Row Details Area -->
-        <div class="exercise-accordion-header">
+         <div class="exercise-accordion-header">
+
+  <div class="header-left-toggle" (click)="toggleExerciseExpand(idx)">
+    <span class="exercise-index-label">
+      {{ idx + 1 }} Exercise
+    </span>
+  </div>
+
+  <div class="header-icons">
+
+    <ion-icon
+      [name]="exercise.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'"
+      class="accordion-arrow"
+      (click)="toggleExerciseExpand(idx)">
+    </ion-icon>
+
+    <ion-icon
+      name="trash-outline"
+      class="delete-trash-glyph"
+      (click)="removeExerciseNode(idx)">
+    </ion-icon>
+
+  </div>
+
+</div>
+              <!-- <div class="exercise-accordion-header">
           <div class="header-left-toggle" (click)="toggleExerciseExpand(idx)">
             <span class="exercise-index-label">{{idx+1}} Exercise</span>
             <ion-icon
@@ -49,7 +74,7 @@
               (click)="removeExerciseNode(idx)">
             </ion-icon>
           </div>
-        </div>
+        </div> -->
 
         <!-- Accordion Content Body Section Layout -->
         <div class="exercise-accordion-body" [class.collapsed]="!exercise.isExpanded">
@@ -59,7 +84,7 @@
             <ion-select
               interface="popover"
               [(ngModel)]="exercise.name"
-              class="exercise-select">
+              class="exercise-select ion-select ">
               <ion-select-option *ngFor="let option of exerciseOptions" [value]="option">
                 {{option}}
               </ion-select-option>

@@ -27,6 +27,7 @@ export class MyProfilePage implements OnInit {
   
   public isEditing: boolean = false;
   public isGenderDropdownOpen: boolean = false;
+    public isHeaderMenuOpen: boolean = false; // NEW
 
   public profileData: ProfileDataset = {
     name: 'Hany Rambod',
@@ -69,6 +70,30 @@ export class MyProfilePage implements OnInit {
   public selectGenderValue(chosenGender: string): void {
     this.profileData.gender = chosenGender;
     this.isGenderDropdownOpen = false;
+  }
+  // --- HEADER 3-DOT MENU ---
+  public toggleHeaderMenu(): void {
+    this.isHeaderMenuOpen = !this.isHeaderMenuOpen;
+  }
+
+  public closeHeaderMenu(): void {
+    this.isHeaderMenuOpen = false;
+  }
+
+  public onHelpClick(): void {
+    this.closeHeaderMenu();
+    this.navCtrl.navigateForward('/help');
+    // or open a support modal / external link, whatever your app uses
+  }
+
+  public onLogoutClick(): void {
+    this.closeHeaderMenu();
+
+    // Clear any stored session/auth data here, e.g.:
+    // localStorage.removeItem('authToken');
+    // this.authService.clearSession();
+
+    this.navCtrl.navigateRoot('/login');
   }
 
   // --- SPECIALTY LOGIC PIPELINE ---

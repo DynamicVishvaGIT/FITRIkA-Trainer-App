@@ -57,28 +57,33 @@ export class WorkoutLogPage implements OnInit {
     this.isDropdownOpen = false;
   }
 
-  async addNewWorkout() {
-    const modal = await this.modalCtrl.create({
-      component: AddWorkoutLogPage,
-      cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.38,
-      breakpoints: [0, 0.35],
-      handle: false
+async addNewWorkout() {
+  const modal = await this.modalCtrl.create({
+    component: AddWorkoutLogPage,
+    cssClass: 'bottom-sheet-modal',
+    initialBreakpoint: 0.38,
+    breakpoints: [0, 0.38],
+    handle: false
+  });
+
+  await modal.present();
+
+  const { data } = await modal.onDidDismiss();
+
+  if (data && data.workoutName) {
+    const today = new Date();
+
+    const formattedDate =
+      `${String(today.getDate()).padStart(2, '0')}/` +
+      `${String(today.getMonth() + 1).padStart(2, '0')}/` +
+      `${today.getFullYear()}`;
+
+    this.workoutLogs.unshift({
+      title: data.workoutName,
+      date: formattedDate
     });
-
-    await modal.present();
-
-    const { data } = await modal.onDidDismiss();
-    if (data && data.workoutName) {
-      const today = new Date();
-      const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
-      
-      this.workoutLogs.unshift({
-        title: data.workoutName,
-        date: formattedDate
-      });
-    }
   }
+}
 
   // Generates physical calendar dates correctly considering Leap Years, 28/29/30/31 offsets
   private populateHeatmapMatrix(): void {

@@ -2,13 +2,33 @@
   <div class="app-screen-container">
     
     <!-- HEADER CONTROLLER WITH BACK BUTTON -->
-    <header class="main-header">
-      <button class="menu-btn" (click)="goBack()" aria-label="Back">
-        <ion-icon name="arrow-back" class="ion-back-icon"></ion-icon>
-      </button>
-      <h1 class="header-title">My Profile</h1>
-      <div class="header-spacer"></div>
-    </header>
+    <!-- HEADER CONTROLLER WITH BACK BUTTON -->
+<header class="main-header">
+  <button class="menu-btn" (click)="goBack()" aria-label="Back">
+    <!-- <ion-icon name="arrow-back" class="ion-back-icon"></ion-icon> -->
+  </button>
+  <h1 class="header-title">My Profile</h1>
+
+  <div class="header-menu-wrapper">
+    <button class="menu-btn" (click)="toggleHeaderMenu()" aria-label="More options">
+      <ion-icon name="ellipsis-vertical" class="ion-back-icon"></ion-icon>
+    </button>
+
+    <div *ngIf="isHeaderMenuOpen" class="header-dropdown-menu">
+      <div class="header-dropdown-item" (click)="onHelpClick()">
+        <ion-icon name="help-circle-outline" class="dropdown-item-icon"></ion-icon>
+        <span>Help</span>
+      </div>
+      <div class="header-dropdown-item logout-item" (click)="onLogoutClick()">
+        <ion-icon name="log-out-outline" class="dropdown-item-icon"></ion-icon>
+        <span>Logout</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Backdrop to close the menu when tapping outside -->
+<div *ngIf="isHeaderMenuOpen" class="header-menu-backdrop" (click)="closeHeaderMenu()"></div>
 
     <!-- Top Dark Profile Card Block -->
     <div class="dark-profile-card">

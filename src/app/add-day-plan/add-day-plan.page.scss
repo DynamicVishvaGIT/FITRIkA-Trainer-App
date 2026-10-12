@@ -36,6 +36,14 @@
   align-items: center;
   justify-content: center;
 }
+.ion-select {
+  flex-grow: 1;
+}
+.ion-select::part(icon) {
+  color: #333333;
+  position: absolute;
+  right: 7px; /* Adjust as needed */
+}
 
 .custom-close-circle {
   width: 26px;
@@ -117,43 +125,116 @@
   margin-bottom: 16px;
 }
 
+// .exercise-accordion-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding-bottom: 4px;
+// }
+
+// .header-left-toggle {
+//   display: flex;
+//   align-items: center;
+//   gap: 6px;
+//   cursor: pointer;
+//   flex: 1;
+// }
+
+// .exercise-index-label {
+//   font-family: 'Satoshi', sans-serif;
+//   font-weight: 600;
+//   font-size: 15px;
+//   color: #00DA8B;
+// }
+
+// .accordion-arrow {
+//   font-size: 18px;
+//   color: #555555;
+//   margin-left: 182px;
+// }
+
+// .header-icons {
+//   display: flex;
+//   align-items: center;
+// }
+
+// .delete-trash-glyph {
+//   font-size: 18px;
+//   color: #FF5B5B;
+//   cursor: pointer;
+// }
 .exercise-accordion-header {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
   padding-bottom: 4px;
+
+  /* Prevent anything from overflowing */
+  min-width: 0;
 }
 
+/* Exercise title */
 .header-left-toggle {
   display: flex;
   align-items: center;
-  gap: 6px;
+
   cursor: pointer;
-  flex: 1;
+
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .exercise-index-label {
   font-family: 'Satoshi', sans-serif;
   font-weight: 600;
   font-size: 15px;
+  line-height: 20px;
   color: #00DA8B;
+
+  white-space: nowrap;
 }
 
-.accordion-arrow {
-  font-size: 18px;
-  color: #555555;
-  margin-left: 184px;
-}
-
+/* BOTH ICONS ON RIGHT */
 .header-icons {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+
+  /* Responsive gap between icons */
+  gap: 16px;
+
+  flex: 0 0 auto;
+  margin-left: 12px;
 }
 
+/* Chevron */
+.accordion-arrow {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+
+  color: #555555;
+
+  flex-shrink: 0;
+  cursor: pointer;
+
+  margin: 0;
+}
+
+/* Trash */
 .delete-trash-glyph {
   font-size: 18px;
+  width: 18px;
+  height: 18px;
+
   color: #FF5B5B;
+
+  flex-shrink: 0;
   cursor: pointer;
+
+  margin: 0;
 }
 
 .exercise-accordion-body {
@@ -400,5 +481,37 @@
 
   &:active {
     opacity: 0.95;
+  }
+}
+
+@media (max-width: 360px) {
+  .exercise-accordion-header {
+    padding-bottom: 4px;
+  }
+
+  .header-left-toggle {
+    gap: 5px;
+  }
+
+  .exercise-index-label {
+    font-size: 14px;
+  }
+
+  .accordion-arrow {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+
+  .header-icons {
+    margin-left: 14px;
+    width: 22px;
+    min-width: 22px;
+  }
+
+  .delete-trash-glyph {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
   }
 }

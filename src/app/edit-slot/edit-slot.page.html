@@ -1,43 +1,100 @@
-<ion-content class="ion-no-padding oval-modal-content">
+<ion-content
+  class="edit-content"
+  [scrollY]="true"
+  (click)="closeDropdown()">
+
   <div class="edit-modal-wrapper">
-    <!-- Header Panel layout matching reference image 4 -->
+
+    <!-- HEADER -->
     <div class="modal-header">
+
       <h2>Edit</h2>
-      <button class="close-btn" (click)="dismiss()">
+
+      <button
+        type="button"
+        class="close-btn"
+        (click)="dismiss()">
+
         <ion-icon name="close-circle-outline"></ion-icon>
+
       </button>
+
     </div>
 
-    <!-- Main Dynamic Form Elements Layer -->
-    <div class="modal-body" [class.expand-spacing]="isDropdownOpen">
-      <label class="input-label">Change</label>
-      
-      <div class="custom-dropdown-container">
-        <!-- Interactive Closed State Header Input Trigger Box -->
-        <div class="select-header-box" [class.dropdown-open]="isDropdownOpen" (click)="toggleDropdown()">
-          <span class="selected-text">{{ selectedStatusLabel }}</span>
-          <ion-icon [name]="isDropdownOpen ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
+
+    <!-- FORM -->
+    <div class="modal-body">
+
+      <label class="input-label">
+        Change
+      </label>
+
+
+      <!-- DROPDOWN -->
+      <div
+        class="custom-dropdown"
+        (click)="$event.stopPropagation()">
+
+        <!-- SELECTED VALUE -->
+        <button
+          type="button"
+          class="select-header"
+          [class.open]="isDropdownOpen"
+          (click)="toggleDropdown()">
+
+          <span class="selected-text">
+            {{ selectedStatusLabel }}
+          </span>
+
+          <ion-icon
+            [name]="isDropdownOpen
+              ? 'chevron-up-outline'
+              : 'chevron-down-outline'">
+          </ion-icon>
+
+        </button>
+
+
+        <!-- OPTIONS -->
+        <div
+          *ngIf="isDropdownOpen"
+          class="dropdown-menu">
+
+          <button
+            *ngFor="let option of statusOptions"
+            type="button"
+            class="option"
+            [class.selected]="selectedStatus === option.value"
+            (click)="selectOption(option)">
+
+            <span>
+              {{ option.label }}
+            </span>
+
+            <ion-icon
+              *ngIf="selectedStatus === option.value"
+              name="checkmark-outline">
+            </ion-icon>
+
+          </button>
+
         </div>
 
-        <!-- Absolute Layer Float Dropdown Menu Panel -->
-        <div *ngIf="isDropdownOpen" class="select-options-list">
-          <div class="option-item" [class.selected]="selectedStatus === 'Free'" (click)="selectOption('Free')">
-            Free
-          </div>
-          <div class="option-item" [class.selected]="selectedStatus === 'Blocked'" (click)="selectOption('Blocked')">
-            Blocked
-          </div>
-          <div class="option-item" [class.selected]="selectedStatus === 'Tej'" (click)="selectOption('Tej')">
-            Tej / Deepika (Personal Training)
-          </div>
-          <div class="option-item" [class.selected]="selectedStatus === 'Rohan'" (click)="selectOption('Rohan')">
-            Rohan S. (Trial Session)
-          </div>
-        </div>
       </div>
 
-      <!-- Action Submission Interface Core CTA Element -->
-      <button class="submit-btn" (click)="submitChange()">Submit</button>
+
+      <!-- SUBMIT -->
+      <button
+        type="button"
+        class="submit-btn"
+        (click)="submitChange()">
+
+        Submit
+
+      </button>
+
     </div>
+
   </div>
+
 </ion-content>

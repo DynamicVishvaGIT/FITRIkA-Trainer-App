@@ -67,7 +67,7 @@ export class SlotPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: AddSlotPage,
       cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.56,
+      initialBreakpoint: 0.75,
       breakpoints: [0, 0.55],
       handle: false
     });
@@ -95,7 +95,7 @@ export class SlotPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: EditSlotPage,
       cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 0.33,
+      initialBreakpoint: 0.50,
       breakpoints: [0, 0.45],
       handle: false,
       componentProps: {

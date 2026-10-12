@@ -71,9 +71,9 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     align-items: center;
     justify-content: center;
     touch-action: manipulation;
-
+    
     .ion-back-icon {
-      font-size: 22px;
+      font-size: 17px;
       color: $action-mint-green;
     }
   }
@@ -510,7 +510,60 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     cursor: pointer;
   }
 }
+.header-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 
+  .header-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 160px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    z-index: 200;
+
+    .header-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      font-size: 15px;
+      color: #1F2421;
+      cursor: pointer;
+      white-space: nowrap;
+
+      .dropdown-item-icon {
+        font-size: 18px;
+        color: $text-muted-gray;
+      }
+
+      &:active {
+        background-color: #f4f5f7;
+      }
+
+      &.logout-item {
+        color: #e53935;
+        border-top: 1px solid #ECEFEF;
+
+        .dropdown-item-icon {
+          color: #e53935;
+        }
+      }
+    }
+  }
+}
+
+.header-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: transparent;
+}
 /* ==========================================================================
    CERTIFICATES CONTAINER
    ========================================================================== */

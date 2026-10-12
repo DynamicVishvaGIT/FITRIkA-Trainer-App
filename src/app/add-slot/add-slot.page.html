@@ -1,76 +1,302 @@
-<ion-content class="ion-no-padding oval-modal-content">
+<ion-content
+  class="ion-no-padding oval-modal-content"
+  [scrollY]="true"
+  (click)="closeDropdown()">
+
   <div class="edit-modal-wrapper">
-    <!-- Header Layout -->
+
+    <!-- ================= HEADER ================= -->
+
     <div class="modal-header">
+
       <h2>Add Slot</h2>
-      <button class="close-btn" (click)="dismiss()">
+
+      <button
+        type="button"
+        class="close-btn"
+        (click)="dismiss(); $event.stopPropagation()">
+
         <ion-icon name="close-circle-outline"></ion-icon>
+
       </button>
+
     </div>
 
-    <!-- Main Form Block -->
+
+    <!-- ================= FORM ================= -->
+
     <div class="modal-body">
-      
-      <!-- Start Time Custom Dropdown -->
+
+
+      <!-- ================= START TIME ================= -->
+
       <div class="input-group">
-        <label class="input-label">Start Time</label>
-        <div class="custom-dropdown-container">
-          <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'start'" (click)="toggleDropdown('start')">
-            <!-- Uses placeholder styling until a time value is selected -->
-            <span class="selected-text" [class.placeholder-active]="!startTime">
-              {{ startTime ? startTime : 'Select Start Time' }}
+
+        <label class="input-label">
+          Start Time
+        </label>
+
+        <div
+          class="custom-dropdown-container"
+          (click)="$event.stopPropagation()">
+
+          <button
+            type="button"
+            class="select-header-box"
+            [class.dropdown-open]="activeDropdown === 'start'"
+            (click)="toggleDropdown('start')">
+
+            <span
+              class="selected-text"
+              [class.placeholder-active]="!startTime">
+
+              {{ startTime || 'Select Start Time' }}
+
             </span>
-            <ion-icon [name]="activeDropdown === 'start' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
+
+            <ion-icon
+              class="arrow-icon"
+              [name]="activeDropdown === 'start'
+                ? 'chevron-up-outline'
+                : 'chevron-down-outline'">
+            </ion-icon>
+
+          </button>
+
+
+          <!-- START OPTIONS -->
+
+          <div
+            *ngIf="activeDropdown === 'start'"
+            class="select-options-list">
+
+            <button
+              *ngFor="let time of startTimeOptions"
+              type="button"
+              class="option-item"
+              [class.selected]="startTime === time"
+              (click)="selectStart(time)">
+
+              <span>
+                {{ time }}
+              </span>
+
+              <ion-icon
+                *ngIf="startTime === time"
+                name="checkmark-outline">
+              </ion-icon>
+
+            </button>
+
           </div>
-          <div *ngIf="activeDropdown === 'start'" class="select-options-list scrollable-options">
-            <div *ngFor="let time of startTimeOptions" class="option-item" [class.selected]="startTime === time" (click)="selectStart(time)">
-              {{ time }}
-            </div>
-          </div>
+
         </div>
+
       </div>
 
-      <!-- End Time Custom Dropdown -->
+
+      <!-- ================= END TIME ================= -->
+
       <div class="input-group">
-        <label class="input-label">End Time</label>
-        <div class="custom-dropdown-container">
-          <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'end'" (click)="toggleDropdown('end')">
-            <!-- Uses placeholder styling until a time value is selected -->
-            <span class="selected-text" [class.placeholder-active]="!endTime">
-              {{ endTime ? endTime : 'Select End Time' }}
+
+        <label class="input-label">
+          End Time
+        </label>
+
+        <div
+          class="custom-dropdown-container"
+          (click)="$event.stopPropagation()">
+
+          <button
+            type="button"
+            class="select-header-box"
+            [class.dropdown-open]="activeDropdown === 'end'"
+            (click)="toggleDropdown('end')">
+
+            <span
+              class="selected-text"
+              [class.placeholder-active]="!endTime">
+
+              {{ endTime || 'Select End Time' }}
+
             </span>
-            <ion-icon [name]="activeDropdown === 'end' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
+
+            <ion-icon
+              class="arrow-icon"
+              [name]="activeDropdown === 'end'
+                ? 'chevron-up-outline'
+                : 'chevron-down-outline'">
+            </ion-icon>
+
+          </button>
+
+
+          <!-- END OPTIONS -->
+
+          <div
+            *ngIf="activeDropdown === 'end'"
+            class="select-options-list">
+
+            <button
+              *ngFor="let time of endTimeOptions"
+              type="button"
+              class="option-item"
+              [class.selected]="endTime === time"
+              (click)="selectEnd(time)">
+
+              <span>
+                {{ time }}
+              </span>
+
+              <ion-icon
+                *ngIf="endTime === time"
+                name="checkmark-outline">
+              </ion-icon>
+
+            </button>
+
           </div>
-          <div *ngIf="activeDropdown === 'end'" class="select-options-list scrollable-options">
-            <div *ngFor="let time of endTimeOptions" class="option-item" [class.selected]="endTime === time" (click)="selectEnd(time)">
-              {{ time }}
-            </div>
-          </div>
+
         </div>
+
       </div>
 
-      <!-- Initial Status Custom Dropdown -->
+
+      <!-- ================= INITIAL STATUS ================= -->
+
       <div class="input-group">
-        <label class="input-label">Initial Status</label>
-        <div class="custom-dropdown-container">
-          <div class="select-header-box" [class.dropdown-open]="activeDropdown === 'status'" (click)="toggleDropdown('status')">
-            <!-- Label getter logic handles fallback text natively -->
-            <span class="selected-text" [class.placeholder-active]="!status">
+
+        <label class="input-label">
+          Initial Status
+        </label>
+
+        <div
+          class="custom-dropdown-container"
+          (click)="$event.stopPropagation()">
+
+          <button
+            type="button"
+            class="select-header-box"
+            [class.dropdown-open]="activeDropdown === 'status'"
+            (click)="toggleDropdown('status')">
+
+            <span
+              class="selected-text"
+              [class.placeholder-active]="!status">
+
               {{ selectedStatusLabel }}
-            </span>
-            <ion-icon [name]="activeDropdown === 'status' ? 'chevron-up-outline' : 'chevron-down-outline'" class="arrow-icon"></ion-icon>
-          </div>
-          <div *ngIf="activeDropdown === 'status'" class="select-options-list scrollable-options">
-            <div class="option-item" [class.selected]="status === 'Free'" (click)="selectStatus('Free')">Free</div>
-            <div class="option-item" [class.selected]="status === 'Blocked'" (click)="selectStatus('Blocked')">Blocked</div>
-            <div class="option-item" [class.selected]="status === 'Tej'" (click)="selectStatus('Tej')">Tej / Deepika (Personal Training)</div>
-            <div class="option-item" [class.selected]="status === 'Rohan'" (click)="selectStatus('Rohan')">Rohan S. (Trial Session)</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Submit Button -->
-      <button class="submit-btn" [disabled]="!startTime || !endTime || !status" (click)="submit()">Submit</button>
+            </span>
+
+            <ion-icon
+              class="arrow-icon"
+              [name]="activeDropdown === 'status'
+                ? 'chevron-up-outline'
+                : 'chevron-down-outline'">
+            </ion-icon>
+
+          </button>
+
+
+          <!-- STATUS OPTIONS -->
+
+          <div
+            *ngIf="activeDropdown === 'status'"
+            class="select-options-list">
+
+            <button
+              type="button"
+              class="option-item"
+              [class.selected]="status === 'Free'"
+              (click)="selectStatus('Free')">
+
+              <span>Free</span>
+
+              <ion-icon
+                *ngIf="status === 'Free'"
+                name="checkmark-outline">
+              </ion-icon>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="option-item"
+              [class.selected]="status === 'Blocked'"
+              (click)="selectStatus('Blocked')">
+
+              <span>Blocked</span>
+
+              <ion-icon
+                *ngIf="status === 'Blocked'"
+                name="checkmark-outline">
+              </ion-icon>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="option-item"
+              [class.selected]="status === 'Tej'"
+              (click)="selectStatus('Tej')">
+
+              <span>
+                Tej / Deepika (Personal Training)
+              </span>
+
+              <ion-icon
+                *ngIf="status === 'Tej'"
+                name="checkmark-outline">
+              </ion-icon>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="option-item"
+              [class.selected]="status === 'Rohan'"
+              (click)="selectStatus('Rohan')">
+
+              <span>
+                Rohan S. (Trial Session)
+              </span>
+
+              <ion-icon
+                *ngIf="status === 'Rohan'"
+                name="checkmark-outline">
+              </ion-icon>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+       <br>
+  <br>
+  <br>
+  <br>
+
+
+      <!-- ================= SUBMIT ================= -->
+
+      <button
+        type="button"
+        class="submit-btn"
+        [disabled]="!startTime || !endTime || !status"
+        (click)="submit(); $event.stopPropagation()">
+
+        Submit
+
+      </button>
+
     </div>
+
   </div>
+ 
+
 </ion-content>

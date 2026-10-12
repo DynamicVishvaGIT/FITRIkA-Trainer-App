@@ -1,149 +1,647 @@
-$brand-green: #00e699;
-$border-light: #ecefef;
-$bg-light: #f8fafc;
-$text-dark: #1f2421;
-$text-muted: #929794;
+$green: #00e699;
 
-// Vital structural override forcing ionic frames to render overflow popovers elegantly
-.oval-modal-content {
-  --overflow: visible;
+$border: #ecefef;
+
+$background: #f8fafc;
+
+$text: #1f2421;
+
+$muted: #929794;
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.edit-content {
+  --background: #ffffff;
+
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: #ffffff;
+
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* =========================================
+   MAIN WRAPPER
+========================================= */
+
+.edit-modal-wrapper {
+  width: 100%;
+
+  min-height: 100%;
+
+  box-sizing: border-box;
+
+  padding: 24px;
+
+  background: #ffffff;
+
+  /*
+   * KEEP OVAL SHAPE
+   */
+  border-radius: 28px 28px 0 0;
+
+  /*
+   * IMPORTANT:
+   * Never move the wrapper itself.
+   */
+  transform: none !important;
+
   overflow: visible;
 }
 
-.edit-modal-wrapper {
-  padding: 24px;
-  background: #ffffff;
-}
+
+/* =========================================
+   HEADER
+========================================= */
 
 .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
   position: relative;
 
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 100%;
+
+  margin-bottom: 24px;
+
+  flex-shrink: 0;
+
+
   h2 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #000000;
     margin: 0;
-    flex: 1;
+
+    color: #000000;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
     text-align: center;
   }
+}
 
-  .close-btn {
-    background: transparent;
-    border: none;
-    font-size: 26px;
-    color: #000000;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.close-btn {
+  position: absolute;
+
+  top: 50%;
+
+  right: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 32px;
+
+  height: 32px;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #000000;
+
+  cursor: pointer;
+
+  transform: translateY(-50%);
+
+  outline: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+
+  ion-icon {
+    font-size: 25px;
   }
 }
+
+
+/* =========================================
+   FORM
+========================================= */
 
 .modal-body {
   display: flex;
+
   flex-direction: column;
-  transition: padding-bottom 0.2s ease-in-out;
 
-  // Seamlessly compensates layout volume when options list is extended downwards
-  &.expand-spacing {
-    padding-bottom: 180px; 
-  }
-
-  .input-label {
-    font-size: 14px;
-    color: $text-muted;
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
+  width: 100%;
 }
 
-/* Dropdown Alignment Positioning Element Box Context */
-.custom-dropdown-container {
-  position: relative; 
+
+/* =========================================
+   LABEL
+========================================= */
+
+.input-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: $muted;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  line-height: 20px;
+}
+
+
+/* =========================================
+   DROPDOWN
+========================================= */
+
+.custom-dropdown {
+  position: relative;
+
   width: 100%;
+
   margin-bottom: 24px;
 }
 
-.select-header-box {
+
+/* =========================================
+   SELECT BOX
+========================================= */
+
+.select-header {
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
+
+  justify-content: space-between;
+
   width: 100%;
-  background-color: $bg-light;
-  border: 1px solid $border-light;
-  border-radius: 14px;
+
+  min-height: 52px;
+
+  box-sizing: border-box;
+
   padding: 15px 16px;
+
+  border: 1px solid $border;
+
+  border-radius: 14px;
+
+  background: $background;
+
+  color: $text;
+
   cursor: pointer;
-  transition: all 0.2s ease;
 
-  &.dropdown-open {
-    border-color: $brand-green;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(0, 230, 153, 0.1);
+  outline: none;
+
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+
+
+  &.open {
+    background: #ffffff;
+
+    border-color: $green;
+
+    box-shadow:
+      0 0 0 3px
+      rgba(0, 230, 153, 0.1);
   }
 
-  .selected-text {
-    font-size: 15px;
-    color: $text-dark;
-  }
 
-  .arrow-icon {
+  ion-icon {
+    flex-shrink: 0;
+
+    margin-left: 10px;
+
+    color: $muted;
+
     font-size: 18px;
-    color: $text-muted;
   }
 }
 
-/* Float Overlay Panel Strategy UI Implementation */
-.select-options-list {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid $border-light;
-  border-radius: 14px;
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
-  z-index: 9999; 
+
+/* =========================================
+   SELECTED TEXT
+========================================= */
+
+.selected-text {
+  min-width: 0;
+
   overflow: hidden;
 
-  .option-item {
-    padding: 14px 16px;
-    font-size: 14px;
-    color: $text-dark;
-    cursor: pointer;
-    transition: background 0.15s ease;
+  color: $text;
 
-    &:hover, &.selected {
-      background-color: #e6fbf5;
-      color: $brand-green;
-      font-weight: 500;
-    }
+  font-size: 15px;
 
-    &:not(:last-child) {
-      border-bottom: 1px solid $bg-light;
-    }
+  line-height: 20px;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+  text-align: left;
+}
+
+
+/* =========================================
+   DROPDOWN MENU
+========================================= */
+
+.dropdown-menu {
+  position: absolute;
+
+  top: calc(100% + 6px);
+
+  left: 0;
+
+  z-index: 99999;
+
+  width: 100%;
+
+  max-height: 250px;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  box-sizing: border-box;
+
+  border: 1px solid $border;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.12);
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior: contain;
+
+  animation: dropdown-open 0.18s ease;
+}
+
+
+/* =========================================
+   OPTION
+========================================= */
+
+.option {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  width: 100%;
+
+  min-height: 48px;
+
+  box-sizing: border-box;
+
+  padding: 12px 16px;
+
+  border: 0;
+
+  background: #ffffff;
+
+  color: $text;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 400;
+
+  line-height: 20px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  outline: none;
+
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $background;
+  }
+
+
+  &:active,
+  &.selected {
+    background: #e6fbf5;
+
+    color: #00b879;
+
+    font-weight: 500;
+  }
+
+
+  ion-icon {
+    flex-shrink: 0;
+
+    margin-left: 10px;
+
+    color: $green;
+
+    font-size: 18px;
   }
 }
+
+
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
 
 .submit-btn {
   width: 100%;
-  background: $brand-green;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 15px;
-  border: none;
+
+  min-height: 52px;
+
+  box-sizing: border-box;
+
+  padding: 14px 16px;
+
+  border: 0;
+
   border-radius: 14px;
+
+  background: $green;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  line-height: 20px;
+
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 230, 153, 0.2);
-  transition: background 0.2s ease;
+
+  outline: none;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0, 230, 153, 0.2);
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+
 
   &:active {
     opacity: 0.9;
+
+    transform: scale(0.98);
+  }
+}
+
+
+/* =========================================
+   DROPDOWN ANIMATION
+========================================= */
+
+@keyframes dropdown-open {
+
+  from {
+    opacity: 0;
+
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================
+   FIXED OVAL IONIC MODAL
+========================================= */
+
+ion-modal.edit-slot-modal {
+  --width: 100%;
+
+  /*
+   * FIXED HEIGHT
+   * This prevents the sheet from changing
+   * position when the viewport/keyboard changes.
+   */
+  --height: 92vh;
+
+  --max-height: 92vh;
+
+  --border-radius:
+    28px 28px 0 0;
+
+  --overflow: hidden;
+
+  --backdrop-opacity: 0.35;
+}
+
+
+/* =========================================
+   ACTUAL MODAL CONTENT
+========================================= */
+
+ion-modal.edit-slot-modal::part(content) {
+
+  width: 100% !important;
+
+  height: 92vh !important;
+
+  min-height: 92vh !important;
+
+  max-height: 92vh !important;
+
+  margin: 0 !important;
+
+  padding: 0 !important;
+
+  background: #ffffff;
+
+  border-radius:
+    28px 28px 0 0 !important;
+
+  overflow: hidden !important;
+
+  box-shadow:
+    0 -4px 30px
+    rgba(0, 0, 0, 0.12);
+
+  /*
+   * Prevent Ionic from visually moving
+   * or transforming the sheet.
+   */
+  transform: translate3d(0, 0, 0) !important;
+
+  will-change: auto !important;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  ion-modal.edit-slot-modal {
+
+    --width: 100%;
+
+    --height: 92vh;
+
+    --max-height: 92vh;
+
+    --border-radius:
+      28px 28px 0 0;
+  }
+
+
+  ion-modal.edit-slot-modal::part(content) {
+
+    width: 100% !important;
+
+    height: 92vh !important;
+
+    min-height: 92vh !important;
+
+    max-height: 92vh !important;
+
+    border-radius:
+      28px 28px 0 0 !important;
+
+    overflow: hidden !important;
+  }
+
+
+  .edit-content {
+
+    height: 100% !important;
+
+    max-height: 100% !important;
+
+    overflow-y: auto !important;
+
+    overflow-x: hidden !important;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  .edit-modal-wrapper {
+
+    min-height: 100%;
+
+    border-radius:
+      28px 28px 0 0 !important;
+
+    padding:
+      24px 24px
+      calc(
+        24px +
+        env(safe-area-inset-bottom)
+      );
+
+    /*
+     * NEVER translate wrapper.
+     */
+    transform: none !important;
+  }
+}
+
+
+/* =========================================
+   SMALL HEIGHT
+========================================= */
+
+@media (max-height: 650px) {
+
+  .edit-modal-wrapper {
+    padding:
+      18px 18px
+      calc(
+        18px +
+        env(safe-area-inset-bottom)
+      );
+  }
+
+
+  .modal-header {
+    margin-bottom: 16px;
+  }
+
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+
+
+  .custom-dropdown {
+    margin-bottom: 16px;
+  }
+
+
+  .select-header {
+    min-height: 48px;
+
+    padding: 13px 14px;
+  }
+
+
+  .submit-btn {
+    min-height: 48px;
   }
 }

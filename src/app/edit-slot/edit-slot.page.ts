@@ -1,6 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+interface StatusOption {
+  value: string;
+  label: string;
+}
+
 @Component({
   selector: 'app-edit-slot',
   templateUrl: './edit-slot.page.html',
@@ -9,46 +14,66 @@ import { ModalController } from '@ionic/angular';
 })
 export class EditSlotPage implements OnInit {
 
-  @Input() currentStatus: string = 'Free';
-  selectedStatus: string = 'Free';
-  isDropdownOpen: boolean = false;
+  @Input() currentStatus = 'Free';
 
-  // Resolves keys correctly to long form readable layout text inside the select display bar
-  statusDisplayMap: { [key: string]: string } = {
-    'Free': 'Free',
-    'Blocked': 'Blocked',
-    'Tej': 'Tej / Deepika (Personal Training)',
-    'Rohan': 'Rohan S. (Trial Session)'
-  };
+  selectedStatus = 'Free';
+  isDropdownOpen = false;
 
-  constructor(private modalCtrl: ModalController) {}
+  statusOptions: StatusOption[] = [
+    {
+      value: 'Free',
+      label: 'Free'
+    },
+    {
+      value: 'Blocked',
+      label: 'Blocked'
+    },
+    {
+      value: 'Tej',
+      label: 'Tej / Deepika (Personal Training)'
+    },
+    {
+      value: 'Rohan',
+      label: 'Rohan S. (Trial Session)'
+    }
+  ];
 
-  ngOnInit() {
+  constructor(
+    private modalCtrl: ModalController
+  ) {}
+
+  ngOnInit(): void {
     this.selectedStatus = this.currentStatus;
   }
 
-  toggleDropdown() {
+  toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  selectOption(optionValue: string) {
-    this.selectedStatus = optionValue;
-    this.isDropdownOpen = false; 
+  selectOption(option: StatusOption): void {
+    this.selectedStatus = option.value;
+    this.isDropdownOpen = false;
   }
 
-  dismiss() {
+  closeDropdown(): void {
+    this.isDropdownOpen = false;
+  }
+
+  dismiss(): void {
     this.modalCtrl.dismiss();
   }
 
-  submitChange() {
-    // Correctly relays back standard token primitives back up to parent list variables loop
+  submitChange(): void {
     this.modalCtrl.dismiss({
       updatedStatus: this.selectedStatus
     });
   }
 
-  // Dynamic selector parsing helper
   get selectedStatusLabel(): string {
-    return this.statusDisplayMap[this.selectedStatus] || this.selectedStatus;
+    const option = this.statusOptions.find(
+      item => item.value === this.selectedStatus
+    );
+
+    return option?.label || this.selectedStatus;
   }
 }
