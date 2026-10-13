@@ -17,9 +17,137 @@
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <!-- Animated launch splash: inline so it paints before the app bundle loads -->
+  <style>
+    #app-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      overflow: hidden;
+      /* Same colour as AndroidWindowSplashScreenBackground in config.xml and the edges of splash.jpg */
+      background: #0f1511;
+      transition: opacity 0.5s ease;
+      /* Square artwork: fill the height on tablets/landscape, keep the whole figure in view on tall phones */
+      --splash-side: max(100vw, min(100vh, 180vw));
+    }
+    #app-splash.splash-hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #app-splash .splash-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--splash-side);
+      height: var(--splash-side);
+      object-fit: cover;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(1.12);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+      animation: splash-image 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    }
+    #app-splash .splash-glow {
+      position: absolute;
+      /* Centred on the logo, which sits 28% of the artwork above its middle */
+      top: calc(50% - var(--splash-side) * 0.28);
+      left: 50%;
+      width: calc(var(--splash-side) * 0.6);
+      height: calc(var(--splash-side) * 0.6);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(62, 207, 157, 0.2) 0%, rgba(62, 207, 157, 0) 65%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+      animation: splash-glow 1.8s ease-out 0.3s forwards;
+    }
+    #app-splash .splash-bar {
+      position: absolute;
+      left: 50%;
+      bottom: calc(7vh + env(safe-area-inset-bottom, 0px));
+      width: 34vw;
+      max-width: 180px;
+      height: 3px;
+      border-radius: 3px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.08);
+      opacity: 0;
+      transform: translateX(-50%);
+      animation: splash-fade 0.5s ease 0.5s forwards;
+    }
+    #app-splash .splash-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #3ecf9d, #7ff5d0);
+      transform: scaleX(0);
+      transform-origin: left center;
+      animation: splash-progress 1.7s ease-in-out 0.6s forwards;
+    }
+    /* Hold on the plain background until the native splash is gone */
+    #app-splash:not(.splash-play) *,
+    #app-splash:not(.splash-play) *::after {
+      animation-play-state: paused;
+    }
+    @keyframes splash-image {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(1.12); }
+      35% { opacity: 1; }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    @keyframes splash-glow {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+      60% { opacity: 1; }
+      100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+    }
+    @keyframes splash-fade {
+      to { opacity: 1; }
+    }
+    @keyframes splash-progress {
+      to { transform: scaleX(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #app-splash .splash-image,
+      #app-splash .splash-glow,
+      #app-splash .splash-bar,
+      #app-splash .splash-bar::after {
+        animation-duration: 0.01s;
+        animation-delay: 0s;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div id="app-splash" aria-hidden="true">
+    <img class="splash-image" src="assets/images/splash.jpg" alt="" />
+    <div class="splash-glow"></div>
+    <div class="splash-bar"></div>
+  </div>
+  <script>
+    (function () {
+      var playTime = 2600;
+      function playSplash() {
+        var splash = document.getElementById('app-splash');
+        if (!splash) { return; }
+        splash.classList.add('splash-play');
+        setTimeout(function () {
+          splash.classList.add('splash-hide');
+          setTimeout(function () { splash.remove(); }, 550);
+        }, playTime);
+      }
+      // The native splash is dismissed when the page finishes loading, so start then
+      function onLoaded() {
+        setTimeout(playSplash, 150);
+      }
+      if (document.readyState === 'complete') {
+        onLoaded();
+      } else {
+        window.addEventListener('load', onLoaded);
+      }
+    })();
+  </script>
   <app-root></app-root>
 </body>
 
