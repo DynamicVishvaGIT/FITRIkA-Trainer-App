@@ -11,12 +11,10 @@ import { Observable } from 'rxjs';
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    const token = currentUser?.tokens || '';
+    const token = currentUser?.token || currentUser?.tokens || '';
     const publicEndpoints = [
       'request_otp',
-      'verify_otp',
-      'forgot_password',
-      'sign_up'
+      'verify_otp'
     ];
     const urlPath = req.url.split('?')[0];
     const isPublic = publicEndpoints.some(endpoint =>
@@ -32,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
       // });
       const headers: any = {};
       if (token) {
-        headers['Authorization'] = token;
+        headers['Authorization'] = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
       }
       headers['device-type'] = 'mobile';
       modifiedReq = req.clone({

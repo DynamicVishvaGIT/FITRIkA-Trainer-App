@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonTabs, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { User } from './user';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +45,7 @@ export class AppComponent {
 
   constructor(
     private platform: Platform,
-    private router: Router
+    private router: Router, private userService: User
   ) {
     this.initializeHardwareBackButton();
   }
@@ -148,6 +149,27 @@ export class AppComponent {
 
     });
 
+  }
+
+  ngOnInit() {
+    // this.menuCtrl.enable(false);
+    this.checkLoginStatus();
+    // this.selectedPath = window.location.pathname;
+    // const path = window.location.pathname.split('folder/')[1];
+    // if (path !== undefined) {
+    //   this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+    // }
+  }
+  async checkLoginStatus(){
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log('118',currentUser);
+    if (Object.keys(currentUser).length != 0) {
+      this.userService.setCurrentUser(currentUser);  // Update via UserService
+      this.router.navigateByUrl('/home');  // Navigate to home page after login
+    } 
+    else {
+      this.router.navigate(['/login']);
+    }
   }
 
   /**

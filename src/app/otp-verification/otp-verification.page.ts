@@ -71,7 +71,6 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
       console.log(response);
       if(response.status){
         const currentUser = {
-          ...response.user,
           token: response.token
         };
         this.userService.setCurrentUser(currentUser);

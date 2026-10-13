@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
+import { Common } from '../common';
+import { Api } from '../api';
+import { User } from '../user';
 
 @Component({
   selector: 'app-registration',
@@ -8,7 +12,9 @@ import { Location } from '@angular/common';
   styleUrls: ['./registration.page.scss'],
   standalone: false,
 })
-export class RegistrationPage implements OnInit {
+export class RegistrationPage implements OnInit, OnDestroy {
+
+  private _unsubscribeAll: Subject<any>;
 
   mobile: string = '';
   emailAddress: string = '';
@@ -18,11 +24,24 @@ export class RegistrationPage implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
-  ) { }
+    private location: Location,
+    private commonService: Common,
+    private apiService: Api,
+    private userService: User
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    // Prefill from the user saved after OTP verification
+    const currentUser = this.getStoredUser();
+    this.mobile = currentUser?.mobile_number || '';
+    this.emailAddress = currentUser?.email || '';
+    this.name = currentUser?.full_name || '';
+
+    this.route.queryParams
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(params => {
       if (params['email']) {
         this.emailAddress = params['email'];
       }
@@ -33,41 +52,74 @@ export class RegistrationPage implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+  }
+
+  private getStoredUser(): any {
+    return this.userService.getCurrentUser() || JSON.parse(localStorage.getItem('currentUser') || 'null');
+  }
+
   back(): void {
     this.location.back();
   }
 
-  continue(): void {
-    if (!this.mobile || this.mobile.trim() === '') {
-      alert('Mobile Number is required');
+  onSignup(): void {
+    const mobile = (this.mobile || '').trim();
+    const email = (this.emailAddress || '').trim();
+    const name = (this.name || '').trim();
+    if (!mobile) {
+      this.commonService.showToastMessage('Mobile Number is required.','toast-error','',2000);
       return;
     }
-
-    if (!this.emailAddress || this.emailAddress.trim() === '') {
-      alert('Email Address is required');
+    if (!email) {
+      this.commonService.showToastMessage('Email Address is required.','toast-error','',2000);
       return;
     }
-
-    if (!this.name || this.name.trim() === '') {
-      alert('Please enter your name');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      this.commonService.showToastMessage('Please enter a valid Email Address.','toast-error','',2000);
       return;
     }
-
+    if (!name) {
+      this.commonService.showToastMessage('Please enter your name.','toast-error','',2000);
+      return;
+    }
     if (!this.termsAccepted) {
-      alert('Please accept the terms & conditions to proceed');
+      this.commonService.showToastMessage('Please accept the terms & conditions to proceed.','toast-error','',2000);
       return;
     }
-
-    this.router.navigate(
-      ['/dashboard'],
-      {
-        queryParams: {
-          mobile: this.mobile,
-          email: this.emailAddress,
-          name: this.name
-        }
+    this.commonService.presentLoading();
+    let signup: any = {};
+    signup.full_name = name;
+    signup.email = email;
+    signup.mobile_number = mobile;
+    signup.accepted_terms = this.termsAccepted;
+    this.apiService.signup(signup)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((response:any) => {
+      console.log(response);
+      this.commonService.dismissLoading();
+      // signup response carries no status flag, a 2xx is success
+      if(response?.status === false){
+        this.commonService.showToastMessage(response.message, 'toast-info','', 4000);
+        return;
       }
-    );
+      const currentUser = {
+        ...this.getStoredUser(),
+        ...response.user,
+        full_name: name,
+        user_type: response.user_type,
+        first_login: response.first_login
+      };
+      this.userService.setCurrentUser(currentUser);
+      this.commonService.showToastMessage(response.message, 'toast-success','', 2000);
+      this.router.navigateByUrl('dashboard');
+    },
+    respError => {console.log(respError);
+      this.commonService.dismissLoading();
+      this.commonService.showToastMessage(respError, 'toast-error','', 4000);
+    })
   }
 
 }

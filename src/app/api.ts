@@ -31,6 +31,14 @@ export class Api {
     )
   }
 
+  signup(user:any) {
+    return this.httpClient.post(this.baseUrl + 'signup', user)
+    .pipe(
+      retry(1),
+      catchError(this.errorHandler)
+    )
+  }
+
   errorHandler(error: any) {
     console.log(error);
     let message = 'Something went wrong. Please try again later.';
