@@ -165,7 +165,7 @@ export class AppComponent {
     console.log('118',currentUser);
     if (Object.keys(currentUser).length != 0) {
       this.userService.setCurrentUser(currentUser);  // Update via UserService
-      this.router.navigateByUrl('/home');  // Navigate to home page after login
+      this.router.navigateByUrl('/login');  // Navigate to home page after login
     } 
     else {
       this.router.navigate(['/login']);

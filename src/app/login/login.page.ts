@@ -29,6 +29,9 @@ export class LoginPage {
       this.commonService.showToastMessage('Please enter email in correct format.', 'toast-error', 'top', 2000);
       return;
     }
+
+    const username = this.login_data.username;   // FIX: save email before it is cleared
+
     this.commonService.presentLoading();
     this.login_data['fcm_token'] = this.commonService.fcm_token;
     this.login_data['user_type'] = 'trainer';
@@ -40,12 +43,12 @@ export class LoginPage {
       console.log(response);
       this.commonService.showToastMessage(response.message, 'toast-success','', 2000);
       this.commonService.dismissLoading();
-      this.login_data = { username: '', password: '' };
-      this.router.navigate(['/otp-verification'], {
+      this.router.navigate(['/otp-verification'], {   // FIX: navigate first, using saved email
         queryParams: {
-          mobile: this.login_data.username
+          username: username
         }
       });
+      this.login_data = { username: '' };               // FIX: clear after navigating
     },
     respError => {console.log(respError);
       this.commonService.dismissLoading();

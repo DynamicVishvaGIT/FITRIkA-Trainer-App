@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput, Platform } from '@ionic/angular';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Common } from '../common';
 import { Api } from '../api';
 import { User } from '../user';
@@ -19,33 +19,23 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
   otp: string[] = ['', '', '', ''];
 
   timer: string = '01:32';
-  // Add the phone number property here
   phoneNumber: string = '';
+  username: string = '';
 
   private seconds: number = 92;
 
   private interval: any;
 
   constructor(
-    private router: Router, private commonService: Common, private apiService: Api, private userService: User, private platform: Platform
+    private router: Router, private commonService: Common, private apiService: Api, private userService: User, private platform: Platform, private route: ActivatedRoute
   ) {
     this._unsubscribeAll = new Subject();
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state && navigation.extras.state['phoneNumber']) {
-      this.phoneNumber = navigation.extras.state['phoneNumber'];
-    } else {
-      this.phoneNumber = '+91 7029900582'; // Fallback if no state found
-    }
   }
 
   ngOnInit() {
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd) // Ensure the event is of type NavigationEnd
-      ).subscribe((event: NavigationEnd) => {
-        if (event.url.startsWith('/otp-verification')) { // Check if user navigated back to a specific URL
-          this.startTimer();
-        }
-    });
+    this.username = this.route.snapshot.queryParamMap.get('username') || '';
+    console.log('Username:', this.username);
+    this.startTimer();
   }
 
   verify_otp(){
@@ -54,35 +44,51 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
       this.commonService.showToastMessage('OTP is required.','toast-error','',2000);
       return;
     }
-    if(this.otp.length<6){
+    if(enteredOTP.length<4){
       this.commonService.showToastMessage('Please enter a valid OTP.','toast-error','',2000);
       return;
     }
+    if(!this.username){
+      this.commonService.showToastMessage('Username missing. Please login again.','toast-error','',2000);
+      return;
+    }
     this.commonService.presentLoading();
-    let verifyOtp: any={username:'', otp:''};
-    verifyOtp.username = this.phoneNumber;
-    verifyOtp.code = this.otp.join('');
+    let verifyOtp: any={username:''};
+    verifyOtp.username = this.username;
+    verifyOtp.code = enteredOTP;
     verifyOtp.user_type = 'trainer';
     verifyOtp.device_type = 'mobile';
+    verifyOtp.fcm_token = this.commonService.fcm_token || '';
     console.log(verifyOtp);
     this.apiService.verify_otp(verifyOtp)
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe((response:any) => {
       console.log(response);
-      if(response.status){
+      this.commonService.dismissLoading();
+
+      // Success = server returned a token
+      if(response && response.tokens){
         const currentUser = {
-          token: response.token
+          token: response.tokens,
+          user: response.user
         };
         this.userService.setCurrentUser(currentUser);
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         this.commonService.showToastMessage(response.message, 'toast-success','', 2000);
-        this.commonService.dismissLoading();
-        this.router.navigateByUrl('registration');
+
+        // FIX: decide the next screen using first_login
+        const isFirstLogin = response.first_login === true || response.first_login === 'true';
+
+        if (isFirstLogin) {
+          // first_login = true  -> registration screen
+          this.router.navigateByUrl('/registration', { replaceUrl: true });
+        } else {
+          // first_login = false -> dashboard screen
+          this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+        }
       }
-      else if(!response.status){
-        this.commonService.showToastMessage(response.message, 'toast-info','', 4000);
-        this.commonService.dismissLoading();
-        // this.router.navigate(['/login']);
+      else {
+        this.commonService.showToastMessage(response?.message || 'Verification failed', 'toast-info','', 4000);
       }
     },
     respError => {console.log(respError);
@@ -96,89 +102,52 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
   }
 
   startTimer() {
-
     this.interval = setInterval(() => {
-
       if (this.seconds > 0) {
-
         this.seconds--;
-
         const minutes = Math.floor(this.seconds / 60);
         const seconds = this.seconds % 60;
-
-        this.timer =
-          `${this.pad(minutes)}:${this.pad(seconds)}`;
-
+        this.timer = `${this.pad(minutes)}:${this.pad(seconds)}`;
       }
-
     }, 1000);
-
   }
 
   pad(value: number): string {
-
-    return value < 10
-      ? '0' + value
-      : value.toString();
-
+    return value < 10 ? '0' + value : value.toString();
   }
 
   moveNext(event: any, next?: IonInput) {
-
     const value = event.target.value;
-
     if (value.length === 1 && next) {
       next.setFocus();
     }
-
   }
 
   pressKey(value: string) {
-
     for (let i = 0; i < this.otp.length; i++) {
-
       if (this.otp[i] === '') {
-
         this.otp[i] = value;
-
         return;
-
       }
-
     }
-
   }
 
   deleteKey() {
-
     for (let i = this.otp.length - 1; i >= 0; i--) {
-
       if (this.otp[i] !== '') {
-
         this.otp[i] = '';
-
         return;
-
       }
-
     }
-
   }
 
   verifyOtp() {
-
     const code = this.otp.join('');
-
     if (code.length !== 4) {
-
       alert('Please enter OTP');
-
       return;
-
     }
-
     this.router.navigate(['/registration']);
-
   }
 
 }
