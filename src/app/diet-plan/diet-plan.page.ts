@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { Subject, takeUntil } from 'rxjs';
+
 import { AddDietPlanPage } from '../add-diet-plan/add-diet-plan.page';
+import { Common } from '../common';
+import { Api } from '../api';
 
 export interface DietPlanItem {
   id: string;
@@ -9,6 +14,7 @@ export interface DietPlanItem {
   description: string;
   isSystemPlan: boolean;
   isUserCreated: boolean;
+  isCopyable?: boolean;
   tags: string[];
   isExpanded: boolean;
 }
@@ -19,136 +25,315 @@ export interface DietPlanItem {
   styleUrls: ['./diet-plan.page.scss'],
   standalone: false,
 })
-export class DietPlanPage implements OnInit {
+export class DietPlanPage implements OnInit, OnDestroy {
+  private readonly _unsubscribeAll = new Subject<void>();
+  private searchTimer: ReturnType<typeof setTimeout> | undefined;
 
-  searchQuery: string = '';
-  isMyPlansOnly: boolean = false;
-  
-  masterDietPlans: DietPlanItem[] = [
-    {
-      id: 'plan_1',
-      name: 'Calorie control program',
-      description: 'Tailored macro splits designed to manage daily caloric intake efficiently.',
-      isSystemPlan: true,
-      isUserCreated: false,
-      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg'],
-      isExpanded: false
-    },
-    {
-      id: 'plan_2',
-      name: 'Lean muscle fuel plan',
-      description: 'High protein distribution profile engineered for supporting hypertrophy adaptations.',
-      isSystemPlan: true,
-      isUserCreated: false,
-      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg'],
-      isExpanded: false
-    },
-    {
-      id: 'plan_3',
-      name: 'Fat burn formula',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pretium tellus quis arcu mollis, in sodales dui volutpat.',
-      isSystemPlan: true,
-      isUserCreated: false,
-      tags: ['Fat loss', 'Beginner', '4 weeks', 'push, pull, leg'],
-      isExpanded: true
-    }
-  ];
+  searchQuery = '';
+  isMyPlansOnly = false;
 
+  page = 1;
+  pageSize = 20;
+
+  masterDietPlans: DietPlanItem[] = [];
   filteredPlans: DietPlanItem[] = [];
 
   constructor(
     private router: Router,
     private modalController: ModalController,
-    private toastController: ToastController
+    private alertCtrl: AlertController,
+    private commonService: Common,
+    private apiService: Api
   ) {}
 
-  ngOnInit() {
-    this.filterDietPlans();
+  ngOnInit(): void {}
+
+  // Reload the list whenever the page becomes active.
+  ionViewWillEnter(): void {
+    this.diet_plan_list(true);
   }
 
-  goBack() {
+  ngOnDestroy(): void {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
+
+  goBack(): void {
     this.router.navigate(['/dashboard']);
   }
 
-  filterDietPlans() {
-    let output = [...this.masterDietPlans];
-
-    if (this.searchQuery && this.searchQuery.trim() !== '') {
-      const query = this.searchQuery.toLowerCase();
-      output = output.filter(p => p.description.toLowerCase().includes(query) || p.name.toLowerCase().includes(query));
-    }
-
-    if (this.isMyPlansOnly) {
-      output = output.filter(p => p.isUserCreated === true);
-    }
-
-    this.filteredPlans = output;
-  }
-
-  toggleCardExpansion(index: number) {
-    this.filteredPlans[index].isExpanded = !this.filteredPlans[index].isExpanded;
-  }
-
-  navigateToDetails(plan: DietPlanItem) {
-    this.router.navigate(['/diet-plan-details'], {
-      state: { selectedPlan: plan }
-    });
-  }
-
-  duplicatePlan(plan: DietPlanItem) {
-    const copy: DietPlanItem = {
-      ...plan,
-      id: 'plan_' + Date.now(),
-      name: `${plan.name} (Copy)`,
-      isUserCreated: true,
-      isSystemPlan: false,
-      isExpanded: false
+  // ---------- Diet Plan List ----------
+  diet_plan_list(showLoader = false): void {
+    const listData = {
+      search: this.searchQuery.trim(),
+      my_plans: this.isMyPlansOnly,
+      page: this.page,
+      page_size: this.pageSize,
     };
-    this.masterDietPlans.push(copy);
-    this.filterDietPlans();
+
+    console.log('Diet plan list request:', listData);
+
+    if (showLoader) {
+      this.commonService.presentLoading();
+    }
+
+    this.apiService
+      .diet_plan_list(listData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe({
+        next: (response: any) => {
+          if (showLoader) {
+            this.commonService.dismissLoading();
+          }
+
+          console.log('Diet plan list response:', response);
+
+          const list: any[] =
+            response?.data ??
+            response?.diet_plans ??
+            response?.plans ??
+            [];
+
+          const expandedIds = this.filteredPlans
+            .filter((plan) => plan.isExpanded)
+            .map((plan) => plan.id);
+
+          this.masterDietPlans = list.map((item) =>
+            this.mapPlan(item, expandedIds)
+          );
+
+          this.filteredPlans = [...this.masterDietPlans];
+        },
+        error: (error: any) => {
+          if (showLoader) {
+            this.commonService.dismissLoading();
+          }
+
+          console.error('Diet plan list error:', error);
+
+          this.commonService.showToastMessage(
+            error?.error?.message ||
+              error?.message ||
+              'Unable to load diet plans.',
+            'toast-error',
+            '',
+            4000
+          );
+        },
+      });
   }
-  
-  async openAddDietPlanModal() {
-    const modal = await this.modalController.create({
-      component: AddDietPlanPage,
-      cssClass: 'bottom-sheet-modal',
-      initialBreakpoint: 1,
-      breakpoints: [0, 0.92, 1],
-      backdropDismiss: true,
-      handle: false,
-      componentProps: {
-        editingPlan: null // Passes null so the form opens completely EMPTY
-      }
-    });
 
-    await modal.present();
+  // ---------- Map API Response ----------
+  private mapPlan(
+    item: any,
+    expandedIds: string[]
+  ): DietPlanItem {
+    const isSystem =
+      item.is_system_plan ??
+      item.is_system ??
+      item.system_plan ??
+      false;
 
-    const { data } = await modal.onWillDismiss();
+    const isUser =
+      item.is_user_created ??
+      item.is_mine ??
+      item.my_plan ??
+      !isSystem;
 
-    if (data) {
-      this.masterDietPlans.unshift({
-        id: 'plan_' + Date.now(),
-        name: data.name || 'New Diet Plan',
-        description: data.description || '',
-        tags: data.tags || [],
-        isSystemPlan: false,
-        isUserCreated: true,
-        isExpanded: false
-      });
+    const id = String(item.diet_plan_id ?? item.id ?? '');
 
-      this.filterDietPlans();
+    return {
+      id,
+      name: item.name ?? '',
+      description: item.description ?? '',
+      tags: Array.isArray(item.tags) ? item.tags : [],
+      isSystemPlan: Boolean(isSystem),
+      isUserCreated: Boolean(isUser),
+      isCopyable: item.is_copyable ?? Boolean(isSystem),
+      isExpanded: expandedIds.includes(id),
+    };
+  }
 
-      const toast = await this.toastController.create({
-        message: 'Diet Plan Added Successfully',
-        duration: 1800,
-        color: 'success',
-        position: 'top'
-      });
-      await toast.present();
+  // ---------- Search and My Plans Filter ----------
+  filterDietPlans(): void {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+
+    this.searchTimer = setTimeout(() => {
+      this.page = 1;
+      this.diet_plan_list(false);
+    }, 400);
+  }
+
+  // ---------- Expand / Collapse ----------
+  toggleCardExpansion(index: number): void {
+    const plan = this.filteredPlans[index];
+
+    if (plan) {
+      plan.isExpanded = !plan.isExpanded;
     }
   }
 
-  async editDietPlan(plan: DietPlanItem) {
+  // ---------- Navigate to Details ----------
+  navigateToDetails(plan: DietPlanItem): void {
+    this.router.navigate(['/diet-plan-details'], {
+      queryParams: { id: plan.id },
+    });
+  }
+
+  // ---------- Duplicate Confirmation Alert ----------
+  async confirmDuplicatePlan(
+    plan: DietPlanItem,
+    event: Event
+  ): Promise<void> {
+    event.stopPropagation();
+
+    const alert = await this.alertCtrl.create({
+      header: 'Duplicate Plan',
+      message: `Are you sure you want to duplicate "${plan.name}"?`,
+      cssClass: 'duplicate-confirm-alert',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'dup-btn-cancel',
+        },
+        {
+          text: 'Confirm',
+          role: 'confirm',
+          cssClass: 'dup-btn-confirm',
+          handler: () => {
+            this.duplicatePlan(plan);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  // ---------- Duplicate Diet Plan API ----------
+  private duplicatePlan(plan: DietPlanItem): void {
+    const duplicateData = {
+      diet_plan_id: plan.id,
+    };
+
+    console.log('Duplicate diet plan request:', duplicateData);
+
+    this.commonService.presentLoading();
+
+    this.apiService
+      .duplicate_diet_plan(duplicateData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe({
+        next: (response: any) => {
+          this.commonService.dismissLoading();
+
+          console.log('Duplicate diet plan response:', response);
+
+          this.commonService.showToastMessage(
+            response?.message ||
+              `${plan.name} copied successfully`,
+            'toast-success',
+            '',
+            2000
+          );
+
+          this.diet_plan_list(false);
+        },
+        error: (error: any) => {
+          this.commonService.dismissLoading();
+
+          console.error('Duplicate diet plan error:', error);
+
+          this.commonService.showToastMessage(
+            error?.error?.message ||
+              error?.message ||
+              'Unable to duplicate diet plan. Please try again.',
+            'toast-error',
+            '',
+            4000
+          );
+        },
+      });
+  }
+
+  // ---------- Delete Confirmation ----------
+  async confirmDeletePlan(plan: DietPlanItem): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Diet Plan',
+      message: `Are you sure you want to delete "${plan.name}"?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.delete_diet_plan(plan);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  // ---------- Delete Diet Plan API ----------
+  delete_diet_plan(plan: DietPlanItem): void {
+    const deleteData = {
+      diet_plan_id: plan.id,
+    };
+
+    console.log('Delete diet plan request:', deleteData);
+
+    this.commonService.presentLoading();
+
+    this.apiService
+      .delete_diet_plan(deleteData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe({
+        next: (response: any) => {
+          this.commonService.dismissLoading();
+
+          console.log('Delete diet plan response:', response);
+
+          this.commonService.showToastMessage(
+            response?.message ||
+              'Diet plan deleted successfully',
+            'toast-success',
+            '',
+            2000
+          );
+
+          this.diet_plan_list(false);
+        },
+        error: (error: any) => {
+          this.commonService.dismissLoading();
+
+          console.error('Delete diet plan error:', error);
+
+          this.commonService.showToastMessage(
+            error?.error?.message ||
+              error?.message ||
+              'Unable to delete diet plan.',
+            'toast-error',
+            '',
+            4000
+          );
+        },
+      });
+  }
+
+  // ---------- Add Diet Plan Modal ----------
+  async openAddDietPlanModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: AddDietPlanPage,
       cssClass: 'bottom-sheet-modal',
@@ -157,8 +342,8 @@ export class DietPlanPage implements OnInit {
       backdropDismiss: true,
       handle: false,
       componentProps: {
-        editingPlan: plan // Pass existing plan to populate modal for editing
-      }
+        editingPlan: null,
+      },
     });
 
     await modal.present();
@@ -166,24 +351,35 @@ export class DietPlanPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data) {
-      const index = this.masterDietPlans.findIndex(x => x.id === data.id);
-      if (index !== -1) {
-        this.masterDietPlans[index] = {
-          ...this.masterDietPlans[index],
-          name: data.name,
-          description: data.description,
-          tags: data.tags
-        };
-      }
-      this.filterDietPlans();
+      this.diet_plan_list(true);
+    }
+  }
 
-      const toast = await this.toastController.create({
-        message: 'Diet Plan Updated Successfully',
-        duration: 1800,
-        color: 'success',
-        position: 'top'
-      });
-      await toast.present();
+  // ---------- Edit Diet Plan Modal ----------
+  async editDietPlan(
+    plan: DietPlanItem,
+    event?: Event
+  ): Promise<void> {
+    event?.stopPropagation();
+
+    const modal = await this.modalController.create({
+      component: AddDietPlanPage,
+      cssClass: 'bottom-sheet-modal',
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.92, 1],
+      backdropDismiss: true,
+      handle: false,
+      componentProps: {
+        editingPlan: plan,
+      },
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data) {
+      this.diet_plan_list(true);
     }
   }
 }

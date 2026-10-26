@@ -515,3 +515,49 @@
     height: 17px;
   }
 }
+/* Day name + Rest day card */
+.day-info-card {
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  .input-card-box {
+    margin-bottom: 0;
+  }
+}
+
+.rest-day-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #F3F3F3;
+}
+
+.rest-day-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rest-day-title {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.rest-day-sub {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  color: #888888;
+}
+
+.rest-day-toggle {
+  --track-background-checked: #00DA8B;
+  flex-shrink: 0;
+}

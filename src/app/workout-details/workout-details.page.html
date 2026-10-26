@@ -26,7 +26,6 @@
       </span>
     </div>
 
-    <!-- FIXED: Added tap tracking click interface to open add-workout page modal -->
     <div class="edit-action-icon-wrap" (click)="editWorkoutPlan($event)">
     <img src="assets/images/gedit.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block;  object-fit: contain; background: #fff;"/>
 
@@ -35,7 +34,8 @@
 
   <!-- Day Workouts Vertical List Stack -->
   <div class="days-vertical-stack">
-    <div class="day-routine-card" *ngFor="let day of workoutDays" (click)="goToWorkoutPlanDetails()">
+    <!-- CHANGED: passes the day so day_id reaches the next page -->
+    <div class="day-routine-card" *ngFor="let day of workoutDays" (click)="goToWorkoutPlanDetails(day)">
       <div class="card-inner-flex">
         <div class="routine-meta-left">
           <h3 class="routine-title">{{ day.title }}</h3>
@@ -46,7 +46,8 @@
         </div>
         <div class="routine-meta-right">
           <span class="day-count-label">{{ day.dayNumber }}</span>
-          <ion-icon name="ellipsis-vertical" class="menu-dots-icon" (click)="$event.stopPropagation()"></ion-icon>
+          <!-- CHANGED: opens the Delete Day menu (it also stops the card click) -->
+          <ion-icon name="ellipsis-vertical" class="menu-dots-icon" (click)="openDayMenu(day, $event)"></ion-icon>
         </div>
       </div>
     </div>

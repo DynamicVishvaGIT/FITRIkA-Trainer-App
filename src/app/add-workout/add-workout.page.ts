@@ -1,6 +1,9 @@
-import { Component, ElementRef, HostListener, OnInit, Input } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, Input } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { Subject, takeUntil } from 'rxjs';
 import { WorkoutPlan } from '../workout-plans/workout-plans.page';
+import { Common } from '../common';
+import { Api } from '../api';
 
 @Component({
   selector: 'app-add-workout',
@@ -8,7 +11,9 @@ import { WorkoutPlan } from '../workout-plans/workout-plans.page';
   styleUrls: ['./add-workout.page.scss'],
   standalone: false,
 })
-export class AddWorkoutPage implements OnInit {
+export class AddWorkoutPage implements OnInit, OnDestroy {
+
+  private _unsubscribeAll: Subject<any>;
 
   @Input() editingPlan: WorkoutPlan | null = null;
 
@@ -21,6 +26,8 @@ export class AddWorkoutPage implements OnInit {
 
   tagSearchQuery: string = '';
   isDropdownMenuVisible: boolean = false;
+
+  isSubmitting: boolean = false;
 
   masterDatasetTagOptions: string[] = [
     'Fat Loss',
@@ -41,24 +48,34 @@ export class AddWorkoutPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private toastController: ToastController,
-    private elementRef: ElementRef
-  ) {}
+    private elementRef: ElementRef,
+    private commonService: Common,
+    private apiService: Api
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
     this.filteredTagOptions = [...this.masterDatasetTagOptions];
 
     if (this.editingPlan) {
       this.isEditing = true;
-      this.editingPlanId = this.editingPlan.id;
+      // supports both key names (workout_plan_id or id)
+      this.editingPlanId =
+        (this.editingPlan as any).workout_plan_id ?? this.editingPlan.id;
       this.workoutName = this.editingPlan.name;
       this.description = this.editingPlan.description;
       this.selectedTags = [...(this.editingPlan.tags || [])];
-      
+
       if (this.selectedTags.length > 0) {
         this.tagSearchQuery = this.selectedTags[this.selectedTags.length - 1];
       }
     }
+  }
+
+  ngOnDestroy() {
+    this._unsubscribeAll.next(true);
+    this._unsubscribeAll.complete();
   }
 
   @HostListener('document:click', ['$event'])
@@ -118,23 +135,87 @@ export class AddWorkoutPage implements OnInit {
     this.executeTagFiltering();
   }
 
-  async submitAndProceed() {
+  submitAndProceed() {
     if (!this.workoutName.trim()) {
-      const toast = await this.toastController.create({
-        message: 'Please enter Workout Name',
-        duration: 1800,
-        color: 'warning',
-        position: 'top'
-      });
-      await toast.present();
+      this.commonService.showToastMessage('Please enter Workout Name', 'toast-error', '', 2000);
       return;
     }
 
-    this.modalController.dismiss({
-      id: this.editingPlanId,
-      name: this.workoutName,
-      description: this.description,
-      tags: this.selectedTags
+    if (this.isSubmitting) return;
+
+    if (this.isEditing) {
+      this.update_workout_plan();
+    } else {
+      this.add_workout_plan();
+    }
+  }
+
+  add_workout_plan() {
+    let addPlan: any = {};
+    addPlan.name = this.workoutName.trim();
+    addPlan.description = this.description.trim();
+    addPlan.tags = this.selectedTags;
+    console.log(addPlan);
+
+    this.isSubmitting = true;
+    this.commonService.presentLoading();
+    this.apiService.add_workout_plan(addPlan)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((response: any) => {
+      console.log(response);
+      this.isSubmitting = false;
+      this.commonService.dismissLoading();
+      this.commonService.showToastMessage(
+        response?.message || 'Workout plan added successfully', 'toast-success', '', 2000
+      );
+      this.modalController.dismiss({
+        id: response?.workout_plan_id ?? response?.id ?? null,
+        name: addPlan.name,
+        description: addPlan.description,
+        tags: addPlan.tags,
+        response: response
+      });
+    },
+    respError => {
+      console.log(respError);
+      this.isSubmitting = false;
+      this.commonService.dismissLoading();
+      this.commonService.showToastMessage(respError, 'toast-error', '', 4000);
+    });
+  }
+
+  update_workout_plan() {
+    let updatePlan: any = {};
+    updatePlan.workout_plan_id = this.editingPlanId;
+    updatePlan.name = this.workoutName.trim();
+    updatePlan.description = this.description.trim();
+    updatePlan.tags = this.selectedTags;
+    console.log(updatePlan);
+
+    this.isSubmitting = true;
+    this.commonService.presentLoading();
+    this.apiService.update_workout_plan(updatePlan)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((response: any) => {
+      console.log(response);
+      this.isSubmitting = false;
+      this.commonService.dismissLoading();
+      this.commonService.showToastMessage(
+        response?.message || 'Workout plan updated successfully', 'toast-success', '', 2000
+      );
+      this.modalController.dismiss({
+        id: this.editingPlanId,
+        name: updatePlan.name,
+        description: updatePlan.description,
+        tags: updatePlan.tags,
+        response: response
+      });
+    },
+    respError => {
+      console.log(respError);
+      this.isSubmitting = false;
+      this.commonService.dismissLoading();
+      this.commonService.showToastMessage(respError, 'toast-error', '', 4000);
     });
   }
 }

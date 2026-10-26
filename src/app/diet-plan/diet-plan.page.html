@@ -1,7 +1,8 @@
+
 <ion-header class="ion-no-border core-header-wrapper">
   <ion-toolbar class="custom-toolbar">
     <div class="header-inner-row">
-       <!-- <img src="assets/images/menu.png" alt="Swap Task" class="feature-icon-img" /> -->
+      <!-- <img src="assets/images/menu.png" alt="Swap Task" class="feature-icon-img" /> -->
       <h1 class="page-main-heading">Diet Plan</h1>
       <div class="header-spacer"></div>
     </div>
@@ -10,92 +11,143 @@
 
 <ion-content class="diet-page-content-bg" [fullscreen]="true">
   <div class="main-layout-container">
-    
+
     <!-- Search Bar -->
     <div class="search-box-wrapper">
-      <ion-icon name="search-outline" class="search-magnifier-icon"></ion-icon>
-      <input 
-        type="text" 
-        placeholder="Search" 
-        [(ngModel)]="searchQuery" 
+      <ion-icon
+        name="search-outline"
+        class="search-magnifier-icon">
+      </ion-icon>
+
+      <input
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="searchQuery"
         (input)="filterDietPlans()"
-        class="custom-search-input" />
+        class="custom-search-input"
+      />
     </div>
 
-    <!-- Toggle -->
+    <!-- My Plans Toggle -->
     <div class="filter-toggle-row">
       <span class="toggle-label-text">My Plans</span>
+
       <label class="ios-switch-toggle">
-        <input 
-          type="checkbox" 
-          [(ngModel)]="isMyPlansOnly" 
-          (change)="filterDietPlans()">
+        <input
+          type="checkbox"
+          [(ngModel)]="isMyPlansOnly"
+          (change)="filterDietPlans()"
+        />
         <span class="switch-slider-track"></span>
       </label>
     </div>
 
-    <!-- Cards List -->
+    <!-- Diet Plans List -->
     <div class="diet-blueprints-vertical-list">
-      
-      <div 
-        class="blueprint-card-item" 
+
+      <div
+        class="blueprint-card-item"
         *ngFor="let plan of filteredPlans; let idx = index"
-        (click)="navigateToDetails(plan)">
-        
-        <!-- Top Row: Title + System Badge + Edit/Copy Actions -->
+        (click)="navigateToDetails(plan)"
+      >
+
+        <!-- Card Header -->
         <div class="card-summary-top-row">
+
+          <!-- Plan Name and System Badge -->
           <div class="left-title-group">
-            <h3 class="blueprint-heading-title">{{ plan.name }}</h3>
-            <span class="system-badge-pill" *ngIf="plan.isSystemPlan">System</span>
+            <h3 class="blueprint-heading-title">
+              {{ plan.name }}
+            </h3>
+
+            <span
+              class="system-badge-pill"
+              *ngIf="plan.isSystemPlan">
+              System
+            </span>
           </div>
-          
+
+          <!-- Card Actions -->
           <div class="right-actions-group">
-            <button 
-              class="action-utility-btn copy-btn" 
-              *ngIf="plan.isUserCreated || plan.id === 'plan_2'" 
-              (click)="duplicatePlan(plan); $event.stopPropagation()"
-              aria-label="Duplicate">
-             <img src="assets/images/copy.png" alt="Swap Task"  style="width:19px !important; height: 19px !important; display: block; object-fit: contain; background: #fff;"/>
-            </button>
-            <button 
-              class="action-utility-btn edit-btn" 
-              (click)="editDietPlan(plan); $event.stopPropagation()"
-              aria-label="Edit">
-            <img src="assets/images/edit.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block;  object-fit: contain; background: #fff;"/>
 
+            <!-- Duplicate Button -->
+            <button
+              type="button"
+              class="action-utility-btn copy-btn"
+              *ngIf="plan.isCopyable"
+              (click)="confirmDuplicatePlan(plan, $event)"
+              aria-label="Duplicate plan"
+            >
+              <img
+                src="assets/images/copy.png"
+                alt="Duplicate"
+                class="plan-action-icon"
+              />
             </button>
+
+            <!-- Edit Button -->
+            <button
+              type="button"
+              class="action-utility-btn edit-btn"
+              (click)="editDietPlan(plan); $event.stopPropagation()"
+              aria-label="Edit plan"
+            >
+              <img
+                src="assets/images/edit.png"
+                alt="Edit"
+                class="plan-action-icon"
+              />
+            </button>
+
+            <!-- Delete button intentionally removed -->
+
           </div>
         </div>
 
-        <!-- Collapsible Description -->
-        <div class="card-collapsible-description-container" [class.is-expanded]="plan.isExpanded">
-          <p class="description-paragraph-text">{{ plan.description }}</p>
+        <!-- Expandable Description -->
+        <div
+          class="card-collapsible-description-container"
+          [class.is-expanded]="plan.isExpanded"
+        >
+          <p class="description-paragraph-text">
+            {{ plan.description }}
+          </p>
         </div>
 
-        <!-- Bottom Row: Tags + Chevron -->
+        <!-- Tags and Expand Button -->
         <div class="card-footer-ribbon-row">
+
           <div class="horizontal-tags-scroller">
-            <span class="feature-tag-pill" *ngFor="let tag of plan.tags">
+            <span
+              class="feature-tag-pill"
+              *ngFor="let tag of plan.tags"
+            >
               {{ tag }}
             </span>
           </div>
-          <ion-icon [name]="plan.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'" (click)="toggleCardExpansion(idx); $event.stopPropagation()"></ion-icon>
-          <!-- <button class="expansion-chevron-trigger" (click)="toggleCardExpansion(idx); $event.stopPropagation()" aria-label="Expand">
-            <ion-icon [name]="plan.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline'"></ion-icon>
-          </button> -->
-        </div>
 
+          <ion-icon
+            [name]="plan.isExpanded
+              ? 'chevron-down-outline'
+              : 'chevron-forward-outline'"
+            (click)="toggleCardExpansion(idx); $event.stopPropagation()">
+          </ion-icon>
+
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Create CTA Button -->
+  <!-- Create New Button -->
   <div class="fixed-bottom-action-anchor">
-    <button class="core-create-cta-btn" (click)="openAddDietPlanModal()">
+    <button
+      type="button"
+      class="core-create-cta-btn"
+      (click)="openAddDietPlanModal()"
+    >
       + Create New
     </button>
   </div>
-</ion-content>
 
-<!-- Bottom Navigation Bar Mockup -->
+</ion-content>

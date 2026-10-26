@@ -24,13 +24,9 @@
         {{ planDescription }}
       </p>
 
+      <!-- Tags come from the API -->
       <div class="tags-container">
-        <span class="tag">Fat loss</span>
-        <span class="tag">Beginner</span>
-        <span class="tag">4 weeks</span>
-        <span class="tag">push, pull, leg</span>
-        <span class="tag">gym</span>
-        <span class="tag">Low</span>
+        <span class="tag" *ngFor="let tag of planTags">{{ tag }}</span>
       </div>
     </section>
 
@@ -130,7 +126,7 @@
           </div>
         </div>
 
-        <!-- Connector Add Button - Appears after every card including the 3rd -->
+        <!-- Connector Add Button: opens add-diet-plan-details (original behaviour) -->
         <div class="connective-container">
           <button class="connective-add-btn" (click)="navigateToAddDetails(meal)">
             <ion-icon name="add-circle"></ion-icon>

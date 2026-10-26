@@ -370,3 +370,53 @@
     gap: 6px;
   }
 }
+// ADD THIS AT THE BOTTOM of workout-plans.page.scss
+// Only the Cancel / Confirm buttons are styled. The rest of the alert stays default.
+// ::ng-deep is needed because Ionic attaches the alert to <body>.
+
+::ng-deep ion-alert.duplicate-confirm-alert {
+  --dup-accent: #0fa968;        // change to match your green
+  --dup-accent-dark: #0c8a56;
+
+  // Buttons sit side by side, full width, with spacing
+  .alert-button-group {
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    gap: 12px;
+    padding: 4px 20px 20px;
+  }
+
+  .alert-button {
+    flex: 1;
+    min-height: 25px;
+    margin: 0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    transition: transform 0.1s ease;
+
+    .alert-button-inner {
+      justify-content: center;
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  // Cancel: outlined
+  .alert-button.dup-btn-cancel {
+    background: transparent;
+    border: 1.5px solid #cfd4da;
+    color: #4b5563;
+  }
+
+  // Confirm: solid green
+  .alert-button.dup-btn-confirm {
+    background: linear-gradient(135deg, var(--dup-accent), var(--dup-accent-dark));
+    border: 0;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(15, 169, 104, 0.3);
+  }
+}

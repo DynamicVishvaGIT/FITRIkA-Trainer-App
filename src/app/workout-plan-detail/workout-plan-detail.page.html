@@ -10,7 +10,6 @@
     
     <button class="header-edit-trigger" (click)="editExercise(0)" aria-label="Edit Plan">
          <img src="assets/images/edit.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block;  object-fit: contain; background: #fff;"/>
-
     </button>
   </div>
 
@@ -65,15 +64,19 @@
             </div>
             <div class="set-column">
               <div class="set-label">Tempo</div>
-              <div class="set-value">{{ exercise.tempo || '-' }}</div>
+              <!-- CHANGED: tempo is per set, not per exercise -->
+              <div class="set-value">{{ set.tempo || '-' }}</div>
             </div>
           </div>
         </div>
 
-        <div class="video-container" *ngIf="exercise.videoAttachedPath">
+        <!-- CHANGED: shown when the exercise has a video link -->
+        <div class="video-container" *ngIf="exercise.videoUrl">
           <div class="video-box">
-            <img [src]="exercise.videoAttachedPath" class="video-image" alt="Workout Execution">
-            <div class="play-btn" (click)="playVideo(exercise.videoAttachedPath); $event.stopPropagation();"></div>
+            <!-- CHANGED: thumbnail instead of the video link as the image -->
+            <img [src]="exercise.thumbnail || ''" class="video-image" alt="Workout Execution">
+            <!-- CHANGED: plays the video link -->
+            <div class="play-btn" (click)="playVideo(exercise.videoUrl); $event.stopPropagation();"></div>
           </div>
         </div>
 
@@ -81,6 +84,6 @@
 
     </div>
 
-  </div>
+  </div> 
 
 </ion-content>
