@@ -1,13 +1,17 @@
-
 <div class="forms-view-container">
   <header class="view-header">
-    <button type="button" class="back-navigation-btn" (click)="back()">
+    <button class="back-navigation-btn" (click)="back()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M19 12H5M5 12L12 19M5 12L12 5"
-          stroke="#00c07f" stroke-width="2.5"
-          stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M19 12H5M5 12L12 19M5 12L12 5"
+          stroke="#00c07f"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </button>
+
     <h1 class="view-title">PARQ Assessment</h1>
     <div class="header-right-spacer"></div>
   </header>
@@ -15,60 +19,66 @@
   <main class="scrollable-content-area assignment-active-body">
     <div class="step-indicator-wrapper">
       <div class="step-indicator-text">
-        {{ questions.length }} Questions
+        {{ stepIndicatorText }}
       </div>
+
       <div class="progress-bar-track">
-        <div class="progress-bar-fill"
-          [style.width.%]="calculateProgressPercentage()">
-        </div>
+        <div
+          class="progress-bar-fill"
+          [style.width.%]="calculateProgressPercentage()"
+        ></div>
       </div>
     </div>
 
     <div class="mint-info-alert-banner">
       <div class="info-icon-wrapper">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="#00b474" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#00b474"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <circle cx="12" cy="12" r="10"></circle>
           <line x1="12" y1="16" x2="12" y2="12"></line>
           <line x1="12" y1="8" x2="12.01" y2="8"></line>
         </svg>
       </div>
+
       <p class="banner-alert-text">
         Please read each question carefully and answer honestly.
       </p>
     </div>
 
-    <div *ngIf="isLoading">Loading questions...</div>
-
-    <div *ngIf="!isLoading && errorMessage" class="error-message">
-      {{ errorMessage }}
-      <button type="button" (click)="loadQuestions()">Retry</button>
-    </div>
-
-    <div class="assessment-questions-container"
-      *ngIf="!isLoading && !errorMessage">
-
-      <div class="question-structural-card"
-        *ngFor="let q of questions; let i = index">
-
-        <p class="question-prompt-label">{{ q.questionText }}</p>
+    <div class="assessment-questions-container">
+      <div
+        class="question-structural-card"
+        *ngFor="let q of activeQuestionsList; let i = index"
+      >
+        <p class="question-prompt-label">
+          {{ q.questionText }}
+        </p>
 
         <div class="binary-selection-grid">
-          <button type="button"
+          <button
             class="choice-action-node choice-no"
             [class.node-selected-no]="q.userAnswer === false"
-            [disabled]="isSubmitting"
-            (click)="answerQuestion(i, false)">
-            <span class="btn-icon-symbol">✕</span> No
+            (click)="answerQuestion(i, false)"
+          >
+            <span class="btn-icon-symbol">✕</span>
+            No
           </button>
 
-          <button type="button"
+          <button
             class="choice-action-node choice-yes"
             [class.node-selected-yes]="q.userAnswer === true"
-            [disabled]="isSubmitting"
-            (click)="answerQuestion(i, true)">
-            <span class="btn-icon-symbol">✓</span> Yes
+            (click)="answerQuestion(i, true)"
+          >
+            <span class="btn-icon-symbol">✓</span>
+            Yes
           </button>
         </div>
       </div>
@@ -76,11 +86,11 @@
   </main>
 
   <footer class="sticky-action-footer">
-    <button type="button"
+    <button
       class="primary-submission-btn green-solid-cta"
-      [disabled]="isLoading || isSubmitting || !questions.length"
-      (click)="submitAssessmentAnswers()">
-      {{ isSubmitting ? 'Submitting...' : 'Save & Next' }}
+      (click)="submitAssessmentAnswers()"
+    >
+      Save &amp; Next
     </button>
   </footer>
 </div>

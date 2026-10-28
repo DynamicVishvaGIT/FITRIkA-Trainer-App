@@ -1,12 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
-import { Common } from '../common';
-import { Api } from '../api';
 
-interface AssessmentQuestion {
-  id: string | number;
+interface ParqQuestion {
+  id: number;
   questionText: string;
   userAnswer: boolean | null;
 }
@@ -17,146 +14,167 @@ interface AssessmentQuestion {
   styleUrls: ['./submit-form.page.scss'],
   standalone: false
 })
-export class SubmitFormPage implements OnInit, OnDestroy {
+export class SubmitFormPage implements OnInit {
+  currentSectionType: string = 'general';
+  stepIndicatorText: string = 'Step 1 of 5';
+  activeQuestionsList: ParqQuestion[] = [];
 
-  private _unsubscribeAll: Subject<any>;
+  generalQuestions: ParqQuestion[] = [
+    {
+      id: 1,
+      questionText:
+        'Has your doctor ever said that you have a heart condition OR high blood pressure?',
+      userAnswer: null
+    },
+    {
+      id: 2,
+      questionText:
+        'Do you feel pain in your chest at rest, during daily activities, OR when you do physical activity?',
+      userAnswer: null
+    },
+    {
+      id: 3,
+      questionText:
+        'Do you lose balance because of dizziness OR have you lost consciousness in the last 12 months?',
+      userAnswer: null
+    },
+    {
+      id: 4,
+      questionText:
+        'Do you have a bone or joint problem that could be made worse by a change in your physical activity?',
+      userAnswer: null
+    },
+    {
+      id: 5,
+      questionText:
+        'Is your doctor currently prescribing drugs for your blood pressure or heart condition?',
+      userAnswer: null
+    },
+    {
+      id: 6,
+      questionText:
+        'Do you know of any other reason why you should not do physical activity?',
+      userAnswer: null
+    },
+    {
+      id: 7,
+      questionText:
+        'Have you recently undergone surgical operations that restrict intense movement?',
+      userAnswer: null
+    }
+  ];
 
-  formId: string | number | null = null;
-  questions: AssessmentQuestion[] = [];
-  isLoading = false;
-  isSubmitting = false;
-  errorMessage = '';
+  medicalQuestions: ParqQuestion[] = [
+    {
+      id: 1,
+      questionText:
+        'Do you have a history of chronic respiratory conditions or metabolic diseases that require regular therapy?',
+      userAnswer: null
+    },
+    {
+      id: 2,
+      questionText:
+        'Are you currently taking any regular medical treatment unmentioned in general health screening?',
+      userAnswer: null
+    },
+    {
+      id: 3,
+      questionText:
+        'Has a medical practitioner restricted you from participating in lifting or high-intensity intervals?',
+      userAnswer: null
+    }
+  ];
+
+  declarationQuestions: ParqQuestion[] = [
+    {
+      id: 1,
+      questionText:
+        'I confirm that all the information provided regarding my health status is accurate and correct to my best knowledge.',
+      userAnswer: null
+    },
+    {
+      id: 2,
+      questionText:
+        'I understand that embarking on an exercise regimen contains natural minor injury risks, and I accept liability controls.',
+      userAnswer: null
+    }
+  ];
 
   constructor(
-    private apiService: Api,
-    private commonService: Common,
-    private route: ActivatedRoute,
     private router: Router,
-    private location: Location
-  ) {
-    this._unsubscribeAll = new Subject();
-  }
+    private route: ActivatedRoute,
+    private location: Location,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.formId = this.route.snapshot.queryParamMap.get('form_id');
-    console.log('Form id:', this.formId);
-  }
+    this.route.queryParams.subscribe(params => {
+      const type = params['type'];
 
-  ionViewWillEnter(): void {
-    if (this.formId) {
-      this.loadQuestions();
-    } else {
-      this.errorMessage = 'Assessment form ID is missing.';
-    }
-  }
-
-  ngOnDestroy() {
-    this._unsubscribeAll.next(true);
-    this._unsubscribeAll.complete();
-  }
-
-  // ---------- member_assessment_form_details ----------
-  loadQuestions(): void {
-    if (this.formId == null) { return; }
-
-    let detailsData: any = {};
-    detailsData.form_id = this.formId;
-    console.log(detailsData);
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    this.apiService.member_assessment_form_details(detailsData)
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((response: any) => {
-      console.log(response);
-
-      // check the real key in the response: questions / form_questions ...
-      const data = response?.data ?? response?.result ?? response;
-      const list: any[] = Array.isArray(data)
-        ? data
-        : data?.questions ??
-          data?.form_questions ??
-          data?.assessment_questions ??
-          data?.details ??
-          data?.form_details?.questions ??
-          [];
-
-      this.questions = list
-        .map((item: any, index: number) => ({
-          id: item.question_id ?? item.form_question_id ?? item.id ?? index + 1,
-          questionText: item.question_text ?? item.question ?? item.title ?? item.name ?? '',
-          userAnswer: null
-        }))
-        .filter((q: AssessmentQuestion) => !!q.questionText);
-
-      if (!this.questions.length) {
-        this.errorMessage = 'No questions found for this assessment.';
+      if (
+        type === 'general' ||
+        type === 'medical' ||
+        type === 'declaration'
+      ) {
+        this.currentSectionType = type;
       }
 
-      this.isLoading = false;
-    },
-    respError => {
-      console.log(respError);
-      this.isLoading = false;
-      this.errorMessage = typeof respError === 'string'
-        ? respError
-        : 'Unable to load assessment questions.';
+      this.setupActiveViewStructure();
     });
   }
 
-  answerQuestion(index: number, answer: boolean): void {
-    this.questions[index].userAnswer = answer;
-  }
-
-  calculateProgressPercentage(): number {
-    if (!this.questions.length) { return 0; }
-    const answered = this.questions.filter(q => q.userAnswer !== null).length;
-    return (answered / this.questions.length) * 100;
-  }
-
-  // ---------- submit_assessment_form ----------
-  submitAssessmentAnswers(): void {
-    if (this.formId == null || !this.questions.length || this.isSubmitting) { return; }
-
-    const answered = this.questions.filter(q => q.userAnswer !== null).length;
-    if (answered < this.questions.length) {
-      this.commonService.showToastMessage(
-        `Please answer all questions. ${answered}/${this.questions.length} completed.`,
-        'toast-error', '', 2500
-      );
-      return;
+  setupActiveViewStructure(): void {
+    if (this.currentSectionType === 'medical') {
+      this.stepIndicatorText = 'Step 2 of 5';
+      this.activeQuestionsList = this.medicalQuestions;
+    } else if (this.currentSectionType === 'declaration') {
+      this.stepIndicatorText = 'Step 3 of 5';
+      this.activeQuestionsList = this.declarationQuestions;
+    } else {
+      this.stepIndicatorText = 'Step 1 of 5';
+      this.activeQuestionsList = this.generalQuestions;
     }
 
-    let submitData: any = {};
-    submitData.form_id = this.formId;
-    // Check this shape against {{assessment_answers}} in Postman (see note below)
-    submitData.answers = this.questions.map(q => ({
-      question_id: q.id,
-      answer: q.userAnswer
-    }));
-    console.log(submitData);
-
-    this.isSubmitting = true;
-    this.commonService.presentLoading();
-    this.apiService.submit_assessment_form(submitData)
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((response: any) => {
-      console.log(response);
-      this.isSubmitting = false;
-      this.commonService.dismissLoading();
-      this.commonService.showToastMessage(response?.message || 'Assessment submitted successfully.', 'toast-success', '', 2000);
-      this.router.navigate(['/forms']);
-    },
-    respError => {
-      console.log(respError);
-      this.isSubmitting = false;
-      this.commonService.dismissLoading();
-      this.commonService.showToastMessage(respError, 'toast-error', '', 4000);
-    });
+    this.cdr.detectChanges();
   }
 
   back(): void {
     this.location.back();
+  }
+
+  answerQuestion(index: number, answer: boolean): void {
+    this.activeQuestionsList[index].userAnswer = answer;
+    this.cdr.detectChanges();
+  }
+
+  calculateProgressPercentage(): number {
+    if (this.activeQuestionsList.length === 0) {
+      return 0;
+    }
+
+    const answeredCount = this.activeQuestionsList.filter(
+      question => question.userAnswer !== null
+    ).length;
+
+    return (answeredCount / this.activeQuestionsList.length) * 100;
+  }
+
+  submitAssessmentAnswers(): void {
+    const totalAnswered = this.activeQuestionsList.filter(
+      question => question.userAnswer !== null
+    ).length;
+
+    if (totalAnswered < this.activeQuestionsList.length) {
+      alert(
+        `Please answer all questions before continuing. (${totalAnswered}/${this.activeQuestionsList.length} completed)`
+      );
+      return;
+    }
+
+    alert(
+      `Success: ${this.currentSectionType} section completed locally.`
+    );
+
+    this.router.navigate(['/forms']);
   }
 }

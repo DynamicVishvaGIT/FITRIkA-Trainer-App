@@ -1,8 +1,6 @@
-
 <div class="forms-view-container">
-
   <header class="view-header">
-    <button type="button" class="back-navigation-btn" (click)="back()">
+    <button class="back-navigation-btn" (click)="back()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
           d="M19 12H5M5 12L12 19M5 12L12 5"
@@ -19,61 +17,62 @@
   </header>
 
   <main class="scrollable-content-area">
-
     <section class="parq-hero-info-card">
       <h2 class="hero-heading">
         Physical Activity Readiness Questionnaire
       </h2>
 
       <p class="hero-description">
-        The PAR-Q helps determine whether it is safe for you to become
-        more physically active. It takes about 3–5 minutes to complete.
+        The PAR-Q helps determine whether it is safe for you to become more
+        physically active. It takes about 3–5 minutes to complete.
       </p>
     </section>
 
-    <!-- Loading -->
-    <div *ngIf="isLoading" class="assessment-status">
-      Loading assessment forms...
-    </div>
-
-    <!-- Error -->
-    <div *ngIf="!isLoading && errorMessage" class="assessment-error">
-      <p>{{ errorMessage }}</p>
-
-      <button type="button" (click)="loadForms()">
-        Retry
-      </button>
-    </div>
-
-    <!-- API Forms -->
-    <div
-      class="form-selection-stack"
-      *ngIf="!isLoading && !errorMessage"
-    >
+    <div class="form-selection-stack">
       <div
         class="interactive-row-card"
-        *ngFor="let form of assessmentForms"
-        [class.selected-active]="selectedFormId === form.id"
-        (click)="chooseSection(form)"
+        [class.selected-active]="selectedSection === 'general'"
+        (click)="chooseSection('general')"
       >
         <div class="card-interior-layout">
-          <h3 class="row-card-title">{{ form.name }}</h3>
-          <p class="row-card-subtitle">{{ form.description }}</p>
+          <h3 class="row-card-title">7 General Questions</h3>
+          <p class="row-card-subtitle">
+            Quick yes/no health screening
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="interactive-row-card"
+        [class.selected-active]="selectedSection === 'medical'"
+        (click)="chooseSection('medical')"
+      >
+        <div class="card-interior-layout">
+          <h3 class="row-card-title">Medical Follow-Up</h3>
+          <p class="row-card-subtitle">
+            Additional medical questions if needed
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="interactive-row-card"
+        [class.selected-active]="selectedSection === 'declaration'"
+        (click)="chooseSection('declaration')"
+      >
+        <div class="card-interior-layout">
+          <h3 class="row-card-title">Your Declaration</h3>
+          <p class="row-card-subtitle">
+            Review and confirm your declaration
+          </p>
         </div>
       </div>
     </div>
-
   </main>
 
   <footer class="sticky-action-footer">
-    <button
-      type="button"
-      class="primary-submission-btn"
-      [disabled]="isLoading || !assessmentForms.length"
-      (click)="continue()"
-    >
+    <button class="primary-submission-btn" (click)="continue()">
       Begin Assessment
     </button>
   </footer>
-
 </div>

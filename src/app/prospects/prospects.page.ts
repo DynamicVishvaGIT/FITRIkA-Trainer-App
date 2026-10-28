@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionSheetController, AlertController } from '@ionic/angular';
-import { Observable, Subject, forkJoin, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Common } from '../common';
 import { Api } from '../api';
 
@@ -25,9 +25,8 @@ interface Step {
   itemIds: any[];
 }
 
-// Tab -> status value sent to the API (check "ex_client" against your backend)
+// Tab -> status value used by the API
 const STATUS: { [k in PersonType]: string } = { 'prospects': 'prospect', 'clients': 'client', 'ex-clients': 'ex_client' };
-const TABS: PersonType[] = ['prospects', 'clients', 'ex-clients'];
 
 @Component({
   selector: 'app-prospects',
@@ -94,51 +93,47 @@ export class ProspectsPage implements OnInit, OnDestroy {
 
   private toast(msg: string) { this.commonService.showToastMessage(msg, 'toast-success', '', 2000); }
 
+  private typeOf(s: string): PersonType {
+    return s === 'client' ? 'clients' : s === 'ex_client' ? 'ex-clients' : 'prospects';
+  }
+
   /* ---------- follow_up_step_list ---------- */
   private follow_up_step_list() {
     this.run(this.apiService.follow_up_step_list({}), r => {
-      // check the real key: data / steps
-      const list: any[] = r?.data || r?.steps || [];
-      this.steps = list.map((s: any) => {
-        const items: any[] = s.items || s.checklist || s.step_items || [];
-        return {
-          id: s.step_id ?? s.id,
-          title: s.title ?? s.name ?? '',
-          text: s.description ?? s.text ?? '',
-          items: items.length ? items.map((i: any) => typeof i === 'string' ? i : (i.title ?? i.name ?? i.text ?? '')) : null,
-          itemIds: items.map((i: any) => (typeof i === 'object' ? (i.item_id ?? i.id) : i))
-        };
-      });
+      this.steps = (r?.data || []).map((s: any) => ({
+        id: s.id,
+        title: s.name ?? '',
+        text: s.description ?? '',
+        items: s.items?.length ? s.items.map((i: any) => i.text) : null,
+        itemIds: (s.items || []).map((i: any) => i.id)
+      }));
     }, false);
   }
 
-  /* ---------- prospect_list (one call per tab, for the counts) ---------- */
+  /* ---------- prospect_list ---------- */
   private mapPerson(d: any, type: PersonType): Person {
-    const name = d.full_name ?? d.name ?? '';
+    const name = d.full_name ?? '';
     const g = String(d.gender ?? '');
     return {
-      id: String(d.prospect_id ?? d.id),
+      id: String(d.id),
       name,
-      phone: d.mobile_number ?? d.phone ?? '',
+      phone: d.mobile_number ?? '',
       gender: g ? g[0].toUpperCase() + g.slice(1).toLowerCase() : 'Not set',
       email: d.email ?? '',
-      avatar: d.profile_image ?? d.avatar ?? `https://ui-avatars.com/api/?background=00c07f&color=fff&size=200&name=${encodeURIComponent(name)}`,
+      avatar: d.profile_picture ?? `https://ui-avatars.com/api/?background=00c07f&color=fff&size=200&name=${encodeURIComponent(name)}`,
       type,
       steps: this.steps.map(() => false)
     };
   }
 
+  // One call: the active tab's list, and the counts of all 3 tabs
   private loadAll(loader: boolean) {
-    const reqs = TABS.map(t => this.apiService.prospect_list({
-      status: STATUS[t], search: this.searchQuery.trim(), page: 1, page_size: 20
-    }));
-    this.run(forkJoin(reqs), (res: any[]) => {
-      res.forEach((r, i) => {
-        // check the real key: data / prospects
-        const list: any[] = r?.data || r?.prospects || [];
-        this.lists[TABS[i]] = list.map(d => this.mapPerson(d, TABS[i]));
-        this.counts[TABS[i]] = r?.total_count ?? list.length;
-      });
+    this.run(this.apiService.prospect_list({
+      status: STATUS[this.activeTab], search: this.searchQuery.trim(), page: 1, page_size: 20
+    }), (r: any) => {
+      const c = r?.counts || {};
+      this.counts = { 'prospects': c.prospect ?? 0, 'clients': c.client ?? 0, 'ex-clients': c.ex_client ?? 0 };
+      this.lists[this.activeTab] = (r?.data || []).map((d: any) => this.mapPerson(d, this.activeTab));
       this.applyFilters();
     }, loader);
   }
@@ -154,7 +149,7 @@ export class ProspectsPage implements OnInit, OnDestroy {
     this.filteredClients = this.lists[this.activeTab].filter(p => this.genderFilter === 'All' || p.gender === this.genderFilter);
   }
 
-  setTab(tab: PersonType): void { this.activeTab = tab; this.applyFilters(); }
+  setTab(tab: PersonType): void { this.activeTab = tab; this.loadAll(true); }
   getCount(t: PersonType): number { return this.counts[t]; }
 
   async openFilter(): Promise<void> {
@@ -173,19 +168,14 @@ export class ProspectsPage implements OnInit, OnDestroy {
   }
 
   /* ---------- prospect_details ---------- */
-  openPerson(p: Person): void {
-    if (p.type === 'prospects') { this.openDetails(p.id, p); }
-  }
+  openPerson(p: Person): void { this.openDetails(p.id, p); }   // every card opens the follow-up
 
   private openDetails(id: string, base?: Person) {
     this.run(this.apiService.prospect_details({ prospect_id: id }), r => {
       const d = r?.data ?? r;
-      const p = base ?? this.mapPerson(d, 'prospects');
-      // check the real key: completed_step_ids, or steps[{ step_id, is_completed }]
+      const p = base ?? this.mapPerson(d, this.typeOf(d.status));
       const done = new Set<string>(
-        (d.completed_step_ids ?? (d.steps || d.step_progress || [])
-          .filter((s: any) => s.is_completed ?? s.completed)
-          .map((s: any) => s.step_id ?? s.id)).map(String)
+        (d.follow_up || []).filter((s: any) => s.is_completed).map((s: any) => String(s.id))
       );
       p.steps = this.steps.map(s => done.has(String(s.id)));
       this.selected = p;
@@ -230,7 +220,7 @@ export class ProspectsPage implements OnInit, OnDestroy {
       this.run(this.apiService.add_prospect_by_link({ link }), r => {
         this.toast(r?.message || 'Prospect added');
         this.pastedLink = '';
-        const id = r?.data?.prospect_id ?? r?.prospect_id ?? r?.data?.id;
+        const id = r?.data?.id ?? r?.data?.prospect_id ?? r?.prospect_id;
         if (id) { this.openDetails(String(id)); }
         else { this.view = 'list'; this.loadAll(true); }
       }, true, () => (this.linkError = true));
