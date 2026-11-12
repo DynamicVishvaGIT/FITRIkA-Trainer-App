@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $ui-brand-color: #00DA8B;
 $ui-dark-text: #0f172a;
 $ui-muted-gray: #94a3b8;
@@ -51,38 +53,53 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
     text-overflow: ellipsis; 
   }
   
-  .header-spacer { 
-    width: 32px; 
-  }
-  
   .menu-btn {
     background: none; 
     border: none; 
     cursor: pointer; 
-    padding: 6px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 4px;
+    gap: 5px;
     width: 32px;
     height: 32px;
-    touch-action: manipulation;
 
-    /* Custom staggered multi-line design */
     span {
       display: block;
       height: 2.5px;
       background-color: $ui-brand-color;
       border-radius: 2px;
+      &:nth-child(1) { width: 18px; }
+      &:nth-child(2) { width: 12px; }
+    }
+  }
 
-      &:nth-child(1) {
-        width: 18px;
-      }
-      &:nth-child(2) {
-        width: 12px;
-        transform: translateX(4px); /* Staggered offset look */
-      }
+  .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #e6fbf3;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px 6px 8px;
+    color: $ui-dark-text;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+
+    .plus-icon {
+      width: 22px;
+      height: 22px;
+      background-color: $ui-brand-color;
+      color: #ffffff;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1;
     }
   }
 }
@@ -121,11 +138,6 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
         justify-content: center; 
         color: #475569; 
         cursor: pointer;
-        transition: background 0.2s;
-
-        &:active {
-          background-color: #f1f5f9;
-        }
       }
     }
   }
@@ -145,7 +157,6 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
     border-radius: 12px; 
     cursor: pointer; 
     position: relative;
-    transition: background 0.2s;
 
     .day-name { 
       font-size: 8px; 
@@ -162,9 +173,9 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
     }
 
     .dot-indicator { 
-      width: 4px; 
-      height: 4px; 
-      background-color: #ffffff; 
+      width: 3px; 
+      height: 3px; 
+      background-color: $ui-brand-color; 
       border-radius: 50%; 
       position: absolute; 
       bottom: 4px; 
@@ -174,11 +185,12 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
       background-color: $ui-brand-color;
       .day-name { color: rgba(255, 255, 255, 0.85); font-weight: 600; }
       .day-number { color: #ffffff; }
+      .dot-indicator { background-color: #ffffff; }
     }
   }
 }
 
-/* TIMELINE AND FEED */
+/* TIMELINE CONTAINER */
 .timeline-scroll-container {
   flex: 1; 
   overflow-y: auto; 
@@ -186,9 +198,7 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 
-  &::-webkit-scrollbar { 
-    display: none; 
-  }
+  &::-webkit-scrollbar { display: none; }
 }
 
 .empty-schedule-state {
@@ -201,53 +211,58 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
 
 .timeline-item {
   display: flex; 
-  margin-bottom: 16px; 
+  margin-bottom: 20px; 
   position: relative;
-  
-  &:last-child .vertical-dash-line { 
-    display: none; 
-  }
 
   .time-track-col {
-    width: 60px; 
+    width: 48px; 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
-    position: relative; 
+    justify-content: space-between;
+    padding: 4px 0; 
     flex-shrink: 0;
 
     .time-stamp { 
-      font-size: 7px; 
+      font-size: 9px; 
       font-weight: 700; 
-      color: $ui-dark-text; 
-      margin-bottom: 10px; 
-      margin-top: 4px; 
+      color: #64748b; 
       white-space: nowrap; 
+
+      &.start { margin-bottom: 2px; }
+      &.end { margin-top: 2px; }
     }
     
+    .track-line-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      width: 100%;
+      position: relative;
+      margin: 4px 0;
+    }
+
     .node-indicator {
       width: 10px; 
       height: 10px; 
       border-radius: 50%; 
-      background-color: #ffffff; 
-      border: 2px solid #cbd5e1; 
+      background-color: #cbd5e1; 
       z-index: 2;
-      transition: all 0.2s ease;
 
-      &.checked-node { 
-        background-color: $ui-brand-color; 
-        border-color: $ui-brand-color; 
-        box-shadow: 0 0 0 3px rgba(0, 214, 137, 0.2); 
-      }
+      &.checked-node { background-color: $ui-brand-color; }
     }
 
     .vertical-dash-line {
-      position: absolute; 
-      top: 38px; 
-      bottom: -20px; 
+      flex: 1;
       width: 1px; 
       border-left: 1px dashed #cbd5e1; 
-      z-index: 1;
+      margin-top: -2px;
+
+      &.solid-line {
+        border-left-style: dotted;
+        border-color: $ui-brand-color;
+      }
     }
   }
 
@@ -258,22 +273,16 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
   }
 }
 
-/* CARD DETAILS STYLE */
 .schedule-card {
   background: #ffffff; 
   border: 1px solid #f1f5f9; 
   border-left: 4px solid $ui-brand-color;
-  border-radius: 12px; 
-  padding: 12px; 
+  border-radius: 16px; 
+  padding: 14px; 
   box-shadow: $ui-card-shadow; 
-  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 
-  &:active { 
-    transform: scale(0.99); 
-  }
-  
   &.card-checked-in {
     border-color: rgba(0, 214, 137, 0.4);
     border-left-color: $ui-brand-color;
@@ -282,13 +291,11 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
 
   .card-main-row {
     display: flex; 
-    align-items: center; 
-    margin-bottom: 12px; 
-    position: relative;
+    align-items: flex-start; 
 
     .client-avatar { 
-      width: 42px; 
-      height: 42px; 
+      width: 46px; 
+      height: 46px; 
       border-radius: 50%; 
       object-fit: cover; 
       margin-right: 10px; 
@@ -299,84 +306,247 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
       flex: 1; 
       min-width: 0;
 
-      h3 { 
-        font-size: 16px; 
+      .title-status-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        h3 { 
+          font-size: 16px; 
+          font-weight: 700; 
+          color: $ui-dark-text; 
+          margin: 0; 
+          white-space: nowrap; 
+          overflow: hidden; 
+          text-overflow: ellipsis; 
+        }
+
+        .status-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 3px 8px;
+          border-radius: 12px;
+          font-size: 11px;
+          font-weight: 500;
+          border: 1px solid #cbd5e1;
+          color: $ui-muted-gray;
+
+          .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: $ui-muted-gray;
+          }
+
+          &.online {
+            border-color: $ui-brand-color;
+            color: $ui-brand-color;
+            background-color: #e6fbf3;
+            .dot { background-color: $ui-brand-color; }
+          }
+        }
+      }
+
+      .service-type { font-size: 11px; color: $ui-muted-gray; margin: 2px 0 0; }
+      .timestamp-sub { font-size: 10px; color: #cbd5e1; margin: 2px 0 0; }
+    }
+
+    .options-menu-btn { background: none; border: none; color: $ui-brand-color; cursor: pointer; padding: 0; }
+  }
+
+  .workout-section {
+    margin-top: 12px;
+
+    .section-label { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; color: $ui-muted-gray; display: block; margin-bottom: 6px; }
+
+    .workout-action-row {
+      display: flex; 
+      gap: 8px;
+      
+      .workout-plan-btn {
+        flex: 1; 
+        height: 38px; 
+        border: 1px solid #e2e8f0; 
+        background: #ffffff; 
+        border-radius: 10px; 
+        padding: 0 10px;
+        text-align: left;
+        font-size: 11px; 
         font-weight: 700; 
         color: $ui-dark-text; 
-        margin: 0 0 2px 0; 
         white-space: nowrap; 
         overflow: hidden; 
         text-overflow: ellipsis; 
+        cursor: pointer;
       }
 
-      p { 
-        font-size: 10px; 
-        color: $ui-muted-gray; 
-        font-weight: 400; 
+      .status-action-btn {
+        height: 38px;
+        padding: 0 14px;
+        border-radius: 10px;
+        background-color: $ui-brand-color; 
+        color: #ffffff;
+        font-size: 12px; 
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+
+        &.checked-in { 
+          background-color: #e8fbf4; 
+          color: $ui-brand-color; 
+          border: 1px solid #bbf7d0; 
+        }
+      }
+    }
+
+    .previous-workout { font-size: 9px; color: $ui-muted-gray; margin: 6px 0 0; span { color: #475569; font-weight: 600; } }
+  }
+}
+
+/* ADD APPOINTMENT MODAL STYLES */
+.modal-backdrop {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.6); 
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(2px);
+
+  .modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 340px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: modalPopIn 0.25s ease-out;
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+
+      h2 { 
+        font-size: 16px; 
+        font-weight: 700; 
+        color: $ui-dark-text; 
         margin: 0; 
       }
+      .close-modal-btn { 
+        background: #f1f5f9; 
+        border: none; 
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px; 
+        cursor: pointer; 
+        color: #64748b; 
+      }
     }
 
-    .options-menu-btn { 
-      background: none; 
-      border: none; 
-      color: $ui-brand-color; 
-      cursor: pointer; 
-      padding: 4px; 
-      flex-shrink: 0; 
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .form-row { 
+        display: flex; 
+        gap: 10px; 
+        width: 100%;
+      }
+      
+      .form-group {
+        flex: 1;
+        min-width: 0; /* Ensures flex elements shrink and stay fully inside bounds */
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        label { 
+          font-size: 10px; 
+          font-weight: 700; 
+          color: $ui-muted-gray; 
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        
+        input {
+          width: 100%;
+          height: 40px;
+          border: 1px solid #e2e8f0;
+          border-radius: 10px;
+          padding: 0 12px;
+          font-size: 13px;
+          color: $ui-dark-text;
+          outline: none;
+          background-color: #f8fafc;
+          box-sizing: border-box;
+          transition: all 0.2s;
+
+          &:focus { 
+            border-color: $ui-brand-color; 
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(0, 214, 137, 0.15);
+          }
+        }
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+
+      button {
+        flex: 1;
+        height: 42px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s;
+
+        &:active { opacity: 0.9; }
+      }
+      .btn-cancel { 
+        background: #f1f5f9; 
+        color: #475569; 
+      }
+      .btn-save { 
+        background: $ui-brand-color; 
+        color: #ffffff; 
+      }
     }
   }
+}
 
-  .card-actions-row {
-    display: flex; 
-    gap: 8px;
-    
-    button { 
-      flex: 1; 
-      height: 36px; 
-      border-radius: 10px; 
-      font-size: 12px; 
-      font-weight: 500; 
-      display: inline-flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 4px; 
-      cursor: pointer; 
-      border: none; 
-      transition: all 0.2s ease; 
-    }
-    
-    .action-outline-btn {
-      background: #ffffff; 
-      border: 1px solid #e2e8f0; 
-      color: $ui-dark-text;
-
-      svg { 
-        color: $ui-brand-color; 
-        flex-shrink: 0; 
-      }
-    }
-
-    .status-action-btn {
-      background-color: $ui-brand-color; 
-      color: #ffffff;
-
-      &.checked-in { 
-        background-color: #e8fbf4; 
-        color: $ui-brand-color; 
-        border: 1px solid #bbf7d0; 
-        font-weight: 700; 
-      }
-    }
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
 /* NAVIGATION DOCK */
 .bottom-tab-bar {
   position: absolute; 
-  bottom: 0; 
-  left: 0; 
-  right: 0; 
+  bottom: 0; left: 0; right: 0; 
   height: calc(64px + env(safe-area-inset-bottom, 8px)); 
   background: #ffffff; 
   border-top: 1px solid #f1f5f9; 
@@ -387,19 +557,33 @@ $ui-card-shadow: 0 4px 16px rgba(148, 163, 184, 0.08);
   z-index: 10;
 
   .tab-item {
-    background: none; 
-    border: none; 
-    color: #94a3b8; 
-    cursor: pointer; 
-    padding: 8px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    flex: 1;
-    transition: color 0.2s;
-
-    &.active { 
-      color: $ui-brand-color; 
-    }
+    background: none; border: none; color: #94a3b8; cursor: pointer; padding: 8px; flex: 1; display: flex; align-items: center; justify-content: center;
+    &.active { color: $ui-brand-color; }
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.main-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.calendar-section { @include fx.enter(fxFadeUp, 0.5s, 0.08s); }
+
+/* day chips pop in (and replay when you change month) */
+.day-box {
+  @include fx.enter(fxPopIn, 0.45s, 0s);
+  @include fx.stagger(7, 0.05s, 0.2s);
+}
+.day-box .dot-indicator { @include fx.enter(fxPopIn, 0.35s, 0s); }
+
+.timeline-item {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(8, 0.07s, 0.3s);
+}
+/* timeline dot "pops" when a client is checked in */
+.node-indicator.checked-node { @include fx.enter(fxPopIn, 0.4s, 0s); }
+.previous-workout { @include fx.enter(fxFadeIn, 0.4s, 0s); }
+
+.empty-schedule-state { @include fx.enter(fxFadeIn, 0.5s, 0.1s); }

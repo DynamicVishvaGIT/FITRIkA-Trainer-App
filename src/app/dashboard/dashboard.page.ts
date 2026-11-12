@@ -10,6 +10,9 @@ import { ToastController } from '@ionic/angular';
 })
 export class DashboardPage implements OnInit {
 
+  // "You're live!" alert: only shown when coming from the OTP verification flow
+  showWelcome = false;
+
   user = {
     name: 'James',
     greeting: 'Good Morning',
@@ -24,7 +27,7 @@ export class DashboardPage implements OnInit {
       time: '4:30 PM',
       client: 'Nitesh Patel',
       type: 'DB(I) Upper Body',
-      active: false
+      active: true
     },
     {
       id: 2,
@@ -52,9 +55,18 @@ export class DashboardPage implements OnInit {
   constructor(
     private router: Router,
     private toastController: ToastController
-  ) {}
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state?.['fromOtp']) {
+      this.showWelcome = true;
+    }
+  }
 
   ngOnInit(): void {}
+
+  closeWelcome() {
+    this.showWelcome = false;
+  }
 
   async openMenu() {
     const toast = await this.toastController.create({

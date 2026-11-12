@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $primary-color: #00DA8B;
 
 .diet-content {
@@ -371,3 +373,19 @@ $primary-color: #00DA8B;
     }
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.app-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.meal-title-row { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.dropdown-container { @include fx.enter(fxFadeUp, 0.5s, 0.1s); }
+.dropdown-list { @include fx.enter(fxDropIn, 0.2s, 0s); }
+.food-card {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.15s);
+}
+.action-footer { @include fx.enter(fxRiseBar, 0.5s, 0.3s); }

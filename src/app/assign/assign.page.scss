@@ -1,0 +1,864 @@
+@use '../animations' as fx;
+
+$green: #00da8b;
+$green-dark: #0fb67c;
+$text: #0f172a;
+$muted: #8a94a6;
+$border: #e8ecea;
+$orange: #ff9f1c;
+
+.assign-content {
+  --background: #ffffff;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-bottom: 24px;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- Header ---------- */
+.custom-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 14px);
+  margin-bottom: 18px;
+
+  .back-arrow-hitbox {
+    width: 36px;
+    padding: 6px 0;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .header-back-arrow {
+    font-size: 24px;
+    color: $green;
+  }
+
+  .header-page-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #000000;
+  }
+
+  .header-right-placeholder {
+    width: 36px;
+  }
+}
+
+/* ---------- Plan card ---------- */
+.plan-card {
+  background: #ffffff;
+  border: 1px solid $border;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
+
+  .plan-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+
+    .plan-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+
+      .plan-title {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+        color: #000000;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .system-badge {
+        background: $orange;
+        color: #ffffff;
+        font-size: 9px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 10px;
+        flex-shrink: 0;
+      }
+    }
+
+    .plan-edit {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      img {
+        width: 19px;
+        height: 19px;
+        object-fit: contain;
+        display: block;
+      }
+    }
+  }
+
+  .plan-desc-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    .plan-desc {
+      flex: 1;
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #555555;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      &.expanded {
+        -webkit-line-clamp: unset;
+        display: block;
+      }
+    }
+
+    .plan-chevron {
+      font-size: 16px;
+      color: #4b5563;
+      margin-top: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+  }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .tag-pill {
+      background: #eceef0;
+      color: #444444;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+  }
+}
+
+/* ---------- Workout type ---------- */
+.field-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.select-box {
+  position: relative;
+  margin-bottom: 22px;
+
+  select {
+    width: 100%;
+    height: 50px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #f4f5f6;
+    border: none;
+    border-radius: 14px;
+    padding: 0 44px 0 18px;
+    font-family: inherit;
+    font-size: 15px;
+    color: #9ca3af;
+    outline: none;
+
+    &.has-value {
+      color: $text;
+    }
+  }
+
+  .select-chevron {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+    color: #4b5563;
+    pointer-events: none;
+  }
+}
+
+/* ---------- Schedule card ---------- */
+.schedule-card {
+  background: #ffffff;
+  border: 1px solid $border;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  margin-bottom: 14px;
+
+  .schedule-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    h3 {
+      margin: 0 0 3px 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: $text;
+    }
+
+    p {
+      margin: 0;
+      font-size: 11px;
+      color: $muted;
+    }
+
+    .monthly-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #e3f7ee;
+      color: #0fa56e;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+
+      .pill-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: $green;
+      }
+    }
+  }
+}
+
+.calendar-box {
+  border: 1px solid $border;
+  border-radius: 12px;
+  padding: 10px 8px 8px;
+
+  .cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .cal-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      strong {
+        font-size: 13px;
+        font-weight: 700;
+        color: $text;
+      }
+
+      .week-pill {
+        background: #e3f7ee;
+        color: #0fa56e;
+        font-size: 8px;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 5px;
+      }
+    }
+
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .nav-btn {
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border: 1px solid #e3e6ea;
+        border-radius: 6px;
+        background: #ffffff;
+        color: #374151;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      .today-btn {
+        height: 22px;
+        padding: 0 10px;
+        border: 1px solid #e3e6ea;
+        border-radius: 6px;
+        background: #ffffff;
+        color: #374151;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 2px;
+
+    &.weekdays {
+      margin-bottom: 4px;
+
+      span {
+        text-align: center;
+        font-size: 10px;
+        font-weight: 600;
+        color: #9ca3af;
+        padding: 4px 0;
+      }
+    }
+
+    .cal-cell {
+      position: relative;
+      height: 36px;
+      margin: 0 2px;
+      border: 1.5px solid transparent;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      .num {
+        font-size: 13px;
+        font-weight: 500;
+        color: $text;
+        line-height: 1.1;
+      }
+
+      .mini-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: #b6bcc6;
+        margin-top: 2px;
+        display: block;
+      }
+
+      &.out .num {
+        color: #c5cad3;
+      }
+
+      &.conflict {
+        border-color: #f5b83d;
+        background: #fff8e1;
+      }
+
+      &.selected {
+        background: $green-dark;
+
+        .num {
+          color: #ffffff;
+          font-weight: 700;
+        }
+
+        .mini-dot {
+          background: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+/* ---------- Slots card ---------- */
+.slots-card {
+  background: #f7fcfa;
+  border: 1px solid #cdeee0;
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 16px;
+
+  .slots-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+    .slots-date {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: $green-dark;
+
+      strong {
+        font-size: 12px;
+        font-weight: 700;
+        color: $text;
+      }
+    }
+
+    .booked-pill {
+      border: 1px solid $green;
+      color: #0fa56e;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+  }
+
+  .slot-row {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    padding: 0 8px;
+    margin-bottom: 6px;
+    background: #ffffff;
+    border: 1px solid #e5efea;
+    border-radius: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.conflict {
+      border-color: #f5b83d;
+      background: #fff8e1;
+    }
+
+    .slot-time {
+      width: 64px;
+      font-size: 10px;
+      color: $muted;
+      flex-shrink: 0;
+    }
+
+    .slot-name {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 700;
+      color: $text;
+    }
+
+    .slot-empty {
+      flex: 1;
+      font-size: 11px;
+      font-style: italic;
+      color: #9ca3af;
+    }
+
+    .slot-booked {
+      border: none;
+      background: $green-dark;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .slot-assign {
+      border: 1px solid $green;
+      background: #ffffff;
+      color: #0fa56e;
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  }
+}
+
+/* ---------- Client chip + search ---------- */
+.client-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 10px 0 5px;
+  border: 1px solid #7fdcb8;
+  border-radius: 16px;
+  background: #f0fcf7;
+  margin-bottom: 14px;
+
+  .chip-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #c8f2df;
+    color: #0b8c64;
+    font-size: 8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chip-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  .chip-close {
+    font-size: 14px;
+    color: #4b5563;
+    cursor: pointer;
+  }
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid $border;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  color: #9ca3af;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: $text;
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+}
+
+/* ---------- Client card ---------- */
+.client-card {
+  border: 1px solid $border;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: #ffffff;
+  cursor: pointer;
+
+  &.selected {
+    border-color: #7fe0b9;
+    background: linear-gradient(180deg, #f3fcf8 0%, #ffffff 100%);
+  }
+
+  .client-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    .avatar-wrap {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #d9f5e8;
+        color: #0b8c64;
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .online-dot {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: $green;
+        border: 2px solid #ffffff;
+      }
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: $text;
+    }
+  }
+
+  .client-inner {
+    background: #f6f7fa;
+    border-radius: 10px;
+    padding: 12px;
+
+    .client-plan {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: $text;
+      margin-bottom: 6px;
+    }
+
+    .client-dates {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: $muted;
+
+      ion-icon {
+        color: $green-dark;
+        font-size: 14px;
+      }
+    }
+
+    .client-divider {
+      height: 1px;
+      background: #e6e9ee;
+      margin: 10px 0;
+    }
+
+    .client-prev {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .prev-check {
+        color: $green-dark;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      .prev-label {
+        font-size: 11px;
+        color: $muted;
+      }
+
+      .prev-name {
+        flex: 1;
+        min-width: 0;
+        font-size: 12px;
+        color: $text;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .progress-pill {
+        background: #d9f5e8;
+        color: #0b8c64;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 16px 0;
+  font-size: 13px;
+  color: $muted;
+}
+
+/* ---------- Warning ---------- */
+.warning-card {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #f5d9a8;
+  border-radius: 12px;
+  background: #fff8ec;
+  margin-bottom: 16px;
+
+  .warn-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #ffe8c2;
+    color: #e08a00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .warn-body {
+    flex: 1;
+    min-width: 0;
+
+    .warn-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+
+      strong {
+        font-size: 13px;
+        font-weight: 700;
+        color: #7a4b00;
+      }
+
+      .action-req {
+        border: none;
+        background: #f6a93b;
+        color: #ffffff;
+        font-family: inherit;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        padding: 4px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: #8a6d3b;
+    }
+  }
+}
+
+/* ---------- Footer ---------- */
+.assign-footer {
+  background: #ffffff;
+  padding: 10px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);
+
+  &::before {
+    display: none;
+  }
+
+  .assign-btn {
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(90deg, #00b36b 0%, #00dd8e 100%);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 200, 117, 0.22);
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* ---------- "Assigned Workout Plan" view tweaks ---------- */
+.client-card.assigned-view {
+  cursor: default;
+  padding: 16px;
+  border-color: #7fe0b9;
+  box-shadow: 0 4px 16px rgba(0, 200, 117, 0.08);
+
+  .client-top {
+    margin-bottom: 14px;
+
+    .avatar-wrap,
+    .avatar-wrap .avatar {
+      width: 42px;
+      height: 42px;
+    }
+
+    .avatar-wrap .avatar {
+      font-size: 15px;
+    }
+
+    h4 {
+      font-size: 17px;
+    }
+  }
+
+  .client-inner {
+    border-radius: 12px;
+    padding: 14px;
+
+    .client-plan {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .client-dates {
+      font-size: 12px;
+    }
+
+    .client-divider {
+      margin: 12px 0;
+    }
+
+    .client-prev .prev-name {
+      font-size: 13px;
+    }
+  }
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.custom-nav-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.plan-card { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.select-box { @include fx.enter(fxFadeUp, 0.5s, 0.12s); }
+.schedule-card { @include fx.enter(fxFadeUp, 0.5s, 0.18s); }
+
+/* calendar days pop in as a gentle wave */
+.cal-cell {
+  @include fx.enter(fxPopIn, 0.4s, 0s);
+  @include fx.stagger(42, 0.01s, 0.25s);
+}
+.mini-dot { @include fx.enter(fxPopIn, 0.35s, 0s); }
+
+.slots-card { @include fx.enter(fxFadeUp, 0.5s, 0.24s); }
+.slot-row {
+  @include fx.enter(fxSlideLeft, 0.4s, 0s);
+  @include fx.stagger(8, 0.05s, 0.35s);
+}
+.client-chip { @include fx.enter(fxPopIn, 0.35s, 0s); }
+.search-box { @include fx.enter(fxFadeUp, 0.5s, 0.3s); }
+.client-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.35s);
+}

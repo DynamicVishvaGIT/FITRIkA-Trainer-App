@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 ion-content {
   --background: transparent;
 }
@@ -10,33 +12,33 @@ ion-content {
 }
 
 .bottom-sheet-modal-card {
-  background: #FFFFFF;
-  border-top-left-radius: 32px;
-  border-top-right-radius: 32px;
-  padding: 24px 20px 34px;
+  background: #ffffff;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  padding: 26px 16px 24px;
   box-shadow: 0px -8px 32px rgba(0, 0, 0, 0.06);
-  /* Changed from 100% to auto/max-height to match the diet plans sheet height precisely */
   height: auto;
-  max-height: 85vh;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
   position: relative;
   box-sizing: border-box;
 }
 
+/* ---------- Header ---------- */
 .sheet-modal-header {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   flex-shrink: 0;
 }
 
 .sheet-modal-title {
   margin: 0;
   font-family: "Satoshi", sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #000000;
 }
@@ -44,10 +46,11 @@ ion-content {
 .sheet-close-round-btn {
   position: absolute;
   right: 0;
-  width: 28px;
-  height: 28px;
-  background: #F2F2F7;
-  border: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 1.5px solid #000000;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -55,19 +58,24 @@ ion-content {
   cursor: pointer;
 
   ion-icon {
-    font-size: 18px;
+    font-size: 16px;
     color: #000000;
   }
 }
 
+/* ---------- Form body ---------- */
 .sheet-scrollable-form-body {
   display: flex;
   flex-direction: column;
   gap: 18px;
   flex: 1 1 auto;
   overflow-y: auto;
-  margin-bottom: 24px; // Balanced spacing before the submit button
-  padding-right: 2px;
+  margin-bottom: 20px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .form-input-block {
@@ -80,17 +88,17 @@ ion-content {
 
 .form-field-label {
   font-family: "Satoshi", sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
-  color: #000000;
+  color: #111111;
 }
 
-.custom-form-input-element, .custom-form-textarea-element {
+.custom-form-input-element,
+.custom-form-textarea-element {
   width: 100%;
-  background: #F2F2F7;
+  background: #f6f6f7;
   border: 1px solid transparent;
-  border-radius: 12px;
-  padding: 14px 16px;
+  border-radius: 14px;
   font-family: "Satoshi", sans-serif;
   font-size: 16px;
   color: #000000;
@@ -98,14 +106,33 @@ ion-content {
   box-sizing: border-box;
 
   &::placeholder {
-    color: #A9A9A9;
+    color: #a3a3a8;
+  }
+}
+
+.custom-form-input-element {
+  height: 56px;
+  padding: 0 18px;
+
+  /* hide the number spinners on the Price field */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
   }
 }
 
 .custom-form-textarea-element {
+  height: 90px;
+  padding: 14px 18px;
+  font-size: 13px;
+  line-height: 21px;
+  color: #333333;
   resize: none;
-  line-height: 22px;
-  height: 110px; // Gives the textarea a clean fixed height matching diet plans
 }
 
 .input-dropdown-field-wrapper {
@@ -113,27 +140,16 @@ ion-content {
   width: 100%;
   display: flex;
   align-items: center;
-
-  .select-search-input {
-    padding-right: 44px;
-  }
 }
 
-.input-dropdown-trailing-chevron {
-  position: absolute;
-  right: 16px;
-  font-size: 18px;
-  color: #8E8E93;
-  cursor: pointer;
-}
-
+/* ---------- Tag dropdown ---------- */
 .floating-dropdown-results-card {
   position: absolute;
-  top: 76px;
+  top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: #FFFFFF;
-  border: 1px solid #E5E5EA;
+  background: #ffffff;
+  border: 1px solid #e5e5ea;
   border-radius: 12px;
   max-height: 180px;
   overflow-y: auto;
@@ -146,66 +162,137 @@ ion-content {
     font-size: 15px;
     color: #000000;
     cursor: pointer;
-    border-bottom: 1px solid #F2F2F7;
+    border-bottom: 1px solid #f2f2f7;
 
     &:last-child {
       border-bottom: none;
     }
 
-    &:active, &:hover {
-      background-color: #F2F2F7;
+    &:active,
+    &:hover {
+      background-color: #f2f2f7;
     }
 
     &.no-matches-found {
-      color: #8E8E93;
+      color: #8e8e93;
       text-align: center;
       cursor: default;
     }
   }
 }
 
+/* ---------- Selected tag chips ---------- */
 .form-active-chips-grid-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: -6px;
   flex-shrink: 0;
 }
 
 .dismissable-tag-pill {
-  background: rgba(0, 218, 139, 0.05);
-  border: 1px solid rgba(0, 218, 139, 0.3);
-  color: #00DA8B;
+  background: #effcf6;
+  border: 1px solid #00c985;
+  color: #00a86b;
   font-family: "Satoshi", sans-serif;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 20px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  white-space: nowrap;
 
   .pill-dismiss-action-icon {
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
-    color: #00DA8B;
+    color: #00a86b;
   }
 }
 
+/* ---------- Publish toggle ---------- */
+.publish-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+  flex-shrink: 0;
+
+  .publish-label {
+    font-family: "Satoshi", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111111;
+  }
+
+  .publish-toggle {
+    position: relative;
+    width: 56px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 15px;
+    background: #d9d9dd;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    &.on {
+      background: #00c985;
+
+      .toggle-knob {
+        transform: translateX(26px);
+      }
+    }
+  }
+}
+
+/* ---------- Footer button ---------- */
 .sheet-action-footer-anchor {
-  margin-top: 0; // Removed auto to keep the button right underneath content neatly
+  margin-top: 0;
   flex-shrink: 0;
 }
 
 .sheet-submit-primary-btn {
   width: 100%;
-  height: 54px;
-  background: #00DA8B;
+  height: 56px;
+  background: linear-gradient(90deg, #00b36b 0%, #00dd8e 100%);
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   font-family: "Satoshi", sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: #FFFFFF;
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
   cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 200, 117, 0.28);
+
+  &:active {
+    transform: scale(0.98);
+  }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.form-input-block {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.15s);
+}
+.dismissable-tag-pill { @include fx.enter(fxPopIn, 0.3s, 0s); }
+.floating-dropdown-results-card { @include fx.enter(fxDropIn, 0.2s, 0s); }

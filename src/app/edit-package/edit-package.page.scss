@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $primary-green: #00c48c;
 $text-dark: #1e293b;
 $text-muted: #94a3b8;
@@ -300,4 +302,15 @@ $border-color: #f1f5f9;
       background: #00b07e;
     }
   }
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.form-section {
+  @include fx.enter(fxFadeIn, 0.5s, 0s);
+  @include fx.stagger(5, 0.08s, 0.1s);
 }

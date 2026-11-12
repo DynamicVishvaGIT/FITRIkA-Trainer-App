@@ -1,0 +1,239 @@
+<ion-content [fullscreen]="true" class="assign-content">
+
+  <!-- Header (title changes with the view) -->
+  <div class="custom-nav-header">
+    <div class="back-arrow-hitbox" (click)="goBack()">
+      <ion-icon name="arrow-back-outline" class="header-back-arrow"></ion-icon>
+    </div>
+    <h1 class="header-page-title">{{ headerTitle }}</h1>
+    <div class="header-right-placeholder"></div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!--  VIEW 1 : Assigned Program                              -->
+  <!-- ====================================================== -->
+  <ng-container *ngIf="mode === 'assign'">
+
+    <!-- Plan summary card -->
+    <div class="plan-card">
+      <div class="plan-top-row">
+        <div class="plan-title-wrap">
+          <h2 class="plan-title">{{ plan.name }}</h2>
+          <span class="system-badge" *ngIf="plan.is_system">System</span>
+        </div>
+        <div class="plan-edit" (click)="editPlan($event)">
+          <img src="assets/images/gedit.png" alt="Edit" />
+        </div>
+      </div>
+
+      <div class="plan-desc-row">
+        <p class="plan-desc" [class.expanded]="planExpanded">{{ plan.description }}</p>
+        <ion-icon [name]="planExpanded ? 'chevron-up-outline' : 'chevron-down-outline'" class="plan-chevron" (click)="togglePlan()"></ion-icon>
+      </div>
+
+      <div class="tags-row">
+        <span class="tag-pill" *ngFor="let tag of plan.tags">{{ tag }}</span>
+      </div>
+    </div>
+
+    <!-- Workout type -->
+    <label class="field-label">Select</label>
+    <div class="select-box">
+      <select [(ngModel)]="selectedType" [class.has-value]="selectedType">
+        <option value="" disabled>Select Workout Type</option>
+        <option *ngFor="let t of workoutTypes" [value]="t">{{ t }}</option>
+      </select>
+      <ion-icon name="chevron-down-outline" class="select-chevron"></ion-icon>
+    </div>
+
+    <!-- Schedule & Day Slots -->
+    <div class="schedule-card">
+      <div class="schedule-head">
+        <div>
+          <h3>Schedule &amp; Day Slots</h3>
+          <p>Select date to assign or view workout slots</p>
+        </div>
+        <span class="monthly-pill"><i class="pill-dot"></i>Monthly View</span>
+      </div>
+
+      <div class="calendar-box">
+        <div class="cal-header">
+          <div class="cal-title">
+            <strong>{{ monthLabel }}</strong>
+            <span class="week-pill">Week {{ weekOfMonth }}</span>
+          </div>
+          <div class="cal-nav">
+            <button type="button" class="nav-btn" (click)="prevMonth()" aria-label="Previous month">
+              <ion-icon name="chevron-back-outline"></ion-icon>
+            </button>
+            <button type="button" class="today-btn" (click)="goToday()">Today</button>
+            <button type="button" class="nav-btn" (click)="nextMonth()" aria-label="Next month">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="cal-grid weekdays">
+          <span *ngFor="let d of weekDays">{{ d }}</span>
+        </div>
+
+        <div class="cal-grid">
+          <div class="cal-cell"
+               *ngFor="let c of calendarCells"
+               [class.out]="!c.inMonth"
+               [class.selected]="c.selected"
+               [class.conflict]="c.conflict && !c.selected"
+               (click)="selectDate(c)">
+            <span class="num">{{ c.day }}</span>
+            <i class="mini-dot" *ngIf="c.booked > 0"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slots of the selected date -->
+    <div class="slots-card">
+      <div class="slots-head">
+        <div class="slots-date">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <strong>{{ selectedDateLabel }}</strong>
+        </div>
+        <span class="booked-pill">{{ bookedCount }} slots booked</span>
+      </div>
+
+      <div class="slot-row" *ngFor="let s of slots" [class.conflict]="isConflictSlot(s)">
+        <span class="slot-time">{{ s.time }}</span>
+        <span class="slot-name" *ngIf="s.booked">{{ s.name }}</span>
+        <span class="slot-empty" *ngIf="!s.booked">Tap to assign slot</span>
+        <button type="button" class="slot-booked" *ngIf="s.booked" (click)="unassignSlot(s)">Booked</button>
+        <button type="button" class="slot-assign" *ngIf="!s.booked" (click)="assignSlot(s)">+ Assign</button>
+      </div>
+    </div>
+
+    <!-- Selected client chip -->
+    <div class="client-chip" *ngIf="selectedClient">
+      <span class="chip-avatar">{{ selectedClient.initials }}</span>
+      <span class="chip-name">{{ selectedClient.name }}</span>
+      <ion-icon name="close-outline" class="chip-close" (click)="removeClient($event)"></ion-icon>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+      <ion-icon name="search-outline"></ion-icon>
+      <input type="text" placeholder="Search client or workout plans..." [(ngModel)]="searchText" />
+    </div>
+
+    <!-- Client cards (tap the selected one to open the Assigned Workout Plan view) -->
+    <div class="client-card"
+         *ngFor="let c of visibleClients"
+         [class.selected]="c.id === selectedClientId"
+         (click)="onClientCardTap(c)">
+      <div class="client-top">
+        <div class="avatar-wrap">
+          <span class="avatar">{{ c.initials }}</span>
+          <i class="online-dot"></i>
+        </div>
+        <h4>{{ c.name }}</h4>
+      </div>
+
+      <div class="client-inner">
+        <strong class="client-plan">{{ c.planName }}</strong>
+        <div class="client-dates">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ c.startDate }} — {{ c.endDate }}</span>
+        </div>
+        <div class="client-divider"></div>
+        <div class="client-prev">
+          <ion-icon name="checkmark-circle" class="prev-check"></ion-icon>
+          <span class="prev-label">Prev:</span>
+          <strong class="prev-name">{{ c.prevProgram }}</strong>
+          <span class="progress-pill">{{ c.progress }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-results" *ngIf="visibleClients.length === 0">No clients found.</div>
+
+    <!-- Overlap warning -->
+    <div class="warning-card" *ngIf="conflicts.length > 0">
+      <div class="warn-icon"><ion-icon name="warning-outline"></ion-icon></div>
+      <div class="warn-body">
+        <div class="warn-top">
+          <strong>Slot Sheet Overlap Warning</strong>
+          <button type="button" class="action-req" (click)="reviewConflict()">ACTION REQ</button>
+        </div>
+        <p>Conflicts detected on <b>Day {{ conflicts[0].day }} ({{ conflicts[0].time }})</b>. Review timetable slots before final confirmation.</p>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <!-- ====================================================== -->
+  <!--  VIEW 2 : Assigned Workout Plan                         -->
+  <!-- ====================================================== -->
+  <ng-container *ngIf="mode === 'assigned'">
+
+    <!-- Client card -->
+    <div class="client-card selected assigned-view" *ngIf="showAssignedClient && selectedClient">
+      <div class="client-top">
+        <div class="avatar-wrap">
+          <span class="avatar">{{ selectedClient.initials }}</span>
+          <i class="online-dot"></i>
+        </div>
+        <h4>{{ selectedClient.name }}</h4>
+      </div>
+
+      <div class="client-inner">
+        <strong class="client-plan">{{ selectedClient.planName }}</strong>
+        <div class="client-dates">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ selectedClient.startDate }} — {{ selectedClient.endDate }}</span>
+        </div>
+        <div class="client-divider"></div>
+        <div class="client-prev">
+          <ion-icon name="checkmark-circle" class="prev-check"></ion-icon>
+          <span class="prev-label">Prev:</span>
+          <strong class="prev-name">{{ selectedClient.prevProgram }}</strong>
+          <span class="progress-pill">{{ selectedClient.progress }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+      <ion-icon name="search-outline"></ion-icon>
+      <input type="text" placeholder="Search client or workout plans..." [(ngModel)]="assignedSearchText" />
+    </div>
+
+    <!-- Plan card -->
+    <div class="plan-card" *ngIf="showAssignedPlan">
+      <div class="plan-top-row">
+        <div class="plan-title-wrap">
+          <h2 class="plan-title">{{ plan.name }}</h2>
+          <span class="system-badge" *ngIf="plan.is_system">System</span>
+        </div>
+        <div class="plan-edit" (click)="editPlan($event)">
+          <img src="assets/images/gedit.png" alt="Edit" />
+        </div>
+      </div>
+
+      <div class="plan-desc-row">
+        <p class="plan-desc" [class.expanded]="planExpanded">{{ plan.description }}</p>
+        <ion-icon [name]="planExpanded ? 'chevron-up-outline' : 'chevron-down-outline'" class="plan-chevron" (click)="togglePlan()"></ion-icon>
+      </div>
+
+      <div class="tags-row">
+        <span class="tag-pill" *ngFor="let tag of plan.tags">{{ tag }}</span>
+      </div>
+    </div>
+
+    <div class="no-results" *ngIf="!showAssignedClient && !showAssignedPlan">No results found.</div>
+
+  </ng-container>
+
+</ion-content>
+
+<!-- Footer button only in the Assigned Program view -->
+<ion-footer class="assign-footer" *ngIf="mode === 'assign'">
+  <button type="button" class="assign-btn" (click)="assignProgram()">Assign Program →</button>
+</ion-footer>

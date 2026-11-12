@@ -146,6 +146,10 @@ const routes: Routes = [
     path: 'tracking-metrics',
     loadChildren: () => import('./tracking-metrics/tracking-metrics.module').then( m => m.TrackingMetricsPageModule)
   },
+  {
+    path: 'assign',
+    loadChildren: () => import('./assign/assign.module').then( m => m.AssignPageModule)
+  },
   
   
   

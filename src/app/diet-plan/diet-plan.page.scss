@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 :host {
   display: block;
   background: #FFFFFF;
@@ -559,3 +561,22 @@ ion-modal.bottom-sheet-modal {
   cursor: pointer;
   padding: 3px;
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.header-inner-row { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.search-box-wrapper { @include fx.enter(fxFadeUp, 0.5s, 0.08s); }
+.filter-toggle-row { @include fx.enter(fxFadeUp, 0.5s, 0.14s); }
+
+.blueprint-card-item {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(8, 0.06s, 0.2s);
+  @include fx.press(0.985);
+}
+.action-utility-btn { @include fx.press(0.88); }
+
+.fixed-bottom-action-anchor { @include fx.enter(fxRiseBar, 0.5s, 0.35s); }

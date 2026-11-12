@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $brand-emerald: #00df9a;
 $icon-color: #737685;
 
@@ -936,4 +938,25 @@ $icon-color: #737685;
     padding-left: 0;
     padding-right: 0;
   }
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.slot-toolbar-container { @include fx.enter(fxFadeIn, 0.45s, 0s); }
+.trainer-profile-card { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+
+.calendar-day-node {
+  @include fx.enter(fxPopIn, 0.45s, 0s);
+  @include fx.stagger(7, 0.05s, 0.2s);
+}
+.calendar-day-node .active-dot { @include fx.enter(fxPopIn, 0.35s, 0s); }
+
+.action-row-container { @include fx.enter(fxFadeUp, 0.5s, 0.3s); }
+.time-slot-display-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(8, 0.06s, 0.35s);
 }

@@ -31,12 +31,16 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
   ) {
     this._unsubscribeAll = new Subject();
   }
+ngOnInit() {
+  this.username = this.route.snapshot.queryParamMap.get('username') || '';
+  console.log('Username:', this.username);
 
-  ngOnInit() {
-    this.username = this.route.snapshot.queryParamMap.get('username') || '';
-    console.log('Username:', this.username);
-    this.startTimer();
-  }
+  // Show the number like the design: +91 9876543210 (emails are shown as they are)
+  const isMobile = /^\d{10}$/.test(this.username);
+  this.phoneNumber = isMobile ? '+91 ' + this.username : this.username;
+
+  this.startTimer();
+}
 
   verify_otp(){
     const enteredOTP = this.otp.join('');
@@ -79,13 +83,13 @@ export class OtpVerificationPage implements OnInit, OnDestroy {
         // FIX: decide the next screen using first_login
         const isFirstLogin = response.first_login === true || response.first_login === 'true';
 
-        if (isFirstLogin) {
-          // first_login = true  -> registration screen
-          this.router.navigateByUrl('/registration', { replaceUrl: true });
-        } else {
-          // first_login = false -> dashboard screen
-          this.router.navigateByUrl('/dashboard', { replaceUrl: true });
-        }
+       if (isFirstLogin) {
+  // first_login = true  -> registration screen
+  this.router.navigateByUrl('/registration', { replaceUrl: true });
+} else {
+  // first_login = false -> dashboard, with the "You're live!" popup
+  this.router.navigateByUrl('/dashboard', { replaceUrl: true, state: { fromOtp: true } });
+}
       }
       else {
         this.commonService.showToastMessage(response?.message || 'Verification failed', 'toast-info','', 4000);

@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 /*==================================================
 Registration Page Root Container & Mobile Scroll
 ==================================================*/
@@ -179,4 +181,20 @@ Action Button
   font-size: 16px;
   font-weight: 600;
   text-transform: none;
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.top-brand-section .header-nav { @include fx.enter(fxFadeIn, 0.5s, 0s); }
+.top-brand-section .logo { @include fx.enter(fxScaleIn, 0.6s, 0.05s); }
+.top-brand-section h1 { @include fx.enter(fxFadeUp, 0.5s, 0.15s); }
+.top-brand-section p { @include fx.enter(fxFadeUp, 0.5s, 0.25s); }
+
+.form-section > * {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.3s);
 }

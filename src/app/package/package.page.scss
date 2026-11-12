@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $primary-green: #00c48c;
 $text-dark: #1e293b;
 $slate-gray: #94a3b8;
@@ -424,3 +426,20 @@ $slate-gray: #94a3b8;
     }
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.app-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+
+.package-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.15s);
+}
+.card-details { @include fx.enter(fxDropIn, 0.3s, 0s); }
+.radio-inner { @include fx.enter(fxPopIn, 0.3s, 0s); }
+
+.sticky-footer { @include fx.enter(fxRiseBar, 0.5s, 0.35s); }

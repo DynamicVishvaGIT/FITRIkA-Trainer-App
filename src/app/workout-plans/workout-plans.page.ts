@@ -84,6 +84,7 @@ export class WorkoutPlansPage implements OnInit, OnDestroy {
       const list: any[] = response?.data || response?.workout_plans || response?.plans || [];
       this.workoutPlans = list.map(item => this.mapPlan(item));
       this.filteredPlans = [...this.workoutPlans];
+      console.log(this.filteredPlans);
     },
     respError => {
       console.log(respError);

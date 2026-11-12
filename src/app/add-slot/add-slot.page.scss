@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $brand-green: #00e699;
 $border-light: #ecefef;
 $bg-light: #f8fafc;
@@ -945,4 +947,15 @@ ion-modal.add-slot-modal ion-content {
 
     overflow-x: hidden !important;
   }
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.modal-body > * {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.15s);
 }

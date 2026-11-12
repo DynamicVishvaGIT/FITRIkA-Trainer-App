@@ -1,65 +1,51 @@
 <ion-content [fullscreen]="true" class="signin-content">
 
-  <div class="top-dark-section">
-    
-    <div class="header-nav">
-      <ion-icon
-        name="arrow-back"
-        class="back-icon"
-        (click)="back()">
-      </ion-icon>
-    </div>
-
-    <div class="logo-section">
-      <img
-        src="assets/images/hyyndlogo.png"
-        class="logo"
-        alt="FITRIkA Logo">
-
-      <h1>Welcome back</h1>
-      <p>Log in to your account and continue your fitness journey.</p>
-    </div>
-
+  <!-- TOP HEADER NAV -->
+  <div class="header-nav-container">
+    <ion-icon
+      name="arrow-back"
+      class="back-icon"
+      (click)="back()">
+    </ion-icon>
+    <h2 class="header-title">Login</h2>
+    <div class="header-spacer"></div>
   </div>
 
+  <!-- FORM SECTION -->
   <div class="form-section">
 
-    <label>Email or Mobile Number</label>
+    <!-- Mobile Number Field -->
+    <!-- <label>Mobile Number</label>
     <div class="input-box">
       <ion-icon name="mail-outline" class="input-icon"></ion-icon>
       <ion-input
-        type="text"
-        [(ngModel)]="email"
-        placeholder="Enter Email or Mobile Number">
+        type="tel"
+        [(ngModel)]="mobileNumber"
+        placeholder="9876543210">
       </ion-input>
-    </div>
+    </div> -->
 
-    <label class="mt-20">Password</label>
+    <!-- Email Address Field -->
+    <label class="mt-20">Email Address</label>
     <div class="input-box">
-      <ion-icon name="key-outline" class="input-icon"></ion-icon>
       <ion-input
-        [type]="showPassword ? 'text' : 'password'"
-        [(ngModel)]="password"
-        placeholder="Enter Password">
+        type="email"
+        [(ngModel)]="email"
+        placeholder="Example@gmail.com">
       </ion-input>
-      <ion-icon
-        [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
-        class="eye-icon"
-        (click)="togglePassword()">
-      </ion-icon>
     </div>
 
-    <div class="forgot-password">
-      <span (click)="forgotPassword()">Forgot Your Password?</span>
+    <!-- Name Field -->
+    <label class="mt-20">Name</label>
+    <div class="input-box">
+      <ion-input
+        type="text"
+        [(ngModel)]="name"
+        placeholder="Enter Name">
+      </ion-input>
     </div>
 
-    <ion-button
-      expand="block"
-      class="signin-btn"
-      (click)="signIn()">
-      Sign In
-    </ion-button>
-
+    <!-- Terms & Conditions Container -->
     <div class="terms-checkbox-container">
       <ion-checkbox [(ngModel)]="acceptedTerms" mode="md" class="custom-checkbox"></ion-checkbox>
       <span class="terms-text">
@@ -67,10 +53,13 @@
       </span>
     </div>
 
-    <div class="signup">
-      Don’t you have an account yet? 
-      <span (click)="goToRegistration()">Register</span>
-    </div>
+    <!-- Next Action Button -->
+    <ion-button
+      expand="block"
+      class="signin-btn"
+      (click)="nextStep()">
+      Next
+    </ion-button>
 
   </div>
 

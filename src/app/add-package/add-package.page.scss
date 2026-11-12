@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $primary-green: #00c48c;
 
 .fullscreen-backdrop-blur {
@@ -129,4 +131,15 @@ $primary-green: #00c48c;
 @keyframes slideUp { 
   from { transform: translateY(100%); } 
   to { transform: translateY(0); } 
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.sheet-body > * {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.15s);
 }

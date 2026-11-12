@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { User } from '../user';
 
 interface ProfileDataset {
   name: string;
@@ -28,6 +29,7 @@ export class MyProfilePage implements OnInit {
   public isEditing: boolean = false;
   public isGenderDropdownOpen: boolean = false;
     public isHeaderMenuOpen: boolean = false; // NEW
+    profileCompletion = 40;
 
   public profileData: ProfileDataset = {
     name: 'Hany Rambod',
@@ -55,7 +57,7 @@ export class MyProfilePage implements OnInit {
     about: 'Hany believes that by unlocking the body and the mind trough regular strength practice everything else in life becomes...'
   };
 
-  constructor(private navCtrl: NavController) {}
+  constructor(private navCtrl: NavController,private userService:User) {}
 
   ngOnInit(): void {}
 
@@ -88,12 +90,20 @@ export class MyProfilePage implements OnInit {
 
   public onLogoutClick(): void {
     this.closeHeaderMenu();
+    this.userService.clearCurrentUser();  // 🔥 important
+      // Clear user data from storage
+    this.clearUserData();
 
     // Clear any stored session/auth data here, e.g.:
     // localStorage.removeItem('authToken');
     // this.authService.clearSession();
 
     this.navCtrl.navigateRoot('/login');
+  }
+  private clearUserData() {
+    // Clear user session data
+    localStorage.removeItem('currentUser');
+    sessionStorage.clear();
   }
 
   // --- SPECIALTY LOGIC PIPELINE ---

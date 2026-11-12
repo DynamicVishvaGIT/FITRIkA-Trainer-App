@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 .login-content {
 
   --background: #ffffff;
@@ -148,3 +150,26 @@ ion-input{
   rgba(0,218,139,.14);
 
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.logo { @include fx.enter(fxScaleIn, 0.6s, 0.05s); }
+.top-section h1 { @include fx.enter(fxFadeUp, 0.5s, 0.15s); }
+.top-section p { @include fx.enter(fxFadeUp, 0.5s, 0.25s); }
+.bottom-section label { @include fx.enter(fxFadeUp, 0.5s, 0.3s); }
+.input-box {
+  @include fx.enter(fxFadeUp, 0.5s, 0.35s);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+
+  /* soft green glow while typing */
+  &:focus-within {
+    border-color: #00DA8B;
+    background-color: #ffffff;
+    @include fx.focus-glow;
+  }
+}
+.next-btn { @include fx.enter(fxFadeUp, 0.5s, 0.45s); }

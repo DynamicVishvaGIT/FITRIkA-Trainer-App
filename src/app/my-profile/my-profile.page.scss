@@ -1,15 +1,12 @@
-$canvas-dark-theme: #111613;
-$canvas-light-sheet: #FFFFFF;
-$text-muted-gray: #8A928E;
-$action-mint-green: #00DF9A;
-$color-primary: #00d689;
-$color-primary-pale: #e6fbf3;
-$color-text-dark: #000000;
-$color-text-muted: #999999;
+@use '../animations' as fx;
+
+$canvas-dark-theme: #0f1612;
+$text-muted-gray: #8a928e;
+$action-mint-green: #00df9a;
 $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-* { 
-  box-sizing: border-box; 
+* {
+  box-sizing: border-box;
 }
 
 :host {
@@ -18,60 +15,84 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   width: 100%;
 }
 
-.mobile-container {
-  width: 100%;
-  max-width: 480px;
-  height: 100vh;
-  height: 100dvh;
-  margin: 0 auto;
-  background: $canvas-light-sheet;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  font-family: $font-stack;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+.profile-content {
+  --background: #ffffff;
 }
 
-/* HEADER CONTROLLER STYLING */
+.app-screen-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100%;
+  background: #ffffff;
+  font-family: $font-stack;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------- Profile completion bar ---------- */
+.completion-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: $canvas-dark-theme;
+  padding: calc(env(safe-area-inset-top, 0px) + 6px) 12px 0 8px;
+
+  .completion-track {
+    flex: 1;
+    height: 3px;
+    border-radius: 3px;
+    background: #1f2a24;
+    overflow: hidden;
+
+    .completion-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #00b36b 0%, #00e39a 100%);
+      transition: width 0.3s ease;
+    }
+  }
+
+  .completion-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+/* ---------- Header ---------- */
 .main-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: $canvas-dark-theme;
-  padding: max(10px, env(safe-area-inset-top)) 16px 10px 16px;
-  min-height: 54px;
-  flex-shrink: 0;
+  padding: 8px 18px 6px 8px;
+  min-height: 44px;
   width: 100%;
-  box-sizing: border-box;
   z-index: 10;
-  
-  .header-title { 
-    font-size: 20px; 
-    font-weight: 600; 
-    color: #ffffff; 
-    text-align: center; 
-    flex: 1; 
+
+  .header-title {
+    flex: 1;
     margin: 0;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  
-  .header-spacer { 
-    width: 32px; 
-  }
-  
+
   .menu-btn {
-    background: none; 
-    border: none; 
-    cursor: pointer; 
+    background: none;
+    border: none;
+    cursor: pointer;
     padding: 6px;
+    min-width: 29px;
     display: flex;
     align-items: center;
     justify-content: center;
     touch-action: manipulation;
-    
+
     .ion-back-icon {
       font-size: 17px;
       color: $action-mint-green;
@@ -79,40 +100,85 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   }
 }
 
-.scrollable-content { 
-  flex: 1; 
-  overflow-y: auto; 
-  padding: 0 0 calc(80px + env(safe-area-inset-bottom)) 0; 
-  -webkit-overflow-scrolling: touch;
+.header-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 
-  &::-webkit-scrollbar { 
-    display: none; 
-  } 
+  .header-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 160px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    z-index: 200;
+
+    .header-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      font-size: 15px;
+      color: #1f2421;
+      cursor: pointer;
+      white-space: nowrap;
+
+      .dropdown-item-icon {
+        font-size: 18px;
+        color: $text-muted-gray;
+      }
+
+      &:active {
+        background-color: #f4f5f7;
+      }
+
+      &.logout-item {
+        color: #e53935;
+        border-top: 1px solid #ecefef;
+
+        .dropdown-item-icon {
+          color: #e53935;
+        }
+      }
+    }
+  }
 }
 
+.header-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: transparent;
+}
+
+/* ---------- Dark profile card ---------- */
 .dark-profile-card {
   background-color: $canvas-dark-theme;
-  color: #FFFFFF;
-  padding: 16px 20px 24px 20px;
+  color: #ffffff;
+  padding: 8px 8px 18px 10px;
 
   .user-profile-row {
     display: flex;
     align-items: center;
-    margin-top: 12px;
-    margin-bottom: 28px;
+    margin-bottom: 34px;
 
     .profile-avatar-frame {
-      width: 90px;
-      height: 90px;
+      width: 102px;
+      height: 102px;
       border-radius: 50%;
       overflow: hidden;
-      margin-right: 20px;
+      margin-right: 18px;
       flex-shrink: 0;
 
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
       }
     }
 
@@ -139,14 +205,16 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
       }
 
       .action-toggle-btn {
-        background: #00CC88;
-        color: #FFFFFF;
+        background: linear-gradient(90deg, #00b36b 0%, #00dd8e 100%);
+        color: #ffffff;
         border: none;
-        padding: 8px 22px;
+        padding: 0 22px;
+        height: 31px;
         border-radius: 20px;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 500;
         cursor: pointer;
+        box-shadow: 0 0 14px rgba(0, 223, 154, 0.4);
       }
     }
   }
@@ -154,21 +222,21 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   .quick-stats-footer {
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
+    padding-bottom: 16px;
 
     .stat-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
 
       .label {
-        color: #7E7E7E;
-        font-size: 17px;
-        font-weight: 500;
+        color: #7e7e7e;
+        font-size: 14px;
+        font-weight: 400;
       }
 
       .value {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
       }
     }
@@ -176,52 +244,53 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     .stat-divider {
       width: 1px;
       height: 22px;
-      background-color: #232B27;
-      margin: 0 36px;
+      background-color: #2a332e;
+      margin: 0 34px 0 16px;
     }
   }
 }
 
 .profile-nav-actions-row {
   display: flex;
-  gap: 16px;
+  gap: 28px;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 4px;
 
   .nav-outline-action-btn {
-    flex: 1;
+    flex: 0 0 auto;
+    width: 130px;
+    height: 45px;
     background: transparent;
-    border: 1px solid #064E3B;
-    border-radius: 6px;
+    border: 1.5px solid #0a5c40;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 0;
     cursor: pointer;
 
     .btn-lead-icon {
       color: $action-mint-green;
-      font-size: 18px;
+      font-size: 20px;
     }
 
     .btn-text-label {
-      color: #FFFFFF;
-      font-size: 18px;
+      color: #ffffff;
+      font-size: 16px;
       font-weight: 400;
     }
   }
 }
 
+/* ---------- Light body ---------- */
 .light-profile-body {
-  padding: 0;
+  padding: 24px 0 0 0;
 
   .profile-meta-row {
     display: flex;
     align-items: center;
-    padding: 16px 20px;
-    border-bottom: 1px solid #ECEFEF;
-    box-sizing: border-box;
+    padding: 18px 16px 18px 8px;
+    border-bottom: 1px solid #e8ecea;
 
     &.align-items-start {
       align-items: flex-start;
@@ -232,8 +301,8 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     }
 
     .icon-column {
-      width: 36px;
-      min-width: 36px;
+      width: 33px;
+      min-width: 33px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -242,9 +311,11 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
         padding-top: 2px;
       }
 
-      .mint-icon {
-        color: $action-mint-green;
-        font-size: 22px;
+      .meta-icon {
+        width: 21px;
+        height: 21px;
+        display: block;
+        object-fit: contain;
       }
     }
 
@@ -256,19 +327,19 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
       .input-header {
         display: block;
         color: $text-muted-gray;
-        font-size: 14px;
-        margin-bottom: 6px;
+        font-size: 13px;
+        margin-bottom: 4px;
       }
 
       .static-text-value {
-        font-size: 16px;
-        color: #1F2421;
+        font-size: 18px;
+        color: #111111;
       }
     }
   }
 }
 
-/* INPUT STYLING & LEFT ALIGNMENT */
+/* Inputs (edit mode) */
 .light-mode-text-input {
   width: 100%;
   background-color: #f4f5f7 !important;
@@ -278,7 +349,6 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   padding: 10px 14px;
   font-size: 15px;
   outline: none;
-  box-sizing: border-box;
 
   &::placeholder {
     color: #9ca3af;
@@ -294,9 +364,10 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
 }
 
 .about-paragraph-view {
-  font-size: 15px;
-  color: #2a2a2a;
-  line-height: 1.5;
+  margin-top: 4px;
+  font-size: 17px;
+  color: #1f2421;
+  line-height: 1.75;
 }
 
 .about-textarea-frame {
@@ -313,18 +384,14 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     font-size: 15px;
     outline: none;
     resize: none;
-    box-sizing: border-box;
   }
 }
 
-/* ==========================================================================
-   SPECIALTY SECTION: READ-ONLY & EDIT MODE ALIGNMENT FIXES
-   ========================================================================== */
-
+/* ---------- Specialty ---------- */
 .read-only-specialty-list {
   list-style: none;
   padding: 0;
-  margin: 6px 0 0 0;
+  margin: 8px 0 0 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -333,21 +400,20 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   .specialty-capsule-item {
     display: flex;
     align-items: center;
-    padding: 0;
     width: 100%;
 
-    .item-check-bullet {
-      color: $action-mint-green;
-      font-size: 18px;
-      margin-right: 10px;
+    .bullet-img {
+      width: 13px;
+      height: 13px;
+      margin-right: 6px;
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
+      object-fit: contain;
+      display: block;
     }
 
     .spec-text {
-      font-size: 18px;
-      color: #2b2b2b;
+      font-size: 17px;
+      color: #1f2421;
       flex: 1;
       line-height: 1.35;
     }
@@ -369,19 +435,14 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     border: 1px solid #e2e8f0;
     border-radius: 10px;
     padding: 6px 12px;
-    box-sizing: border-box;
 
-    .outside-icon {
-      color: $action-mint-green;
-      font-size: 18px;
+    .edit-bullet {
+      width: 13px;
+      height: 13px;
       margin-right: 10px;
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-
-      &.muted-bullet {
-        color: #a3e6cd;
-      }
+      object-fit: contain;
+      display: block;
     }
 
     .input-capsule-box {
@@ -428,10 +489,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   }
 }
 
-/* ==========================================================================
-   GENDER DROPDOWN
-   ========================================================================== */
-
+/* ---------- Gender dropdown ---------- */
 .app-custom-select-container {
   position: relative;
   width: 100%;
@@ -444,8 +502,8 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     border: none;
     padding: 0;
     cursor: pointer;
-    font-size: 16px;
-    color: #1F2421;
+    font-size: 18px;
+    color: #111111;
     width: 100%;
 
     .dropdown-arrow-icon {
@@ -480,29 +538,26 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   }
 }
 
-/* ==========================================================================
-   TAGS DESIGN BLOCK (PROPERLY ALIGNED & PADDED)
-   ========================================================================== */
-
+/* ---------- Tags ---------- */
 .solid-green-tags-flex {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px;
+  gap: 8px 6px;
   margin-top: 8px;
   width: 100%;
 }
 
 .profile-pill-tag {
-  background-color: #647c6e !important;
-  color: #ffffff !important;
-  padding: 6px 12px !important;
-  border-radius: 6px !important;
-  font-size: 17px !important;
-  font-weight: 500 !important;
-  display: inline-flex !important;
+  background-color: #6b8573;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  line-height: 1.3 !important;
+  line-height: 1.3;
 
   .tag-inline-remove {
     font-size: 14px;
@@ -510,98 +565,40 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
     cursor: pointer;
   }
 }
-.header-menu-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 
-  .header-dropdown-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    min-width: 160px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-    overflow: hidden;
-    z-index: 200;
-
-    .header-dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 16px;
-      font-size: 15px;
-      color: #1F2421;
-      cursor: pointer;
-      white-space: nowrap;
-
-      .dropdown-item-icon {
-        font-size: 18px;
-        color: $text-muted-gray;
-      }
-
-      &:active {
-        background-color: #f4f5f7;
-      }
-
-      &.logout-item {
-        color: #e53935;
-        border-top: 1px solid #ECEFEF;
-
-        .dropdown-item-icon {
-          color: #e53935;
-        }
-      }
-    }
-  }
-}
-
-.header-menu-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 150;
-  background: transparent;
-}
-/* ==========================================================================
-   CERTIFICATES CONTAINER
-   ========================================================================== */
-
+/* ---------- Certificates ---------- */
 .gallery-row-flex {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 8px;
 
   .red-border-cert-frame {
-    width: 70px;
-    height: 70px;
-    border-radius: 6px;
+    width: 80px;
+    height: 74px;
+    border-radius: 4px;
     overflow: hidden;
-    border: 2px solid #000000;
+    border: 2px solid #a31621;
     background-color: #ffffff;
-    box-sizing: border-box;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
   }
 
   .dashed-upload-box {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 74px;
     border-radius: 6px;
     border: 1.5px dashed #cccccc;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
     cursor: pointer;
-    box-sizing: border-box;
 
     .cam-icon {
       color: #7f8c8d;
@@ -619,37 +616,34 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, A
   }
 }
 
-/* NAVIGATION BAR FOOTER */
-.bottom-nav {
-  position: absolute; 
-  bottom: 0; 
-  left: 0; 
-  right: 0; 
-  height: calc(64px + env(safe-area-inset-bottom)); 
-  background: $canvas-light-sheet; 
-  border-top: 1px solid #f2f2f2; 
-  display: flex; 
-  justify-content: space-around; 
-  align-items: center; 
-  padding-bottom: env(safe-area-inset-bottom);
-  z-index: 100;
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
 
-  .nav-item { 
-    background: none; 
-    border: none; 
-    color: #cccccc; 
-    cursor: pointer; 
-    padding: 10px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &.active { 
-      color: $action-mint-green; 
-    } 
-
-    &:active {
-      opacity: 0.7;
-    }
-  }
+.completion-row { @include fx.enter(fxFadeIn, 0.5s, 0s); }
+/* profile-completion bar fills from the left */
+.completion-fill {
+  transform-origin: left center;
+  @include fx.enter(fxGrowX, 0.9s, 0.3s);
 }
+.dark-profile-card { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.dark-profile-card .profile-avatar-frame { @include fx.enter(fxPopIn, 0.55s, 0.15s); }
+.quick-stats-footer .stat-item {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(3, 0.07s, 0.35s);
+}
+
+.light-profile-body .profile-meta-row {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(8, 0.05s, 0.25s);
+}
+
+/* menus / dropdowns open with a soft drop-in */
+.header-dropdown-menu {
+  transform-origin: top right;
+  @include fx.enter(fxDropIn, 0.2s, 0s);
+}
+.select-options-overlay-list { @include fx.enter(fxDropIn, 0.2s, 0s); }
+.specialty-capsule-item { @include fx.enter(fxPopIn, 0.3s, 0s); }

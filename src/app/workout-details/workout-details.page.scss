@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 .workout-details-content {
   --background: #FFFFFF;
   --padding-start: 16px;
@@ -78,6 +80,33 @@
   padding: 3px 8px;
   border-radius: 10px;
   flex-shrink: 0;
+}
+.assign-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: #ffffff;
+  z-index: 999;
+}
+
+.assign-btn {
+  --background: #00c98b;
+  --background-activated: #00b77d;
+  --color: #ffffff;
+  --border-radius: 10px;
+  --box-shadow: none;
+  height: 46px;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: none;
+  margin: 0;
+}
+
+.workout-details-content {
+  --padding-bottom: 90px;
 }
 
 .plan-main-description {
@@ -232,3 +261,26 @@
   font-size: 14px;
   color: #00DA8B;
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.custom-nav-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.main-plan-hero-card { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.custom-pill-badge {
+  @include fx.enter(fxPopIn, 0.4s, 0s);
+  @include fx.stagger(6, 0.05s, 0.35s);
+}
+.day-routine-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(7, 0.07s, 0.3s);
+  @include fx.press(0.985);
+}
+.add-day-dashed-btn {
+  @include fx.enter(fxFadeUp, 0.5s, 0.5s);
+  @include fx.press(0.98);
+}
+.assign-footer { @include fx.enter(fxRiseBar, 0.5s, 0.4s); }

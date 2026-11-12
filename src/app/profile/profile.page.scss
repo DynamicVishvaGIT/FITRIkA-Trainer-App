@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 .mobile-container {
   display: flex;
   flex-direction: column;
@@ -543,4 +545,42 @@
     transform: scale(0.99);
     background-color: #fafbfc;
   }
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.main-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+
+.client-brand-card { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.client-brand-card .avatar-border { @include fx.enter(fxPopIn, 0.55s, 0.15s); }
+
+.dashboard-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(7, 0.07s, 0.12s);
+}
+
+.workout-item {
+  @include fx.enter(fxSlideLeft, 0.45s, 0s);
+  @include fx.stagger(4, 0.07s, 0.35s);
+}
+.metric-item {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.35s);
+}
+
+/* progress bars fill from the left */
+.progress-track .progress-fill,
+.horizontal-progress-track .progress-fill {
+  transform-origin: left center;
+  @include fx.enter(fxGrowX, 0.9s, 0.5s);
+}
+
+/* activity heat-map dots pop in */
+.heatmap-dot {
+  @include fx.enter(fxPopIn, 0.4s, 0s);
+  @include fx.stagger(31, 0.012s, 0.4s);
 }

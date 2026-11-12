@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $green: #00e699;
 
 $border: #ecefef;
@@ -644,4 +646,15 @@ ion-modal.edit-slot-modal::part(content) {
   .submit-btn {
     min-height: 48px;
   }
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.modal-body > * {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.15s);
 }

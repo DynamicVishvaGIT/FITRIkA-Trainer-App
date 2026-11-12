@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 // Fixes Black Background Bug: Match Image 2 soft-gray transparent layer precisely
 
 
@@ -247,3 +249,16 @@ ion-content{
   color: #FFFFFF;
   cursor: pointer;
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.form-input-block {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.15s);
+}
+.dismissable-tag-pill { @include fx.enter(fxPopIn, 0.3s, 0s); }
+.floating-dropdown-results-card { @include fx.enter(fxDropIn, 0.2s, 0s); }

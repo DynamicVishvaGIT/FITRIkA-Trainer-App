@@ -1,0 +1,114 @@
+/* ==========================================================================
+   SHARED ANIMATION TOOLKIT
+   --------------------------------------------------------------------------
+   Used by every page via:  @use '../animations' as fx;
+   Nothing in here changes layout, colours or logic - it only adds motion.
+
+   Rules followed everywhere:
+   - animations use fill-mode "backwards" so, once finished, the element goes
+     back to exactly its original CSS (existing :active / hover states keep
+     working and nothing stays offset or transparent).
+   - only transform + opacity are animated (GPU friendly, no layout jank).
+   - every animation is switched off for users who enabled
+     "Reduce motion" in their phone's accessibility settings.
+   ========================================================================== */
+
+$fx-ease: cubic-bezier(0.22, 1, 0.36, 1); // smooth "ease-out-expo" feel
+$fx-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); // tiny overshoot / bounce
+
+/* ---- KEYFRAMES (include once per page with @include fx.keyframes) ------- */
+@mixin keyframes {
+  @keyframes fxFadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fxFadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fxFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes fxSlideLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fxScaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes fxPopIn {
+    0%   { opacity: 0; transform: scale(0.5); }
+    70%  { opacity: 1; transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes fxDropIn {
+    from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes fxRiseBar {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fxGrowX {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  @keyframes fxIconBounce {
+    0%   { transform: translateY(0) scale(1); }
+    40%  { transform: translateY(-6px) scale(1.15); }
+    70%  { transform: translateY(1px) scale(0.97); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  @keyframes fxSelectPop {
+    0%   { transform: scale(0.94); }
+    60%  { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+  @keyframes fxSoftPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.14); }
+  }
+}
+
+/* ---- ENTRANCE: add one animation to the element --------------------------
+   @include fx.enter(fxFadeUp, 0.5s, 0.1s);   name, duration, delay           */
+@mixin enter($name: fxFadeUp, $duration: 0.5s, $delay: 0s, $ease: $fx-ease) {
+  animation: $name $duration $ease $delay backwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* ---- STAGGER: put inside a repeated item (card, row, tile) ----------------
+   Each next sibling starts a little later: 1st = base, 2nd = base + step ...
+   Items after $count all use the last delay so long lists never feel slow.  */
+@mixin stagger($count: 8, $step: 0.06s, $base: 0s) {
+  @for $i from 1 through $count {
+    &:nth-child(#{$i}) {
+      animation-delay: $base + ($i - 1) * $step;
+    }
+  }
+  &:nth-child(n + #{$count + 1}) {
+    animation-delay: $base + ($count - 1) * $step;
+  }
+}
+
+/* ---- SMOOTH FOCUS: soft glow when an input box is focused -------------- */
+@mixin focus-glow($color: rgba(0, 218, 139, 0.16)) {
+  &:focus-within {
+    box-shadow: 0 0 0 3px $color;
+  }
+}
+
+/* ---- PRESS FEEDBACK: element shrinks slightly while finger is down -------
+   Only used on elements that had NO press effect / transition before.      */
+@mixin press($scale: 0.97) {
+  transition: transform 0.15s ease;
+
+  &:active {
+    transform: scale($scale);
+  }
+}

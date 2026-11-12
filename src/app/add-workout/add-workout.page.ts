@@ -28,6 +28,8 @@ export class AddWorkoutPage implements OnInit, OnDestroy {
   isDropdownMenuVisible: boolean = false;
 
   isSubmitting: boolean = false;
+  price: number | null = null;
+isPublished: boolean = false;
 
   masterDatasetTagOptions: string[] = [
     'Fat Loss',

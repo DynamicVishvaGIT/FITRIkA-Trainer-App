@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 .workout-content {
   --background: #FFFFFF;
 }
@@ -420,3 +422,27 @@
     box-shadow: 0 4px 10px rgba(15, 169, 104, 0.3);
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.workout-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.search-container { @include fx.enter(fxFadeUp, 0.5s, 0.08s); }
+.filter-toggle-row { @include fx.enter(fxFadeUp, 0.5s, 0.14s); }
+
+.plan-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(8, 0.06s, 0.2s);
+  @include fx.press(0.985);
+}
+/* description opens with a soft drop-in */
+.plan-description { @include fx.enter(fxDropIn, 0.3s, 0s); }
+.icon-action-btn { @include fx.press(0.88); }
+
+.empty-state { @include fx.enter(fxFadeIn, 0.5s, 0.1s); }
+.empty-state .empty-icon { @include fx.enter(fxPopIn, 0.5s, 0.15s); }
+
+.bottom-action-container { @include fx.enter(fxRiseBar, 0.5s, 0.35s); }

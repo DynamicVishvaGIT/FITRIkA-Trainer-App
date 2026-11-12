@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 .modal-sheet-wrapper {
   background: #FFFFFF;
   display: flex;
@@ -561,3 +563,13 @@
   --track-background-checked: #00DA8B;
   flex-shrink: 0;
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.exercise-repeater-node { @include fx.enter(fxFadeUp, 0.45s, 0s); }
+.individual-set-section { @include fx.enter(fxFadeUp, 0.35s, 0s); }
+.exercise-dropdown { @include fx.enter(fxDropIn, 0.2s, 0s); }

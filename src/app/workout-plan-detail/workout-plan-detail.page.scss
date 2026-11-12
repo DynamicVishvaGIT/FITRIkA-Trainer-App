@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 :host {
   display: block;
   background: #ffffff;
@@ -255,3 +257,22 @@ Rows, Sets, and Video Content
   box-shadow: none;
   border-color: #E5E5EA;
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.page-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.exercise-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.1s);
+}
+/* exercise opens with a soft drop-in */
+.collapsible-body { @include fx.enter(fxDropIn, 0.3s, 0s); }
+.set-block {
+  @include fx.enter(fxFadeUp, 0.35s, 0s);
+  @include fx.stagger(5, 0.05s, 0.05s);
+}
+.video-box { @include fx.enter(fxFadeIn, 0.5s, 0.1s); }

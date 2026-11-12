@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $color-primary: #00d689;
 $color-primary-pale: #e6fbf3;
 $color-text-dark: #000;
@@ -552,3 +554,30 @@ $font-stack:
     height: 48px;
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.main-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.month-selector-container { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.weekday-header { @include fx.enter(fxFadeIn, 0.5s, 0.12s); }
+
+/* calendar days pop in as a gentle wave */
+.matrix-cell {
+  @include fx.enter(fxPopIn, 0.4s, 0s);
+  @include fx.stagger(42, 0.01s, 0.2s);
+}
+
+.month-dropdown {
+  transform-origin: top center;
+  @include fx.enter(fxDropIn, 0.2s, 0s);
+}
+
+.log-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.4s);
+}
+.dashed-add-btn { @include fx.enter(fxFadeUp, 0.5s, 0.55s); }

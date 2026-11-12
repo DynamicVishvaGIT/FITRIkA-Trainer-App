@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 .assessment-view-container {
   max-width: 480px;
   margin: 0 auto;
@@ -179,3 +181,20 @@
     }
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.view-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.step-progress-indicator { @include fx.enter(fxFadeIn, 0.5s, 0.05s); }
+.info-alert-banner { @include fx.enter(fxFadeUp, 0.5s, 0.1s); }
+.question-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.2s);
+}
+/* chosen Yes / No answer gives a tiny pop */
+.choice-btn.active-selected { @include fx.enter(fxSelectPop, 0.3s, 0s); }
+.sticky-action-footer { @include fx.enter(fxRiseBar, 0.5s, 0.35s); }

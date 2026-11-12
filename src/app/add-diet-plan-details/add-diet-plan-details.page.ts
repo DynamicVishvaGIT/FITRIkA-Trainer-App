@@ -54,6 +54,31 @@ export class AddDietPlanDetailsPage implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
 
+  // finds a macro value under any key name, also inside nested objects
+  private readMacro(f: any, test: RegExp, depth = 0): number {
+    if (!f || typeof f !== 'object' || depth > 2) {
+      return 0;
+    }
+
+    for (const k of Object.keys(f)) {
+      const v = f[k];
+      if (test.test(k) && v !== null && v !== '' && typeof v !== 'object' && !isNaN(Number(v))) {
+        return Number(v);
+      }
+    }
+
+    for (const k of Object.keys(f)) {
+      if (f[k] && typeof f[k] === 'object') {
+        const r = this.readMacro(f[k], test, depth + 1);
+        if (r) {
+          return r;
+        }
+      }
+    }
+
+    return 0;
+  }
+
   // ---------- food_list ----------
   food_list() {
     let foodData: any = {};
@@ -71,9 +96,9 @@ export class AddDietPlanDetailsPage implements OnInit, OnDestroy {
         name: f.name || f.food_name || '',
         servingSize: f.serving_size || f.serving || '',
         calories: Number(f.calories ?? f.kcal) || 0,
-        protein: Number(f.protein) || 0,
-        fats: Number(f.fats ?? f.fat) || 0,
-        carbs: Number(f.carbs ?? f.carbohydrates) || 0
+        protein: this.readMacro(f, /protein/i),
+        fats: this.readMacro(f, /fat/i),
+        carbs: this.readMacro(f, /carb/i)
       }));
     },
     respError => {

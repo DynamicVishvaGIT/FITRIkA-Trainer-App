@@ -1,141 +1,144 @@
-<div class="diet-plan-container">
+<ion-content [fullscreen]="true" class="diet-details-content">
+
   <!-- Header -->
-  <header class="app-header">
-    <button class="back-btn" (click)="goBack()">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-    </button>
-    <h1>Diet Plan</h1>
-    <div class="header-spacer"></div>
-  </header>
+  <div class="custom-nav-header">
+    <div class="back-arrow-hitbox" (click)="goBack()">
+      <ion-icon name="arrow-back-outline" class="header-back-arrow"></ion-icon>
+    </div>
+    <h1 class="header-page-title">Diet Plan</h1>
+    <div class="header-right-placeholder"></div>
+  </div>
 
-  <!-- Main Scrollable Content -->
-  <div class="scrollable-content">
-
-    <!-- Title & Meta Description -->
-    <section class="plan-info">
-      <div class="title-row">
-        <h2>{{ planName }}</h2>
-        <span class="badge system">System</span>
-        <button class="edit-btn" (click)="navigateToEditPlan()">
-          <img src="assets/images/edit.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
-        </button>
-      </div>
-      <p class="description">
-        {{ planDescription }}
-      </p>
-
-      <!-- Tags come from the API -->
-      <div class="tags-container">
-        <span class="tag" *ngFor="let tag of planTags">{{ tag }}</span>
-      </div>
-    </section>
-
-    <!-- Week Tabs Bar with Inline Add & Delete Buttons -->
-    <section class="weeks-tabs">
-      <div class="tabs-scroll-wrapper">
-        <div
-          class="tab"
-          *ngFor="let weekNum of availableWeeks"
-          [class.active]="selectedWeek === weekNum"
-          (click)="selectWeek(weekNum)">
-
-          <span class="tab-title">Week {{ weekNum }}</span>
-
-          <button
-            class="delete-week-btn"
-            *ngIf="availableWeeks.length > 1"
-            (click)="deleteWeek(weekNum, $event)"
-            title="Delete Week">
-            <ion-icon name="close-circle"></ion-icon>
-          </button>
-        </div>
-
-        <button class="add-week-btn" (click)="addNewWeek()" title="Add Next Week">
-          <ion-icon name="add-circle"></ion-icon>
-        </button>
-      </div>
-    </section>
-
-    <!-- Days Carousel -->
-    <section class="days-carousel">
-      <div class="days-wrapper">
-        <button
-          *ngFor="let day of days; let i = index"
-          [class.active]="selectedDayIndex === i"
-          (click)="selectDay(i)">
-          {{ day.short }}
-        </button>
-      </div>
-    </section>
-
-    <!-- Subtotal Tracker Summary -->
-    <div class="day-tracker-summary">
-      <span class="current-day-label">{{ days[selectedDayIndex].full }} | Week {{ selectedWeek }}</span>
-      <span class="total-calories">Total Calories: <strong>{{ totalDayCalories }} kCal</strong></span>
+  <!-- Diet Plan Information -->
+  <div class="main-plan-hero-card">
+    <div class="hero-top-heading-row">
+      <h2 class="plan-main-title">{{ planName }}</h2>
     </div>
 
-    <!-- Meal Cards List -->
-    <section class="meals-list">
-      <div class="meal-wrapper" *ngFor="let meal of meals; let last = last">
+    <p class="plan-main-description">{{ planDescription }}</p>
 
-        <div class="meal-card">
-          <div class="meal-card-accent"></div>
+    <div class="tags-badge-matrix">
+      <span class="custom-pill-badge" *ngFor="let tag of planTags">
+        {{ tag }}
+      </span>
+    </div>
 
-          <div class="meal-card-content">
-            <div class="meal-main-row">
-              <div class="meal-title-group" (click)="navigateToAddDetails(meal)">
-                <h3 class="meal-title">{{ meal.name }}</h3>
-                <ng-container *ngIf="meal.items.length > 0">
-                  <span class="meal-total-calories-text">{{ getMealCalories(meal) }} kCal</span>
-                </ng-container>
-              </div>
+    <div class="edit-action-icon-wrap" (click)="navigateToEditPlan()">
+      <img src="assets/images/edit.png" alt="Edit"
+           style="width:21px;height:21px;object-fit:contain;">
+    </div>
+  </div>
 
-              <div class="meal-center-slot" (click)="navigateToAddDetails(meal)">
-                <ng-container *ngIf="meal.items.length === 0">
-                  <span class="placeholder-text">Add Detail Diet plan</span>
-                </ng-container>
-              </div>
+  <!-- Weeks -->
+  <div class="weeks-tabs">
+    <div class="tabs-scroll-wrapper">
+      <div class="tab" *ngFor="let weekNum of availableWeeks"
+           [class.active]="selectedWeek === weekNum"
+           (click)="selectWeek(weekNum)">
 
-              <div class="meal-right-actions">
-                <div class="meal-chart" *ngIf="meal.items.length > 0" (click)="navigateToAddDetails(meal)">
-                  <div class="chart-circle" [style.background]="getDonutGradient(meal)">
-                    <div class="center-hole"></div>
-                    <span *ngFor="let label of getMacroLabels(meal)"
-                          class="pct-val"
-                          [style.left.%]="label.left"
-                          [style.top.%]="label.top">
-                      {{ label.value }}%
-                    </span>
-                  </div>
+        <span class="tab-title">Week {{ weekNum }}</span>
+
+        <button class="delete-week-btn"
+                *ngIf="availableWeeks.length > 1"
+                (click)="deleteWeek(weekNum, $event)">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </div>
+
+      <button class="add-week-btn" (click)="addNewWeek()">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Days -->
+  <div class="days-carousel">
+    <div class="days-wrapper">
+      <button *ngFor="let day of days; let i = index"
+              [class.active]="selectedDayIndex === i"
+              (click)="selectDay(i)">
+        {{ day.short }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Day Summary -->
+  <div class="day-tracker-summary" *ngIf="days.length">
+    <span class="current-day-label">
+      {{ days[selectedDayIndex].full }} | Week {{ selectedWeek }}
+    </span>
+
+    <span class="total-calories">
+      Total Calories: <strong>{{ totalDayCalories }} kCal</strong>
+    </span>
+  </div>
+
+  <!-- Meals -->
+  <section class="meals-list">
+    <div class="meal-wrapper" *ngFor="let meal of meals">
+
+      <div class="meal-card">
+        <div class="meal-card-accent"></div>
+
+        <div class="meal-card-content">
+          <div class="meal-main-row">
+
+            <div class="meal-title-group" (click)="navigateToAddDetails(meal)">
+              <h3 class="meal-title">{{ meal.name }}</h3>
+              <span class="meal-total-calories-text" *ngIf="meal.items.length">
+                {{ getMealCalories(meal) }} kCal
+              </span>
+            </div>
+
+            <div class="meal-center-slot" (click)="navigateToAddDetails(meal)">
+              <span class="placeholder-text" *ngIf="!meal.items.length">
+                Add Detail Diet Plan
+              </span>
+            </div>
+
+            <div class="meal-right-actions">
+              <div class="meal-chart" *ngIf="meal.items.length"
+                   (click)="navigateToAddDetails(meal)">
+                <div class="chart-circle" [style.background]="getDonutGradient(meal)">
+                  <div class="center-hole"></div>
+                  <span *ngFor="let label of getMacroLabels(meal)"
+                        class="pct-val"
+                        [style.left.%]="label.left"
+                        [style.top.%]="label.top">
+                    {{ label.value }}%
+                  </span>
                 </div>
-
-                <button class="clear-meal-btn" (click)="clearMeal(meal.id)">
-                  <ion-icon name="close-circle-outline"></ion-icon>
-                </button>
               </div>
-            </div>
 
-            <!-- Populated Food Rows -->
-            <div class="meal-items-expansion-panel" *ngIf="meal.items.length > 0">
-              <div class="food-row" *ngFor="let item of meal.items">
-                <span class="food-name-label">{{ item.name }} • {{ item.servingSize || '1 bowl' }}</span>
-                <span class="food-calorie-value">{{ item.calories * item.quantity }} kCal</span>
-              </div>
+              <button class="clear-meal-btn" (click)="clearMeal(meal.id)">
+                <ion-icon name="close-circle-outline"></ion-icon>
+              </button>
             </div>
+          </div>
 
+          <!-- Food Items -->
+          <div class="meal-items-expansion-panel" *ngIf="meal.items.length">
+            <div class="food-row" *ngFor="let item of meal.items">
+              <span class="food-name-label">
+                {{ item.name }} • {{ item.servingSize || '1 bowl' }}
+              </span>
+              <span class="food-calorie-value">
+                {{ item.calories * item.quantity }} kCal
+              </span>
+            </div>
           </div>
         </div>
-
-        <!-- Connector Add Button: opens add-diet-plan-details (original behaviour) -->
-        <div class="connective-container">
-          <button class="connective-add-btn" (click)="navigateToAddDetails(meal)">
-            <ion-icon name="add-circle"></ion-icon>
-            <span>Add</span>
-          </button>
-        </div>
-
       </div>
-    </section>
 
-  </div>
-</div>
+      <!-- Add Details -->
+      <div class="connective-container">
+        <button class="connective-add-btn" (click)="navigateToAddDetails(meal)">
+          <ion-icon name="add-circle"></ion-icon>
+          <span>Add</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+</ion-content>

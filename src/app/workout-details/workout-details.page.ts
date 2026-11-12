@@ -21,6 +21,7 @@ export class WorkoutDetailsPage implements OnInit, OnDestroy {
   planName: string = '';
   description: string = '';
   tags: string[] = [];
+  is_system: boolean =false;
 
   workoutDays: { id: any; title: string; exerciseCount: number; dayNumber: string; isRestDay: boolean }[] = [];
 
@@ -39,12 +40,14 @@ export class WorkoutDetailsPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     // The list page sends: /workout-details?id=...
-    this.planId = this.route.snapshot.queryParamMap.get('id');
-    console.log('Plan id:', this.planId);
+    // this.planId = this.route.snapshot.queryParamMap.get('id');
+    // console.log('Plan id:', this.planId);
   }
 
   // Runs on first open and every time the user comes back to this page
   ionViewWillEnter() {
+    this.planId = this.route.snapshot.queryParamMap.get('id');
+    console.log('Plan id:', this.planId);
     if (this.planId) {
       this.workout_plan_details(true);
     } else {
@@ -80,8 +83,9 @@ export class WorkoutDetailsPage implements OnInit, OnDestroy {
       this.planName = plan?.name || '';
       this.description = plan?.description || '';
       this.tags = plan?.tags || [];
+      this.is_system = plan.is_system;
 
-      const days: any[] = plan?.days || plan?.workout_days || plan?.plan_days || [];
+      const days: any[] = plan?.days || [];
       this.workoutDays = days.map((d: any, index: number) => this.mapDay(d, index));
     },
     respError => {
@@ -182,6 +186,13 @@ export class WorkoutDetailsPage implements OnInit, OnDestroy {
       this.workout_plan_details(true);
     }
   }
+  assignWorkout() {
+  this.router.navigate(['/assign'], {
+    queryParams: {
+      workout_plan_id: this.planId
+    }
+  });
+}
 
   // ---------- 3-dot menu on a day card ----------
   async openDayMenu(day: any, event: Event) {

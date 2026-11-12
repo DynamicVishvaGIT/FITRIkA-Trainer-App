@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $brand-green: #00c48c;
 $bg-light: #f4f6f8;
 $text-dark: #1e293b;
@@ -112,4 +114,15 @@ $text-muted: #475569;
   &:active {
     background: #00b07e;
   }
+}
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.modal-body > * {
+  @include fx.enter(fxFadeUp, 0.45s, 0s);
+  @include fx.stagger(6, 0.06s, 0.15s);
 }

@@ -196,6 +196,19 @@ export class ProspectsPage implements OnInit, OnDestroy {
     }
   }
 
+  // Share icon: native share sheet, falls back to WhatsApp
+  async shareLink(): Promise<void> {
+    const url = `https://${this.coachLink}`;
+    const nav: any = navigator;
+    if (nav.share) {
+      try {
+        await nav.share({ title: 'Prospect', text: 'Hi! Book your first session with me here:', url });
+      } catch { /* user cancelled the share sheet */ }
+    } else {
+      this.shareWhatsApp();
+    }
+  }
+
   shareWhatsApp(): void {
     const msg = `Hi! Book your first session with me here: https://${this.coachLink}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');

@@ -1,3 +1,5 @@
+@use './animations' as fx;
+
 
 /* MENU */
 
@@ -241,3 +243,19 @@ ion-tab-button.tab-selected .booter-icon {
   }
 }
 
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+/* Bottom tab bar glides up when it first appears */
+ion-tab-bar {
+  @include fx.enter(fxRiseBar, 0.45s, 0.1s);
+}
+
+/* The icon of the tab you tap does a small bounce */
+ion-tab-button.tab-selected .footer-icon,
+ion-tab-button.tab-selected .booter-icon {
+  @include fx.enter(fxIconBounce, 0.5s, 0s, fx.$fx-ease-spring);
+}

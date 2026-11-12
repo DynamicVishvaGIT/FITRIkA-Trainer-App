@@ -1,340 +1,354 @@
-$primary-color: #00cc88;
-$text-dark: #111111;
-$text-muted: #9c9c9c;
-$bg-light: #fcfcfc;
-$border-color: #eef0f2;
-$orange-color: #ff9f29;
+@use '../animations' as fx;
 
-.diet-plan-container {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  width: 100%;
-  max-width: 100%;
-  background-color: #ffffff;
-  height: 100vh;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 0 16px;
-  box-sizing: border-box;
-  overflow: hidden;
+$green: #00da8b;
+$green-dark: #00b774;
+$text-dark: #111111;
+$text-muted: #8a8a8a;
+$border: #ececec;
+$orange: #ff9f2e;
+
+/* The page content has no wrapper, so the side padding comes from ion-content */
+.diet-details-content {
+  --background: #ffffff;
+  --padding-start: 11px;
+  --padding-end: 11px;
+  --padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.app-header {
+/* ---------- Header ---------- */
+.custom-nav-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 12px;
-  flex-shrink: 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 0 10px 4px;
+  margin-bottom: 14px;
 
-  .back-btn {
-    background: none;
-    border: none;
-    color: $primary-color;
-    cursor: pointer;
-    padding: 4px;
+  .back-arrow-hitbox {
+    width: 32px;
+    padding: 6px 0;
     display: flex;
-    align-items: center;
-    -webkit-tap-highlight-color: transparent;
-    ion-icon { font-size: 24px; }
+    cursor: pointer;
   }
 
-  h1 {
-    font-size: 20px;
+  .header-back-arrow {
+    font-size: 24px;
+    color: $green;
+  }
+
+  .header-page-title {
+    margin: 0;
+    font-size: 17px;
     font-weight: 700;
     color: $text-dark;
-    margin: 0;
-    letter-spacing: -0.2px;
-    text-align: center;
+  }
+
+  .header-right-placeholder {
+    width: 32px;
+  }
+}
+
+/* ---------- Plan info (flat, not a card) ---------- */
+.main-plan-hero-card {
+  position: relative;
+  margin-bottom: 26px;
+
+  .hero-top-heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 32px;
+    padding-bottom: 10px;
+    margin-bottom: 9px;
+    padding-right: 32px; /* room for the edit icon */
+    border-bottom: 1px dotted #dedede;
+  }
+
+  .plan-main-title {
     flex: 1;
+    min-width: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-dark;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .header-spacer { width: 32px; }
-}
+  .system-orange-badge {
+    background: $orange;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 4px 9px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
 
-.scrollable-content {
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
-}
-
-.plan-info {
-  margin-bottom: 20px;
-
-  .title-row {
+  .edit-action-icon-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
-    gap: 8px;
-    position: relative;
-    width: 100%;
-
-    h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: $text-dark;
-      margin: 0;
-      letter-spacing: -0.4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .badge.system {
-      background-color: $orange-color;
-      color: #ffffff;
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-weight: 500;
-      flex-shrink: 0;
-    }
-
-    .edit-btn {
-      background: none;
-      border: none;
-      color: $text-dark;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      padding: 4px;
-      -webkit-tap-highlight-color: transparent;
-      ion-icon { font-size: 20px; }
-    }
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
   }
 
-  .description {
-    font-size: 13.5px;
-    color: #555555;
-    line-height: 1.45;
-    margin: 10px 0;
-    letter-spacing: -0.1px;
+  .plan-main-description {
+    margin: 0 0 12px 0;
+    font-size: 11px;
+    line-height: 17px;
+    color: #6e6e6e;
   }
 
-  .tags-container {
+  .tags-badge-matrix {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px 6px;
 
-    .tag {
-      border: 1px solid rgba($primary-color, 0.35);
-      color: $primary-color;
-      font-size: 11.5px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      background: #ffffff;
+    .custom-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      height: 17px;
+      padding: 0 9px;
+      border: 1px solid #7fe3bc;
+      border-radius: 10px;
+      background: #f0fdf8;
+      color: #2bbd86;
+      font-size: 9px;
+      font-weight: 400;
       white-space: nowrap;
     }
   }
 }
 
+/* ---------- Week tabs ---------- */
 .weeks-tabs {
-  border-bottom: 2px solid $border-color;
+  border-bottom: 1px solid #f1f1f1;
   margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
 
   .tabs-scroll-wrapper {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 34px;
+    padding: 0 2px;
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    width: 100%;
 
-    &::-webkit-scrollbar { display: none; }
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .tab {
+      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 16px;
-      font-weight: 600;
-      color: #888888;
-      cursor: pointer;
-      white-space: nowrap;
-      position: relative;
       padding-bottom: 8px;
-      transition: color 0.2s ease;
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-dark;
+      white-space: nowrap;
+      cursor: pointer;
       flex-shrink: 0;
 
-      &.active {
-        font-weight: 700;
-        color: $text-dark;
-
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 100%;
-          height: 3px;
-          background-color: $primary-color;
-          border-radius: 2px;
-        }
+      &.active::after {
+        content: '';
+        position: absolute;
+        left: -2px;
+        right: -2px;
+        bottom: -1px;
+        height: 3px;
+        border-radius: 2px;
+        background: $green;
       }
 
       .delete-week-btn {
         background: none;
         border: none;
-        color: #a0aec0;
         padding: 0;
-        margin: 0;
-        cursor: pointer;
+        color: #a0aec0;
         display: inline-flex;
-        align-items: center;
-        ion-icon { font-size: 15px; }
-        &:hover { color: #e53e3e; }
+        cursor: pointer;
+
+        ion-icon {
+          font-size: 15px;
+        }
       }
     }
 
     .add-week-btn {
       background: none;
       border: none;
-      color: $primary-color;
       padding: 0 0 8px 0;
-      cursor: pointer;
+      color: $green;
       display: inline-flex;
-      align-items: center;
       flex-shrink: 0;
-      -webkit-tap-highlight-color: transparent;
-      ion-icon { font-size: 22px; }
-      &:active { transform: scale(0.92); }
-    }
-  }
-}
-
-.days-carousel {
-  margin-bottom: 16px;
-
-  .days-wrapper {
-    display: flex;
-    justify-content: space-between;
-    background-color: #ffffff;
-    padding: 4px;
-    border-radius: 12px;
-    border: 1px solid $border-color;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.01);
-
-    button {
-      flex: 1;
-      background: none;
-      border: none;
-      padding: 8px 2px;
-      font-size: 12.5px;
-      color: #718096;
-      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
-      white-space: nowrap;
-      -webkit-tap-highlight-color: transparent;
 
-      &.active {
-        background-color: $primary-color;
-        color: #ffffff;
-        font-weight: 600;
+      ion-icon {
+        font-size: 22px;
       }
     }
   }
 }
 
+/* ---------- Days ---------- */
+.days-carousel {
+  margin-bottom: 28px;
+
+  .days-wrapper {
+    display: flex;
+    padding: 3px;
+    background: #ffffff;
+    border: 1px solid $border;
+    border-radius: 12px;
+
+    button {
+      flex: 1;
+      height: 42px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: #6f6f6f;
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &.active {
+        margin: 0 5px;
+        background: linear-gradient(180deg, #00d48a 0%, $green-dark 100%);
+        color: #ffffff;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+/* ---------- Day summary ---------- */
 .day-tracker-summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 14px;
-  padding: 0 2px;
+  padding: 0 1px;
 
-  .current-day-label { font-size: 14px; color: #2d3748; font-weight: 600; letter-spacing: -0.1px; }
-  .total-calories { font-size: 14px; color: $orange-color; font-weight: 600; strong { font-weight: 700; } }
+  .current-day-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #333333;
+  }
+
+  .total-calories {
+    font-size: 12px;
+    font-weight: 700;
+    color: $orange;
+
+    strong {
+      font-weight: 700;
+    }
+  }
 }
 
+/* ---------- Meals ---------- */
 .meals-list {
   display: flex;
   flex-direction: column;
 
-  .meal-wrapper { display: flex; flex-direction: column; position: relative; width: 100%; }
+  .meal-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
   .meal-card {
     display: flex;
-    background: #ffffff;
-    border: 1px solid $border-color;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    overflow: hidden;
     position: relative;
     width: 100%;
-    min-height: 76px;
+    min-height: 70px;
+    background: #ffffff;
+    border: 1px solid $border;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     box-sizing: border-box;
+    overflow: hidden;
 
-    .meal-card-accent { width: 4px; background-color: $primary-color; flex-shrink: 0; }
+    .meal-card-accent {
+      flex-shrink: 0;
+      align-self: stretch;
+      width: 4px;
+      margin: 9px 0;
+      border-radius: 0 4px 4px 0;
+      background: $green;
+    }
 
     .meal-card-content {
+      position: relative;
       flex: 1;
-      padding: 0 12px;
+      min-width: 0;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      min-width: 0;
+      padding: 0 17px 4px 16px;
 
       .meal-main-row {
         display: flex;
-        width: 100%;
-        align-items: center;
-        min-height: 76px;
+        align-items: flex-start;
         justify-content: space-between;
         gap: 8px;
+        min-height: 62px;
+        padding-top: 7px;
 
         .meal-title-group {
           display: flex;
           flex-direction: column;
-          justify-content: center;
           flex-shrink: 0;
-          min-width: 100px;
+          min-width: 90px;
+          margin-top: 9px;
+          cursor: pointer;
 
           .meal-title {
             margin: 0;
-            font-size: 16px;
+            font-size: 15px;
+            line-height: 20px;
             font-weight: 700;
             color: $text-dark;
-            letter-spacing: -0.2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
           }
 
           .meal-total-calories-text {
-            font-size: 13px;
-            color: #9c9c9c;
-            font-weight: 500;
-            margin-top: 2px;
+            margin-top: 4px;
+            font-size: 11.5px;
+            line-height: 14px;
+            color: $text-muted;
             white-space: nowrap;
           }
         }
 
         .meal-center-slot {
           flex: 1;
+          min-width: 0;
           display: flex;
           align-items: center;
+          margin-top: 9px;
           cursor: pointer;
-          min-width: 0;
 
           .placeholder-text {
-            font-size: 14px;
+            font-size: 12px;
             color: #a0aec0;
-            font-weight: 400;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -343,135 +357,167 @@ $orange-color: #ff9f29;
 
         .meal-right-actions {
           display: flex;
-          align-items: center;
-          gap: 8px;
+          align-items: flex-start;
           flex-shrink: 0;
 
+          .meal-chart {
+            margin-right: 20px;
+          }
+
+          /* the x button sits in the top-right corner of the card */
           .clear-meal-btn {
-            background: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0;
             border: none;
-            color: #2d3748;
-            padding: 4px;
-            cursor: pointer;
+            background: none;
+            color: $text-dark;
             display: flex;
-            align-items: center;
-            -webkit-tap-highlight-color: transparent;
-            ion-icon { font-size: 20px; }
+            cursor: pointer;
+
+            ion-icon {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+
+      .meal-items-expansion-panel {
+        margin-top: 6px;
+        padding: 0 0 6px 0;
+        border-top: none;
+
+        .food-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+          min-height: 34px;
+          padding: 0;
+          border-bottom: none;
+
+          & + .food-row {
+            border-top: 1px solid #f0f0f0;
+          }
+
+          .food-name-label {
+            min-width: 0;
+            max-width: none;
+            margin-left: 0;
+            font-size: 11.5px;
+            font-weight: 400;
+            color: $text-dark;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .food-calorie-value {
+            flex-shrink: 0;
+            font-size: 11.5px;
+            font-weight: 400;
+            color: $text-muted;
           }
         }
       }
     }
   }
 
+  /* plain "+ Add" between the cards */
   .connective-container {
-    height: 40px;
-    position: relative;
+    height: 41px;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5;
-    margin-top: -2px;
-    margin-bottom: -2px;
-    width: 100%;
 
     .connective-add-btn {
-      background-color: #ffffff;
-      border: 1px solid $border-color;
-      padding: 5px 16px;
-      border-radius: 20px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      padding: 4px 10px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
       cursor: pointer;
-      transition: transform 0.15s ease;
-      -webkit-tap-highlight-color: transparent;
 
-      &:active { transform: scale(0.96); }
-      ion-icon { color: $primary-color; font-size: 18px; }
-      span { font-size: 13px; color: $text-dark; font-weight: 600; }
+      ion-icon {
+        font-size: 21px;
+        color: $green;
+      }
+
+      span {
+        font-size: 11.5px;
+        font-weight: 500;
+        color: $text-dark;
+      }
     }
   }
 }
 
-.meal-items-expansion-panel {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0 12px 12px 12px;
-  border-top: 1px solid #f7fafc;
-  margin-top: -6px;
-  box-sizing: border-box;
-
-  .food-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    font-size: 13.5px;
-    color: $text-dark;
-    border-bottom: 1px solid #f7fafc;
-    width: 100%;
-
-    &:last-child { border-bottom: none; }
-
-    .food-name-label { font-weight: 500; color: #1a202c; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%; margin-left: -12px; }
-    .food-calorie-value { font-weight: 500; color: #718096; flex-shrink: 0; text-align: right; }
-  }
-}
-
-/* =========================================================
-   MEAL DONUT CHART — dynamically driven via calculated 
-   trigonometric coordinates for proper label positioning.
-   ========================================================= */
-
+/* ---------- Donut graph ---------- */
 .meal-chart {
-  width: 58px;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
   position: relative;
+  width: 53px;
+  height: 53px;
+  flex-shrink: 0;
   cursor: pointer;
 
   .chart-circle {
-    width: 58px;
-    height: 58px;
     position: relative;
+    width: 53px;
+    height: 53px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
-    transition: background 0.2s ease;
   }
 
   .center-hole {
     position: absolute;
-    width: 28px;
-    height: 28px;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    background: #ffffff;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
+    background: #ffffff;
+    transform: translate(-50%, -50%);
     z-index: 10;
   }
 
   .pct-val {
     position: absolute;
-    margin: 0;
-    padding: 0;
-    font-size: 5.5px;
-    line-height: 1;
-    font-weight: 700;
-    color: #ffffff;
-    white-space: nowrap;
-    text-align: center;
     transform: translate(-50%, -50%);
-    z-index: 20;
+    font-size: 6px;
+    line-height: 1;
+    font-weight: 500;
+    color: #ffffff;
+    text-shadow: none;
+    white-space: nowrap;
     pointer-events: none;
-    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6); // Enhances contrast over colors
+    z-index: 20;
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.custom-nav-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.main-plan-hero-card { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.custom-pill-badge {
+  @include fx.enter(fxPopIn, 0.4s, 0s);
+  @include fx.stagger(6, 0.05s, 0.35s);
+}
+.weeks-tabs { @include fx.enter(fxFadeUp, 0.5s, 0.1s); }
+.days-carousel { @include fx.enter(fxFadeUp, 0.5s, 0.15s); }
+.day-tracker-summary { @include fx.enter(fxFadeUp, 0.5s, 0.2s); }
+
+.meal-wrapper {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.25s);
+}
+/* meal items open with a soft drop-in */
+.meal-items-expansion-panel { @include fx.enter(fxDropIn, 0.3s, 0s); }

@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 $brand-green: #00cb82;
 $light-bg: #f8fafc;
 $border-color: #e2e8f0;
@@ -567,3 +569,21 @@ $border-color: #e2e8f0;
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.main-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.chart-card { @include fx.enter(fxFadeUp, 0.5s, 0.05s); }
+.selected-chips-row { @include fx.enter(fxFadeUp, 0.5s, 0.1s); }
+.active-chip { @include fx.enter(fxPopIn, 0.3s, 0s); }
+.tab-container { @include fx.enter(fxFadeUp, 0.5s, 0.15s); }
+.category-group {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(5, 0.07s, 0.2s);
+}
+.submit-wrapper { @include fx.enter(fxFadeUp, 0.5s, 0.4s); }
+.dropdown-list { @include fx.enter(fxDropIn, 0.2s, 0s); }

@@ -1,34 +1,41 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="profile-content">
   <div class="app-screen-container">
-    
-    <!-- HEADER CONTROLLER WITH BACK BUTTON -->
-    <!-- HEADER CONTROLLER WITH BACK BUTTON -->
-<header class="main-header">
-  <button class="menu-btn" (click)="goBack()" aria-label="Back">
-    <!-- <ion-icon name="arrow-back" class="ion-back-icon"></ion-icon> -->
-  </button>
-  <h1 class="header-title">My Profile</h1>
 
-  <div class="header-menu-wrapper">
-    <button class="menu-btn" (click)="toggleHeaderMenu()" aria-label="More options">
-      <ion-icon name="ellipsis-vertical" class="ion-back-icon"></ion-icon>
-    </button>
-
-    <div *ngIf="isHeaderMenuOpen" class="header-dropdown-menu">
-      <div class="header-dropdown-item" (click)="onHelpClick()">
-        <ion-icon name="help-circle-outline" class="dropdown-item-icon"></ion-icon>
-        <span>Help</span>
+    <!-- Profile completion bar -->
+    <div class="completion-row">
+      <div class="completion-track">
+        <div class="completion-fill" [style.width.%]="profileCompletion"></div>
       </div>
-      <div class="header-dropdown-item logout-item" (click)="onLogoutClick()">
-        <ion-icon name="log-out-outline" class="dropdown-item-icon"></ion-icon>
-        <span>Logout</span>
-      </div>
+      <span class="completion-label">{{ profileCompletion }}%</span>
     </div>
-  </div>
-</header>
 
-<!-- Backdrop to close the menu when tapping outside -->
-<div *ngIf="isHeaderMenuOpen" class="header-menu-backdrop" (click)="closeHeaderMenu()"></div>
+    <!-- HEADER CONTROLLER WITH BACK BUTTON -->
+    <header class="main-header">
+      <button class="menu-btn" (click)="goBack()" aria-label="Back">
+        <!-- <ion-icon name="arrow-back" class="ion-back-icon"></ion-icon> -->
+      </button>
+      <h1 class="header-title">My Profile</h1>
+
+      <div class="header-menu-wrapper">
+        <button class="menu-btn" (click)="toggleHeaderMenu()" aria-label="More options">
+          <ion-icon name="ellipsis-vertical" class="ion-back-icon"></ion-icon>
+        </button>
+
+        <div *ngIf="isHeaderMenuOpen" class="header-dropdown-menu">
+          <div class="header-dropdown-item" (click)="onHelpClick()">
+            <ion-icon name="help-circle-outline" class="dropdown-item-icon"></ion-icon>
+            <span>Help</span>
+          </div>
+          <div class="header-dropdown-item logout-item" (click)="onLogoutClick()">
+            <ion-icon name="log-out-outline" class="dropdown-item-icon"></ion-icon>
+            <span>Logout</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Backdrop to close the menu when tapping outside -->
+    <div *ngIf="isHeaderMenuOpen" class="header-menu-backdrop" (click)="closeHeaderMenu()"></div>
 
     <!-- Top Dark Profile Card Block -->
     <div class="dark-profile-card">
@@ -76,7 +83,7 @@
       <!-- Mobile Number Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-      <img src="assets/images/call.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; "/>
+          <img src="assets/images/call.png" alt="Mobile" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">Mobile Number</label>
@@ -88,8 +95,7 @@
       <!-- Location Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-        <img src="assets/images/loca.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
-
+          <img src="assets/images/loca.png" alt="Location" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">Location</label>
@@ -101,8 +107,7 @@
       <!-- Birthdate Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-                <img src="assets/images/cale.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
-
+          <img src="assets/images/cale.png" alt="Birthdate" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">Birthdate</label>
@@ -114,15 +119,14 @@
       <!-- Gender Row -->
       <div class="profile-meta-row">
         <div class="icon-column">
-               <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
-
+          <img src="assets/images/gender.png" alt="Gender" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">Gender</label>
-          
+
           <!-- READ MODE -->
           <div *ngIf="!isEditing" class="static-text-value">{{ profileData.gender }}</div>
-          
+
           <!-- EDIT MODE -->
           <div *ngIf="isEditing" class="app-custom-select-container">
             <div class="select-header-box" [class.is-active]="isGenderDropdownOpen" (click)="toggleGenderDropdown()">
@@ -143,17 +147,15 @@
       <!-- Specialty Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
-      <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
-
+          <img src="assets/images/gender.png" alt="Specialty" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">Specialty</label>
-          
+
           <!-- READ-ONLY MODE -->
           <ul *ngIf="!isEditing" class="read-only-specialty-list">
             <li *ngFor="let spec of profileData.specialties" class="specialty-capsule-item">
-            <img src="assets/images/right.png" alt="Swap Task" style="width:12px !important; height: 12px !important;    margin-right: 8px; margin-left: -20px; display: block; object-fit: contain; "/>
-
+              <img src="assets/images/right.png" alt="" class="bullet-img" />
               <span class="spec-text">{{ spec }}</span>
             </li>
           </ul>
@@ -161,24 +163,23 @@
           <!-- EDITING MODE -->
           <div *ngIf="isEditing" class="editing-specialty-container">
             <div *ngFor="let spec of profileData.specialties; let i = index; trackBy: trackByIndex" class="edit-specialty-row">
-            <img src="assets/images/right.png" alt="Swap Task" style="width:12px !important; height: 12px !important;    margin-right: 13px; margin-left: -31px; display: block; object-fit: contain; "/>
+              <img src="assets/images/right.png" alt="" class="bullet-img edit-bullet" />
               <div class="input-capsule-box">
-                <input 
-                  type="text" 
-                  [(ngModel)]="profileData.specialties[i]" 
+                <input
+                  type="text"
+                  [(ngModel)]="profileData.specialties[i]"
                   class="light-mode-text-input no-border-radius">
                 <ion-icon name="close-outline" class="remove-capsule-x" (click)="deleteSpecialty(i)"></ion-icon>
               </div>
             </div>
 
             <div class="edit-specialty-row add-new-row">
-             
               <div class="input-capsule-box">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   #newSpecialtyInput
-                  placeholder="Add new specialty" 
-                  class="light-mode-text-input no-border-radius" 
+                  placeholder="Add new specialty"
+                  class="light-mode-text-input no-border-radius"
                   (keyup.enter)="appendNewSpecialtyValue($event); newSpecialtyInput.value=''"
                   (keydown.enter)="$event.preventDefault()"
                   (blur)="appendNewSpecialtyValue($event); newSpecialtyInput.value=''">
@@ -192,8 +193,7 @@
       <!-- Certificate Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
-        <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
-
+          <img src="assets/images/gender.png" alt="Certificate" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">Certificate</label>
@@ -212,12 +212,11 @@
       <!-- Interactive Tags Row -->
       <div class="profile-meta-row align-items-start">
         <div class="icon-column push-down-icon">
-      <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; background: #fff;"/>
-
+          <img src="assets/images/gender.png" alt="Tags" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">Tags</label>
-          
+
           <div class="solid-green-tags-flex">
             <span class="profile-pill-tag" *ngFor="let targetTag of profileData.tags">
               {{ targetTag }}
@@ -226,11 +225,11 @@
           </div>
 
           <div *ngIf="isEditing" class="tag-append-input-wrapper">
-            <input 
-              type="text" 
+            <input
+              type="text"
               #newTagInput
-              placeholder="Add New Tag" 
-              class="light-mode-text-input text-field-rounded" 
+              placeholder="Add New Tag"
+              class="light-mode-text-input text-field-rounded"
               (keyup.enter)="appendNewTagValue($event); newTagInput.value=''"
               (keydown.enter)="$event.preventDefault()"
               (blur)="appendNewTagValue($event); newTagInput.value=''">
@@ -241,8 +240,7 @@
       <!-- About Us Section -->
       <div class="profile-meta-row align-items-start no-border-bottom">
         <div class="icon-column push-down-icon">
-        <img src="assets/images/gender.png" alt="Swap Task" style="width:21px !important; height: 21px !important; display: block; object-fit: contain; "/>
-
+          <img src="assets/images/gender.png" alt="About" class="meta-icon" />
         </div>
         <div class="content-column">
           <label class="input-header">About Us</label>

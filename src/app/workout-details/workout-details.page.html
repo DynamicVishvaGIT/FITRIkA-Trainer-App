@@ -13,7 +13,7 @@
   <div class="main-plan-hero-card">
     <div class="hero-top-heading-row">
       <h2 class="plan-main-title">{{ planName }}</h2>
-      <span class="system-orange-badge">System</span>
+      <span class="system-orange-badge" *ngIf="is_system">System</span>
     </div>
     
     <p class="plan-main-description">
@@ -26,7 +26,7 @@
       </span>
     </div>
 
-    <div class="edit-action-icon-wrap" (click)="editWorkoutPlan($event)">
+    <div class="edit-action-icon-wrap" (click)="editWorkoutPlan($event)"  *ngIf="!is_system">
     <img src="assets/images/gedit.png" alt="Swap Task" style="width:19px !important; height: 19px !important; display: block;  object-fit: contain; background: #fff;"/>
 
     </div>
@@ -47,15 +47,23 @@
         <div class="routine-meta-right">
           <span class="day-count-label">{{ day.dayNumber }}</span>
           <!-- CHANGED: opens the Delete Day menu (it also stops the card click) -->
-          <ion-icon name="ellipsis-vertical" class="menu-dots-icon" (click)="openDayMenu(day, $event)"></ion-icon>
+          <ion-icon name="ellipsis-vertical" class="menu-dots-icon" (click)="openDayMenu(day, $event)" *ngIf="!is_system"></ion-icon>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Add Day Action Node Link Trigger -->
-  <div class="add-day-dashed-btn" (click)="addNewWorkoutDay()">
+  <div class="add-day-dashed-btn" (click)="addNewWorkoutDay()" *ngIf="!is_system">
     <span class="add-day-text">+ Add Day</span>
   </div>
+
+
+  <!-- Assign Button -->
+<div class="assign-footer">
+  <ion-button expand="block" class="assign-btn" (click)="assignWorkout()">
+    Assign
+  </ion-button>
+</div>
 
 </ion-content>

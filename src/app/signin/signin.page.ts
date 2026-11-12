@@ -11,10 +11,10 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class SigninPage implements OnInit {
 
+  mobileNumber: string = '';
   email: string = '';
-  password: string = '';
-  showPassword: boolean = false;
-  acceptedTerms: boolean = false; // Added to monitor the Figma checkbox status
+  name: string = '';
+  acceptedTerms: boolean = false;
 
   constructor(
     private router: Router,
@@ -29,63 +29,41 @@ export class SigninPage implements OnInit {
     this.location.back();
   }
 
-  togglePassword(): void {
-    this.showPassword = !this.showPassword;
-  }
+  async nextStep(): Promise<void> {
+    if (this.mobileNumber.trim() === '') {
+      await this.showToast('Please enter Mobile Number');
+      return;
+    }
 
-  async signIn(): Promise<void> {
     if (this.email.trim() === '') {
-      await this.showToast('Please enter Email or Mobile Number');
+      await this.showToast('Please enter Email Address');
       return;
     }
 
-    if (this.password.trim() === '') {
-      await this.showToast('Please enter Password');
-      return;
-    }
-    if (this.password.length < 10) {
-      await this.showToast('Password must be at least 10 characters');
+    if (this.name.trim() === '') {
+      await this.showToast('Please enter Name');
       return;
     }
 
-    if (this.password.length < 6) {
-      await this.showToast('Password must be at least 6 characters');
-      return;
-    }
-
-    // New validation logic matching the interactive UI requirement
     if (!this.acceptedTerms) {
       await this.showToast('Please accept the Terms & Conditions to proceed');
       return;
     }
 
-    await this.showToast('Login Successful');
+    await this.showToast('Login details verified successfully');
     this.router.navigate(['/dashboard']);
-  }
-
-  async forgotPassword(): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'Forgot Password',
-      message: 'Password reset functionality will be added later.',
-      buttons: ['OK']
-    });
-    await alert.present();
   }
 
   async openTerms(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Terms & Conditions',
-      message: 'Terms & Conditions page will be added later.',
+      message: 'Terms & Conditions viewer will be added here.',
       buttons: ['OK']
     });
     await alert.present();
   }
 
-  goToRegistration(): void {
-    this.router.navigate(['/registration']);
-  }
-
-  async showToast(message: string): Promise<void> {
+  private async showToast(message: string): Promise<void> {
     const toast = await this.toastController.create({
       message,
       duration: 2000,

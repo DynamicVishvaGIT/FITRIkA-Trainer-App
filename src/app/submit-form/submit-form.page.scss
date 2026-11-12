@@ -1,3 +1,5 @@
+@use '../animations' as fx;
+
 /* ==========================================================================
    PARENT CANVAS STACK CONSTRAINTS
    ========================================================================== */
@@ -216,3 +218,25 @@
     }
   }
 }
+
+/* ==========================================================================
+   ANIMATIONS (added) - motion only, no layout/colour/logic changes.
+   Toolkit lives in app/_animations.scss
+   ========================================================================== */
+@include fx.keyframes;
+
+.view-header { @include fx.enter(fxFadeDown, 0.45s, 0s); }
+.step-indicator-wrapper { @include fx.enter(fxFadeIn, 0.5s, 0.05s); }
+/* progress bar fills in on load */
+.progress-bar-fill {
+  transform-origin: left center;
+  @include fx.enter(fxGrowX, 0.8s, 0.3s);
+}
+.mint-info-alert-banner { @include fx.enter(fxFadeUp, 0.5s, 0.1s); }
+.question-structural-card {
+  @include fx.enter(fxFadeUp, 0.5s, 0s);
+  @include fx.stagger(6, 0.07s, 0.2s);
+}
+.choice-action-node.node-selected-yes,
+.choice-action-node.node-selected-no { @include fx.enter(fxSelectPop, 0.3s, 0s); }
+.sticky-action-footer { @include fx.enter(fxRiseBar, 0.5s, 0.35s); }
